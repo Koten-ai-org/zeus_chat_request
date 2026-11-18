@@ -32,6 +32,8 @@ See [BASE_AGENT_PLAYBOOK.md](../BASE_AGENT_PLAYBOOK.md) · root [AGENTS.md](../.
 | base-5 → base-5.2 | [base-5_to_base-5.2/](base-5_to_base-5.2/) | Dual gaps + **Zeus 0.6 / Helios 0.6 engine pin lessons** · pack `v2/base/base-5.2/` · [WISH_I_KNEW_DUAL.md](../WISH_I_KNEW_DUAL.md) |
 | base-5.2 → base-5.3 | [base-5.2_to_base-5.3/](base-5.2_to_base-5.3/) | Skinny + world-model CORE + verb clarity · pack `v2/base/base-5.3/` · **not a wire break** |
 | base-5.3 → base-6 | [base-5.3_to_base-6/](base-5.3_to_base-6/) | Soft `hints.*` inject contract · pack `v2/base/base-6/` · **additive only** · [HINTS.md](../HINTS.md) |
+| base-6.1 → base-7.x | [base-6.1_to_base-7.x/](base-6.1_to_base-7.x/) | Working train · Plan, then call + `rail` · pack `v2/base/base-7.x/` · parent base-6.1 · **not** a wire break |
+| base-6.1 → base-7.0 | [base-6.1_to_base-7.0/](base-6.1_to_base-7.0/) | Numbered ship of that train · pack `v2/base/base-7.0/` · pin still base-1 |
 
 ## When you finish a new hop
 

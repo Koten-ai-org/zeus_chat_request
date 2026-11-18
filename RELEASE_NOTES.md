@@ -8,7 +8,7 @@ Published **Zeus V2 chat_request** catalogs for Zeus Client, Developer Helper MC
 | **Format** | `zeus.chat_request.v2` |
 | **Production pin** | **base-1** — `CURRENT.json` · `v2/min/` |
 | **Candidate pack** | **base-5** wire line — `v2/base/base-5/` (last breaking freeze; not pin) |
-| **Content train** | **base-6.2** — skinny catalog prefix ([v2/base/base-6.2/](v2/base/base-6.2/) · [CR-34](https://kotenai.atlassian.net/browse/CR-34)) |
+| **Content train** | **base-7.0** — Plan, then call ([v2/base/base-7.0/](v2/base/base-7.0/) · [CR-35](https://kotenai.atlassian.net/browse/CR-35) · [CR-37](https://kotenai.atlassian.net/browse/CR-37)). Not the production pin. |
 | **Prior content** | base-6.1 report stamps · base-6 soft `hints.*` · base-5.3 skinny/world-model · base-5.2 dual gaps · base-5.1 modes |
 | **Prior candidate** | **base-4** — `v2/base/base-4/` |
 | **Roadmap** | [ROADMAP.md](docs/ROADMAP.md) |
@@ -21,6 +21,15 @@ Published **Zeus V2 chat_request** catalogs for Zeus Client, Developer Helper MC
 
 ### Highlights
 
+- **base-7.0 content train (CR-35, CR-37):** [`v2/base/base-7.0/`](v2/base/base-7.0/) — numbered ship of [`v2/base/base-7.x/`](v2/base/base-7.x/), parent chain `base-7.x` ← `base-6.1`, **additive** (not a wire break). `CURRENT.json` stays **base-1**. Zeus vendor stays **base-5.3**.
+  - **Plan, then call:** world, entry, path, goal, at most 8 calls. One drill-down is one pipeline.
+  - New **`rail`** verb on all 10 modes: `name` from the SCOPE BRIEF, `binds` only, no SQL. Catalog teaching. Zeus does not execute `rail` yet.
+  - **14 verbs** (base-6.1's thirteen plus `rail`). Required Layer A four unchanged.
+  - Boolean and `one_of` rows: MINI-SCHEMA, `find`, and `where` teach the law. Tenant value lists stay on the entity map.
+  - Prompt growth versus base-6.1 about **+3043 characters (~12%)** on every mode. The base-6.2 size cut is not the parent.
+  - `verify_base_pack.py --base 7.0` and `diff_modes.py --fail-if-clone` passed.
+  - Hop: [docs/migration/base-6.1_to_base-7.0/](docs/migration/base-6.1_to_base-7.0/)
+  - Residual: stamped `rail` run · A/B books (CR-36) · Zeus vendor · CURRENT pin
 - **base-6.2 content train (CR-34):** [`v2/base/base-6.2/`](v2/base/base-6.2/) — parent `base-6.1`, **content skinny only** (not a wire break):
   - CORE system diet: world-model / efficiency / Terminate compressed; Client `user`/`ip` enum out of model prompt
   - Tools diet: thinner `return` descriptions; `pipeline` terminating Layer A thin-refs `return` (no deep G2 trees)

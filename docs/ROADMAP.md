@@ -1,6 +1,6 @@
 # BASE + Helios roadmap
 
-> **Doc status** · last reviewed **2026-07-28** · production pin **base-1** · **candidate line base-6.2** (`v2/base/base-6.2/` · [CR-34](https://kotenai.atlassian.net/browse/CR-34)) · prior **base-6.1** · last wire break **base-5** · Zeus 0.6 vendor **base-5.3** · next catalog **base-7.x Plan, then call** ([CR-35](https://kotenai.atlassian.net/browse/CR-35)) · Client residual **ZC-WISH-035/044/040** · multi-turn reuse in **BEST_PRACTICES / OPTIMIZATION** · version matrix: [COMPAT.md](../COMPAT.md)
+> **Doc status** · last reviewed **2026-11-17** · production pin **base-1** · **ship folder base-7.0** (`v2/base/base-7.0/` · working train `v2/base/base-7.x/` · [CR-35](https://kotenai.atlassian.net/browse/CR-35) · [CR-37](https://kotenai.atlassian.net/browse/CR-37) · parent chain **base-7.x ← base-6.1**) · **base-6.2** size cut regressed ([CR-34](https://kotenai.atlassian.net/browse/CR-34)) · prior **base-6.1** · last wire break **base-5** · Zeus 0.6 vendor **base-5.3** · Client residual **ZC-WISH-035/044/040** · multi-turn reuse in **BEST_PRACTICES / OPTIMIZATION** · version matrix: [COMPAT.md](../COMPAT.md)
 
 
 **Status:** living plan after base-1 → base-4 → **base-5 wire freeze** → **5.1 / 5.2 / 5.3 content** (5.3 pack on main)  
@@ -15,7 +15,7 @@
 **Retrieval playbook:** [BEST_PRACTICES.md](BEST_PRACTICES.md) — single-focus recipes + multi-intent + **multi-turn short law** (§1.3 Option B); open ≠ multi-ask  
 **Soft HINTS (base-6):** [HINTS.md](HINTS.md) · **§ HINTS catalog** below + **§ base-6** — hash-excluded `hints.*` after `rules{}`  
 **base-6.2 skinny prefix:** **§ base-6.2** · **[CR-34](https://kotenai.atlassian.net/browse/CR-34)** — system + `return`/`pipeline` diet · full 13 verbs · no wire break  
-**base-7.x chain the API (critical):** **§ base-7.x** · **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** — world, entry, path, goal, 8-call budget · one pipeline per drill-down · new `rail` verb (binds only) · parent **[CR-1](https://kotenai.atlassian.net/browse/CR-1)**  
+**base-7.x chain the API (critical):** **§ base-7.x** · ship [`v2/base/base-7.0/`](../v2/base/base-7.0/) · **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** · **[CR-37](https://kotenai.atlassian.net/browse/CR-37)** — world, entry, path, goal, 8-call budget · one pipeline per drill-down · new `rail` verb (binds only) · boolean / `one_of` MINI-SCHEMA teaching · parent **[CR-1](https://kotenai.atlassian.net/browse/CR-1)**  
 **End-goal optimization:** [OPTIMIZATION.md](OPTIMIZATION.md) — Pachinko funnel · Hot Path mine · **multi-turn CORE (Option A)** · **`named_query` rails** · Helios Funnel · **[ZE-267](https://kotenai.atlassian.net/browse/ZE-267)**  
 **WIP optimization theory:** [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md) — staples **`fast_pass` · `scout` · `thorough`** (`OPT:36`). Class `known_goal` / `open_ended` picks a default staple. Not a pack change. Not CORE.  
 
@@ -270,10 +270,10 @@ SCHEMA        =  types/enums + KEY one-liners — not essays duplicated from COR
 ### Sequencing
 
 ```text
-base-6.1 pack (CR-27) ──► base-6.2 skinny pack (CR-34) ──► base-7.x Plan, then call (CR-35)
-                                              │
-                                              └── base-7 Workbench product (CR-5) orthogonal
-        │                              │
+base-6.1 pack (CR-27) ──► base-7.x Plan, then call (CR-35) ──► base-7.0 ship
+        │                      │
+        │                      └── base-7 Workbench product (CR-5) orthogonal
+        ├── base-6.2 skinny (CR-34) — size cut; performance regression; not the 7.x parent
         ├── Client CR-28/29/30 / CR-33   (orthogonal residual)
         ├── CR-32 progressive-empty assemble (keep law in CORE)
         ├── ZE-286 vendor 6.1 when CR-27 green
@@ -295,7 +295,7 @@ No production traffic on the **base-4/5 line** yet. Use that:
 | **base-6** | **ADDITIVE** soft inject | Soft **`hints.*`** after hard `rules{}` ([HINTS.md](HINTS.md)) |
 | **base-6.1** | **ADDITIVE** Client-loop / emit train on base-6 | Root **`user`** enum · **`ip_address`** (IPv4/IPv6) · **`ai_process_result`** (default false) — **§ base-6.1** |
 | **base-6.2** | **Content skinny** on base-6.1 wire — **not** a wire break | Diet system + `return`/`pipeline` · full 13 verbs · ~**−25%** catalog prefix — **§ base-6.2** · **[CR-34](https://kotenai.atlassian.net/browse/CR-34)** |
-| **base-7.x** | **ADDITIVE catalog method** on the base-6.2 wire — **not** a wire break | **Plan, then call** · one pipeline per drill-down · new **`rail`** verb (binds only) — **§ base-7.x** · **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** |
+| **base-7.0** | **ADDITIVE catalog method** on the base-6.1 catalog — **not** a wire break. Numbered ship of **base-7.x**. Parent chain is **base-7.x ← base-6.1**, not the base-6.2 size cut. | **Plan, then call** · one pipeline per drill-down · new **`rail`** verb (binds only) · boolean / `one_of` teaching — **§ base-7.x** · **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** · **[CR-37](https://kotenai.atlassian.net/browse/CR-37)** · pack [`v2/base/base-7.0/`](../v2/base/base-7.0/) |
 | **base-6.3+ / base-7 product** | **ADDITIVE / OPTIONAL only** | Further soft inject productization · Workbench UX (**CR-5**) · pin when green |
 | **Helios wishlist** | **Nice-to-have** (cheap provider first) | Pri-1 report scalars in [HELIOS_WISHLIST…](HELIOS_WISHLIST_FOR_CHAT_REQUEST.md) — **not** Client wishlist bulk |
 
@@ -327,10 +327,14 @@ base-6.2  = SKINNY PREFIX (system + verb schemas) on full-13 stamp
             Collapse triple-teach Terminate × return × pipeline; Client stamp
             law out of CORE; no verb drop; no wire break. See § base-6.2 · CR-34.
 
-base-7.x  = PLAN, THEN CALL on the base-6.2 wire (critical)
-            World + entry + path + goal + 8-call budget. One drill-down is
-            one pipeline. New rail verb is binds only. Do not grow a route
-            per question. See § base-7.x · CR-35.
+base-7.0  = PLAN, THEN CALL. Numbered ship of the base-7.x train.
+            Parent chain is base-7.x ← base-6.1. The base-6.2 size cut
+            regressed, so this train does not diet. World + entry + path +
+            goal + 8-call budget. One drill-down is one pipeline.
+            New rail verb is binds only. Boolean and one_of rows are taught
+            in MINI-SCHEMA; tenant lists stay on the entity map.
+            Do not grow a route per question. See § base-7.x · CR-35 · CR-37.
+            CURRENT stays base-1. Zeus does not execute rail yet.
 
 Helios    = analytics spine on Zeus/Client; optional_when if AI ever needed
             Never block pin on Pri-2/3/4/5 AI fields
@@ -420,13 +424,13 @@ Full plan: **§ Getting skinny**.
 | Client stamps `user` + `ip_address` + `ai_process_result` loop | base-6.1 residual | **CR-28 / CR-29** · ZC-WISH-035 / 044 |
 | Helios filter `user="zeus_client"` | base-6.1 residual | **CR-30** · HEL-WISH-022 |
 | ~~**base-6.2 pack** — skinny system + tools~~ | ~~Catalog prefix diet~~ | **CR-34** pack **landed** · A/B residual |
-| **base-7.x method** — Plan, then call + `rail` | Chain the 13 verbs; no route sprawl | **CR-35** To Do · **§ base-7.x** |
+| **base-7.0 pack** — Plan, then call + `rail` + boolean / `one_of` | Numbered ship of `v2/base/base-7.x/`; tickets still To Do (stamped `rail` run open) | **CR-35** · **CR-37** · `v2/base/base-7.0/` · **§ base-7.x** |
 | base-7 Workbench / stamp product | Later, orthogonal to CR-35 | **CR-5** |
 
-**Pack SoT for new work:** **base-5 wire** · **candidate pack base-6.2** (`v2/base/base-6.2/`) · prior **base-6.1** · **base-6** · **base-5.3**.  
+**Pack SoT for new work:** **base-5 wire** · **ship folder base-7.0** (`v2/base/base-7.0/`, working train `v2/base/base-7.x/`, parent chain **base-7.x ← base-6.1**) · **base-6.2** is the size-cut regression · prior **base-6.1** · **base-6** · **base-5.3**.  
 **Production pin:** **base-1**.  
-**Zeus 0.6 vendor:** **base-5.3** as of **ZE-273** / `0.6.15` (base-6 / 6.1 / 6.2 packs available; not required pin).  
-**Hop:** [migration/base-6.1_to_base-6.2/](migration/base-6.1_to_base-6.2/) · prior [base-6_to_base-6.1/](migration/base-6_to_base-6.1/) · [HINTS.md](HINTS.md).  
+**Zeus 0.6 vendor:** **base-5.3** as of **ZE-273** / `0.6.15` (base-6 / 6.1 / 6.2 / 7.0 packs available; not required pin).  
+**Hop:** [migration/base-6.1_to_base-7.0/](migration/base-6.1_to_base-7.0/) · working train [base-6.1_to_base-7.x/](migration/base-6.1_to_base-7.x/) · prior [base-6.1_to_base-6.2/](migration/base-6.1_to_base-6.2/) · [base-6_to_base-6.1/](migration/base-6_to_base-6.1/) · [HINTS.md](HINTS.md).  
 **Modes:** [MODE.md](MODE.md) · plan [work/RECREATE_MODE.md](../work/RECREATE_MODE.md).  
 **Client implement order:** [ZEUS_CLIENT_WISHLIST…](ZEUS_CLIENT_WISHLIST_FOR_CHAT_REQUEST.md) · **ZC-WISH-035/044** (base-6.1) · soft hints **ZC-WISH-040**.
 
@@ -469,7 +473,8 @@ Last status pass: **2026-07-28** (CR-34 + full **§ base-6.2** train doc: baseli
 | **CR-32** | Progressive empty → wish_i_knew (assemble CORE → min packs) | To Do (parent **CR-3**) | § base-5.2 · BP:13 |
 | **CR-33** | Client residual: inject `hints.*` (ZC-WISH-040) | To Do (parent **CR-4** · pairs CR-13) | § base-6 · Client |
 | **CR-34** | **base-6.2** skinny chat_prompt (system + tools; full-13) | **In Review** (pack) · A/B residual | **§ base-6.2** · § Getting skinny |
-| **CR-35** | **base-7.x** Plan, then call + `rail` verb | To Do (parent **CR-1**) | **§ base-7.x** |
+| **CR-35** | **base-7.x** Plan, then call + `rail` verb | To Do (parent **CR-1**) · numbered ship `v2/base/base-7.0/` · stamped `rail` run still open | **§ base-7.x** |
+| **CR-37** | Boolean and `one_of` rows in MINI-SCHEMA and `find` `where` | To Do · sentences are in the base-7.0 pack · runtime lists stay on the entity map | **§ base-7.x** · ZE-445 / ZE-450 |
 
 **Zeus project (engine/Hub) companions**
 
@@ -1657,14 +1662,14 @@ Caps: soft ~1–2 KB inject; hard reject oversized pastes (PROMPT_SETTINGS secur
 
 ## base-7.x — “Plan, then call” (critical — chain the API)
 
-**Jira:** **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** · parent epic **[CR-1](https://kotenai.atlassian.net/browse/CR-1)** · status To Do.  
-**Pack:** not started. Parent wire **base-6.2**. This section is the train. It does not replace **§ base-7** Workbench ([CR-5](https://kotenai.atlassian.net/browse/CR-5)).
+**Jira:** **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** · **[CR-37](https://kotenai.atlassian.net/browse/CR-37)** · parent epic **[CR-1](https://kotenai.atlassian.net/browse/CR-1)** · both still To Do. The stamped `rail` run is still open.  
+**Pack:** numbered ship [`v2/base/base-7.0/`](../v2/base/base-7.0/). Working train [`v2/base/base-7.x/`](../v2/base/base-7.x/) copied from **base-6.1**. The base-6.2 size cut was a performance regression, so it is not the parent. This section is the train. It does not replace **§ base-7** Workbench ([CR-5](https://kotenai.atlassian.net/browse/CR-5)). `CURRENT.json` stays **base-1**.
 
 **Theme:** The model is good at a sentence. SQL++ is good at a predicate. The catalog is the middle. A new question must not become a new REST route or a new prepared statement. It becomes a plan over the verbs already in the pin, plus one `rail` call when the question needs a hard fact.
 
 ### Why this is critical
 
-A system-up design bubbles each question shape into its own endpoint. The model then chooses among dozens of narrow APIs, which is the same failure as writing SQL++. Zeus keeps the contract fixed and lets the scope's world change. base-6.2 dieted the prefix and left the menu. base-7.x teaches the model how to chain that menu.
+A system-up design bubbles each question shape into its own endpoint. The model then chooses among dozens of narrow APIs, which is the same failure as writing SQL++. Zeus keeps the contract fixed and lets the scope's world change. base-6.2 cut the base-6.1 prefix, and that size cut was a performance regression. base-7.x copies base-6.1 and teaches the model how to chain that menu.
 
 ### The method (shared system text)
 
@@ -1701,26 +1706,31 @@ Query text is embedded by the shared `embed(scope, text)` function ([ZE-406](htt
 - Hotel nouns, hotel counts, or a tag vocabulary in the shared system text.
 - A new system paragraph or a new route per customer journey.
 - Spending the 8 calls as eight round trips when one pipeline can hold the drill-down.
-- Folding this into the **CR-34** skinny cut. Prompt growth is this method plus `rail`, measured against the post-6.2 baseline.
+- Folding this into the **CR-34** skinny cut, or dieting this pack. Prompt growth is this method plus `rail`, measured against the base-6.1 prefix (about **+3043 characters**, ~12%, on every mode).
 - Re-embedding scopes. That gate stays on [ZE-399](https://kotenai.atlassian.net/browse/ZE-399).
 
 ### Success signals
 
-- [ ] Spec on this roadmap · ticket **CR-35**
-- [ ] Pack `v2/base/base-7.x/` (or the next free 7.x id) + hop from base-6.2
-- [ ] Every mode file leads with **Plan, then call**
-- [ ] `rail` is on every mode file · `name` + `binds` only · no SQL string
-- [ ] Access-path lead is "the cheapest move that still follows the plan"
-- [ ] A hard fact with a named rail is a last `rail` call · a browse ends on 10 or 20 cards
-- [ ] Shared pin has no hotel walk and no tag list
-- [ ] Prompt growth measured against the base-6.2 prefix
+- [x] Spec on this roadmap · ticket **CR-35**
+- [x] Pack `v2/base/base-7.x/` + hop from base-6.1
+- [x] Numbered ship `v2/base/base-7.0/` · `verify_base_pack.py --base 7.0` · `diff_modes.py --fail-if-clone`
+- [x] Every mode file leads with **Plan, then call**
+- [x] `rail` is on every mode file · `name` + `binds` only · no SQL string
+- [x] Access-path lead is "the cheapest move that still follows the plan"
+- [x] Boolean and `one_of` teaching on MINI-SCHEMA, `find`, and `where` (**CR-37**). No tenant lists in the pack.
+- [ ] A hard fact with a named rail is a last `rail` call · a browse ends on 10 or 20 cards (needs a stamped run; Zeus does not execute `rail` yet)
+- [x] Shared pin has no hotel walk and no tag list
+- [x] Prompt growth measured against the base-6.1 prefix (+3043 characters, ~12%)
 
 ### Sequencing
 
 ```text
-base-6.2 skinny (CR-34) ──► base-7.x Plan, then call (CR-35) ──► vendor when the pack is green
-        │
+base-6.1 (CR-27) ──► base-7.x Plan, then call (CR-35) ──► base-7.0 numbered ship
+        │                                                      │
+        │                                                      └── vendor when a stamped rail run is green
+        ├── base-6.2 skinny (CR-34) stays a side branch (size cut regressed)
         └── base-7 Workbench (CR-5) stays its own product train
+CURRENT stays base-1. CR-37 teaching is in the base-7.0 files. Tickets stay To Do until the stamped run.
 ZE-406 / ZE-407 embed the phrase and the query through one function
      (engine). CR-35 only keeps query_text as the user's words.
 ```
@@ -1811,11 +1821,14 @@ base-6+ ADDITIVE / OPTIONAL only
         multi-intent = playbook + hints.multipart — NOT mode=open
         end-goal: shape funnel (Pachinko rails) — don’t shrink the box (not Path B2)
            │
-base-7.x  PLAN, THEN CALL on the base-6.2 wire (critical, CR-35)
+base-7.0  PLAN, THEN CALL. Numbered ship of base-7.x (critical, CR-35, CR-37)
+          parent chain base-7.x ← base-6.1; the base-6.2 size cut is not this parent
           world · entry · path · goal · at most 8 calls
           one drill-down = one pipeline
           new rail verb = name from the brief + binds already in hand
+          boolean and one_of rows taught in MINI-SCHEMA; lists stay on the entity map
           do not add a route or a system paragraph per question
+          CURRENT stays base-1; Zeus does not execute rail yet
           Workbench (CR-5) stays a separate product train
 ```
 
