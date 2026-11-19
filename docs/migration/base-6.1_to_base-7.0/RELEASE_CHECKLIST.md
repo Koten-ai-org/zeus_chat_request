@@ -32,5 +32,5 @@ Parent chain: `base-7.0` ← `base-7.x` ← `base-6.1`. base-6.2 is not the pare
 
 - [ ] Stamped run: a hard fact with a named rail is a last `rail` call (Zeus does not execute `rail` yet)
 - [ ] A/B or gold books (CR-36)
-- [ ] Zeus vendor pin
+- [x] Zeus 5.5TH vendor: built-in pair base-6.1 and base-7.0, served pin base-7.0
 - [ ] CURRENT pin (still base-1)

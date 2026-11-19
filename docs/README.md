@@ -1,6 +1,6 @@
 # Documentation
 
-> **Doc status** · last reviewed **2026-07-27** · production pin **base-1** · candidate pack **base-6** · Zeus vendor **base-5.3** · version matrix: [COMPAT.md](../COMPAT.md)
+> **Doc status** · last reviewed **2026-11-18** · `CURRENT.json` **base-1** · Zeus 5.5TH built-ins **base-6.1** and **base-7.0** (served pin **base-7.0**) · version matrix: [COMPAT.md](../COMPAT.md)
 
 
 Educational and design docs for **zeus_chat_request**.  

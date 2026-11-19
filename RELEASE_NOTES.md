@@ -8,7 +8,7 @@ Published **Zeus V2 chat_request** catalogs for Zeus Client, Developer Helper MC
 | **Format** | `zeus.chat_request.v2` |
 | **Production pin** | **base-1** — `CURRENT.json` · `v2/min/` |
 | **Candidate pack** | **base-5** wire line — `v2/base/base-5/` (last breaking freeze; not pin) |
-| **Content train** | **base-7.0** — Plan, then call ([v2/base/base-7.0/](v2/base/base-7.0/) · [CR-35](https://kotenai.atlassian.net/browse/CR-35) · [CR-37](https://kotenai.atlassian.net/browse/CR-37)). Not the production pin. |
+| **Content train** | **base-7.0** — Plan, then call ([v2/base/base-7.0/](v2/base/base-7.0/) · [CR-35](https://kotenai.atlassian.net/browse/CR-35) · [CR-37](https://kotenai.atlassian.net/browse/CR-37)). Zeus 5.5TH serves this pack and also embeds base-6.1. `CURRENT.json` stays base-1. |
 | **Prior content** | base-6.1 report stamps · base-6 soft `hints.*` · base-5.3 skinny/world-model · base-5.2 dual gaps · base-5.1 modes |
 | **Prior candidate** | **base-4** — `v2/base/base-4/` |
 | **Roadmap** | [ROADMAP.md](docs/ROADMAP.md) |
@@ -21,7 +21,7 @@ Published **Zeus V2 chat_request** catalogs for Zeus Client, Developer Helper MC
 
 ### Highlights
 
-- **base-7.0 content train (CR-35, CR-37):** [`v2/base/base-7.0/`](v2/base/base-7.0/) — numbered ship of [`v2/base/base-7.x/`](v2/base/base-7.x/), parent chain `base-7.x` ← `base-6.1`, **additive** (not a wire break). `CURRENT.json` stays **base-1**. Zeus vendor stays **base-5.3**.
+- **base-7.0 content train (CR-35, CR-37):** [`v2/base/base-7.0/`](v2/base/base-7.0/) — numbered ship of [`v2/base/base-7.x/`](v2/base/base-7.x/), parent chain `base-7.x` ← `base-6.1`, **additive** (not a wire break). `CURRENT.json` stays **base-1**. Zeus 5.5TH embeds **base-6.1** and **base-7.0**. The served pin is **base-7.0**. The 21-question suite is net +2 with one Orange row still out. The France beach retest is a tie and does not replace that page.
   - **Plan, then call:** world, entry, path, goal, at most 8 calls. One drill-down is one pipeline.
   - New **`rail`** verb on all 10 modes: `name` from the SCOPE BRIEF, `binds` only, no SQL. Catalog teaching. Zeus does not execute `rail` yet.
   - **14 verbs** (base-6.1's thirteen plus `rail`). Required Layer A four unchanged.

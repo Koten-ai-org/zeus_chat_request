@@ -2,7 +2,7 @@
 
 **Published Zeus V2 chat_request catalogs** for Zeus Client, Developer Helper MCP, demos, and coding agents.
 
-> **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · candidate pack **base-5** · **[COMPAT.md](COMPAT.md)** = Zeus × BASE × zeus_client matrix
+> **Doc status** · last reviewed **2026-11-18** · `CURRENT.json` **base-1** · Zeus 5.5TH built-ins **base-6.1** and **base-7.0** (served pin **base-7.0**) · **[COMPAT.md](COMPAT.md)** = Zeus × BASE × zeus_client matrix
 
 ![Assembled prompt flow](images/assembled_prompt.svg)
 
