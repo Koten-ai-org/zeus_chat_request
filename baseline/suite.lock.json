@@ -1,0 +1,368 @@
+{
+  "questions": [
+    {
+      "id": "beer-find-style",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "List beers whose style is exactly American-Style India Pale Ale.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "find",
+            "entity_type": "Beer"
+          }
+        ]
+      },
+      "evidence_required": true
+    },
+    {
+      "id": "beer-search-fts",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Full-text search beer descriptions for the single word lager.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "search",
+            "strategy": "fts",
+            "entity_type": "Beer"
+          }
+        ]
+      },
+      "evidence_required": true
+    },
+    {
+      "id": "beer-search-hybrid",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Find hoppy citrus beers.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "search",
+            "strategy": "hybrid",
+            "entity_type": "Beer"
+          }
+        ]
+      },
+      "evidence_required": true
+    },
+    {
+      "id": "beer-traverse-brewery",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Beers whose style is exactly American-Style India Pale Ale: walk each one to its brewery and return the brewery names.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "find",
+            "entity_type": "Beer"
+          },
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": false
+    },
+    {
+      "id": "beer-pipeline-cards",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Show ten hoppy citrus beers as cards with name and abv. Do it in one pipeline.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "pipeline"
+          },
+          {
+            "verb": "search",
+            "strategy": "hybrid",
+            "entity_type": "Beer"
+          }
+        ]
+      },
+      "evidence_required": true
+    },
+    {
+      "id": "beer-walk-21a-ipa",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Where (city and state) is 21A IPA brewed?",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": true
+    },
+    {
+      "id": "beer-walk-stone-beers",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "List every beer made by Stone Brewing.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": true
+    },
+    {
+      "id": "beer-walk-belgian",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "What beers come from Belgian breweries?",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": false
+    },
+    {
+      "id": "beer-walk-colorado-counts",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "How many beers does each Colorado brewery produce?",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": false
+    },
+    {
+      "id": "beer-walk-beers-by-country",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Count beers by country.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": false
+    },
+    {
+      "id": "beer-colorado-itinerary",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "If I wanted to plan a trip in Colorado and I wanted to visit breweries, which beers and breweries would you suggest I go to? Can you create a general itinerary for me?",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": false
+    },
+    {
+      "id": "travel-find-parking",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Find hotels of type hotel whose free_parking field is true.",
+      "expect": {
+        "any_of": [
+          {
+            "verb": "find",
+            "entity_type": "hotel"
+          },
+          {
+            "verb": "find",
+            "entity_type": "Hotel"
+          }
+        ]
+      },
+      "evidence_required": true
+    },
+    {
+      "id": "travel-search-fts",
+      "scope": "travel-sample/inventory",
+      "collection": "hotel",
+      "text": "Full-text search hotel descriptions for the single word beach.",
+      "expect": {
+        "any_of": [
+          {
+            "verb": "search",
+            "strategy": "fts",
+            "entity_type": "hotel"
+          },
+          {
+            "verb": "search",
+            "strategy": "fts",
+            "entity_type": "Hotel"
+          }
+        ]
+      },
+      "evidence_required": true
+    },
+    {
+      "id": "travel-search-hybrid",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Find beach destination hotels. The graph type is hotel.",
+      "expect": {
+        "any_of": [
+          {
+            "verb": "search",
+            "strategy": "hybrid",
+            "entity_type": "hotel"
+          },
+          {
+            "verb": "search",
+            "strategy": "hybrid",
+            "entity_type": "Hotel"
+          }
+        ]
+      },
+      "evidence_required": true
+    },
+    {
+      "id": "travel-traverse-country",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Find beach destination hotels of type hotel, then walk those hotels to their country.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ],
+        "any_of": [
+          {
+            "verb": "search",
+            "strategy": "hybrid",
+            "entity_type": "hotel"
+          },
+          {
+            "verb": "search",
+            "strategy": "hybrid",
+            "entity_type": "Hotel"
+          }
+        ]
+      },
+      "evidence_required": false
+    },
+    {
+      "id": "travel-pipeline-cards",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Show ten beach destination hotels of type hotel as cards with name. Do it in one pipeline.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "pipeline"
+          }
+        ],
+        "any_of": [
+          {
+            "verb": "search",
+            "strategy": "hybrid",
+            "entity_type": "hotel"
+          },
+          {
+            "verb": "search",
+            "strategy": "hybrid",
+            "entity_type": "Hotel"
+          }
+        ]
+      },
+      "evidence_required": true
+    },
+    {
+      "id": "travel-walk-redbrook-country",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "What country is The Bell Inn in?",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": false
+    },
+    {
+      "id": "travel-walk-city-hotels",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "List hotels in the same city as The Bell Inn.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": false
+    },
+    {
+      "id": "travel-walk-state-counts",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "How many hotels are in each state?",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": false
+    },
+    {
+      "id": "travel-walk-hotels-by-country",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Count hotels by country.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": false
+    },
+    {
+      "id": "travel-beach-itinerary",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Plan a beach trip for me. Suggest hotels and landmarks, and say which country each one is in.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "traverse",
+            "shape": "walk_path"
+          }
+        ]
+      },
+      "evidence_required": false
+    }
+  ]
+}

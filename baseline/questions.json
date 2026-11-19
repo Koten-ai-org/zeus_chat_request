@@ -1,0 +1,294 @@
+{
+  "suite": "chat_request_ab_v1",
+  "probed_at": "2026-10-21",
+  "zeus_version_probed": "0.9.19",
+  "notes": "These questions score the model tool choice. They are not part of the shared chat_request pin. Beer has 11 questions and travel has 10, covering find, search fts, search hybrid, pipeline, and walk_path. travel-walk-country-hotels is out until Country documents exist (CR-38). A find spelling is quoted only when this lab already returned it, or when the question itself states the value. Hotel price is display-only, so no question asks for a price filter. Travel uses ZEUS_USER_TRAVEL. Beer uses ZEUS_USER_BEER.",
+  "questions": [
+    {
+      "id": "beer-find-style",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "List beers whose style is exactly American-Style India Pale Ale.",
+      "expect": {
+        "all_of": [
+          {"verb": "find", "entity_type": "Beer"}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "Stored style spelling returned rows on beer-sample nodes, Zeus 0.9.19, 2026-10-21. The mini-schema has no ex: sample, so the question states the spelling."
+    },
+    {
+      "id": "beer-search-fts",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Full-text search beer descriptions for the single word lager.",
+      "expect": {
+        "all_of": [
+          {"verb": "search", "strategy": "fts", "entity_type": "Beer"}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "FTS on 0.9.19 returned 3 hits. Those hits carried doc_key and an empty node id, so a non-empty item list counts as evidence."
+    },
+    {
+      "id": "beer-search-hybrid",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Find hoppy citrus beers.",
+      "expect": {
+        "all_of": [
+          {"verb": "search", "strategy": "hybrid", "entity_type": "Beer"}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "Hybrid search returned 40 beers on 0.9.19, including Dry Hop Orange and Hop Ottin IPA."
+    },
+    {
+      "id": "beer-traverse-brewery",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Beers whose style is exactly American-Style India Pale Ale: walk each one to its brewery and return the brewery names.",
+      "expect": {
+        "all_of": [
+          {"verb": "find", "entity_type": "Beer"},
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "Walk path in the brief is Beer to Brewery via brewery_id. A pipeline that contains both steps satisfies this. A single-beer walk of that path is probed on beer-walk-21a-ipa. This multi-beer style walk is not that fixture, so evidence is not required."
+    },
+    {
+      "id": "beer-pipeline-cards",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Show ten hoppy citrus beers as cards with name and abv. Do it in one pipeline.",
+      "expect": {
+        "all_of": [
+          {"verb": "pipeline"},
+          {"verb": "search", "strategy": "hybrid", "entity_type": "Beer"}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "The same plan without abort_if_empty returned 10 cards on 0.9.19 in 1.7s. abort_if_empty on the hybrid step aborted even though 40 ids came back. The harness records an aborted pipeline and does not call that a prompt miss by itself."
+    },
+    {
+      "id": "beer-walk-21a-ipa",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Where (city and state) is 21A IPA brewed?",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "Supported on 0.9.19. Once the beer key is known, one walk: from Beer doc_key 21st_amendment_brewery_cafe-21a_ipa, path [brewery_id], return name, city, state. HTTP 200, one row: 21st Amendment Brewery Cafe, San Francisco, California. The utterance has no doc_key, so a seed search may come first. Hybrid 21A IPA's top hit was that key. The scorer does not require the path array."
+    },
+    {
+      "id": "beer-walk-stone-beers",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "List every beer made by Stone Brewing.",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "Supported when the brewery key is stone_brewing_co (name Stone Brewing Co.). stone_brewing is not the live key. Inverse path [{\"inverse\":\"Beer.brewery_id\"}], return name, abv, style, limit 8, HTTP 200. Rows included Stone IPA, abv 6.9, style American-Style India Pale Ale. A seed search may precede the walk. The scorer does not require the path array."
+    },
+    {
+      "id": "beer-walk-belgian",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "What beers come from Belgian breweries?",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "The forward body from Beer with where {} , path [brewery_id, country], where country=belgium is HTTP 400 on 0.9.19: an empty where is not a selector. The engine doc marks that forward terminal projection as not yet. The selective side worked: from Brewery where country=belgium, inverse Beer.brewery_id, limit 5, HTTP 200, truncated. Rows included Oude Geuze, Drie Fonteinen Kriek, and Leffe Blonde. Country where name=Belgium inverse to Brewery returned 0 rows. Evidence is not required because the textbook forward body does not return rows."
+    },
+    {
+      "id": "beer-walk-colorado-counts",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "How many beers does each Colorado brewery produce?",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "The state value that matched is lowercase colorado. group_by as an array is HTTP 400 (expected a string). group_by brewery.name is HTTP 400 because v1 group_by is terminal-local. group_by name on the beer side returned beer-name counts (Pale Ale 3), not a count per brewery. The row form, inverse Beer.brewery_id with return name, abv, style, returns beers and does not attach the brewery name. Evidence is not required."
+    },
+    {
+      "id": "beer-walk-beers-by-country",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "Count beers by country.",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "Engine label is partial: terminal-local group_by only. The demo body from Beer where {} with group_by as an array did not execute on 0.9.19 (empty where is not a selector, and group_by must be a string). This is not a successful country rollup. Evidence is not required."
+    },
+    {
+      "id": "beer-colorado-itinerary",
+      "scope": "beer-sample/_default",
+      "collection": "nodes",
+      "text": "If I wanted to plan a trip in Colorado and I wanted to visit breweries, which beers and breweries would you suggest I go to? Can you create a general itinerary for me?",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "Open plan, not one pure hop. find Brewery where state=colorado returned 40 names and was truncated. An inverse walk to Beer returns the beers. path [city] on New Belgium was closure_validated and returned 0 rows. City strings are on get metadata (Fort Collins, Boulder, Denver, and others on that page). The per-brewery count aggregate is not the fixture. Evidence is not required because an aggregate-shaped walk returns HTTP 400."
+    },
+    {
+      "id": "travel-find-parking",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Find hotels of type hotel whose free_parking field is true.",
+      "expect": {
+        "any_of": [
+          {"verb": "find", "entity_type": "hotel"},
+          {"verb": "find", "entity_type": "Hotel"}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "Login is ZEUS_USER_TRAVEL. On 2026-10-21, find entity_type Hotel returned 0. find entity_type hotel where free_parking true returned rows (Redbrook, Swansea, Ballycastle). free_parking 1 returned 0. The mini-schema spells the type Hotel and the field as number."
+    },
+    {
+      "id": "travel-search-fts",
+      "scope": "travel-sample/inventory",
+      "collection": "hotel",
+      "text": "Full-text search hotel descriptions for the single word beach.",
+      "expect": {
+        "any_of": [
+          {"verb": "search", "strategy": "fts", "entity_type": "hotel"},
+          {"verb": "search", "strategy": "fts", "entity_type": "Hotel"}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "The harness posts this question to collection hotel. That FTS returned 3 doc_key hits on 2026-10-21. The same call on collection nodes returned HTTP 500. A doc_key hit counts as a row."
+    },
+    {
+      "id": "travel-search-hybrid",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Find beach destination hotels. The graph type is hotel.",
+      "expect": {
+        "any_of": [
+          {"verb": "search", "strategy": "hybrid", "entity_type": "hotel"},
+          {"verb": "search", "strategy": "hybrid", "entity_type": "Hotel"}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "hybrid on type hotel and query beach returned Moss Beach, Santa Monica, and Carmel-by-the-Sea. type Hotel returned 0. Do not require a country equality. Hotel.price is display-only."
+    },
+    {
+      "id": "travel-traverse-country",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Find beach destination hotels of type hotel, then walk those hotels to their country.",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ],
+        "any_of": [
+          {"verb": "search", "strategy": "hybrid", "entity_type": "hotel"},
+          {"verb": "search", "strategy": "hybrid", "entity_type": "Hotel"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "Brief path is Hotel to Country via country. On type hotel that path is HTTP 400: country is not a declared FK. from.entity_type is required. Evidence is not required."
+    },
+    {
+      "id": "travel-pipeline-cards",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Show ten beach destination hotels of type hotel as cards with name. Do it in one pipeline.",
+      "expect": {
+        "all_of": [
+          {"verb": "pipeline"}
+        ],
+        "any_of": [
+          {"verb": "search", "strategy": "hybrid", "entity_type": "hotel"},
+          {"verb": "search", "strategy": "hybrid", "entity_type": "Hotel"}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "Same API pair as beer-pipeline-cards: one pipeline that contains search hybrid. Rows depend on type hotel."
+    },
+    {
+      "id": "travel-walk-redbrook-country",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "What country is The Bell Inn in?",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "Parallel to beer-walk-21a-ipa. Live key hotel_21052, stored name The Bell Inn, type hotel. Redbrook is the city: find where name is Redbrook returned empty, and find where city is Redbrook returned this key. Walk path country from that key is HTTP 400 because country is not a declared FK on type hotel. A seed find may come first. Evidence is not required."
+    },
+    {
+      "id": "travel-walk-city-hotels",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "List hotels in the same city as The Bell Inn.",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "Parallel to beer-walk-stone-beers. Seed is The Bell Inn, key hotel_21052. Brief inverse is Hotel.city. A walk that puts path city on type hotel is HTTP 400 and the error hints at the inverse. Evidence is not required."
+    },
+    {
+      "id": "travel-walk-state-counts",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "How many hotels are in each state?",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "Parallel to beer-walk-colorado-counts. Brief path is State to Hotel via the inverse of Hotel.state. group_by must be a terminal-local string. Evidence is not required."
+    },
+    {
+      "id": "travel-walk-hotels-by-country",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Count hotels by country.",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "Parallel to beer-walk-beers-by-country. Terminal-local group_by only. An empty where is not a selector. Evidence is not required."
+    },
+    {
+      "id": "travel-beach-itinerary",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Plan a beach trip for me. Suggest hotels and landmarks, and say which country each one is in.",
+      "expect": {
+        "all_of": [
+          {"verb": "traverse", "shape": "walk_path"}
+        ]
+      },
+      "evidence_required": false,
+      "notes": "Parallel to beer-colorado-itinerary. Landmark find on type landmark returned Napa, West Hollywood, and Camberley. Hotel to Country is not a declared FK on type hotel, so the walk may be HTTP 400. Evidence is not required."
+    }
+  ]
+}
