@@ -1,6 +1,8 @@
 # Migration hops (`base-X` → `base-Y`)
 
-**Last reviewed:** 2026-07-27  
+> **Archive** · each folder below is what that hop shipped. A line that says "13 verbs" is the catalog of that hop. It is not the current law. The current test is [CONSTITUION_DESIGN.md](../CONSTITUION_DESIGN.md). Do not rewrite a hop body to match a later law. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+
+**Last reviewed:** 2026-11-21  
 **Purpose:** One folder per BASE upgrade. Living design stays in `docs/` root; ship packs stay in `v2/base/base-N/`.
 
 ## Naming (normative)
@@ -33,7 +35,12 @@ See [BASE_AGENT_PLAYBOOK.md](../BASE_AGENT_PLAYBOOK.md) · root [AGENTS.md](../.
 | base-5.2 → base-5.3 | [base-5.2_to_base-5.3/](base-5.2_to_base-5.3/) | Skinny + world-model CORE + verb clarity · pack `v2/base/base-5.3/` · **not a wire break** |
 | base-5.3 → base-6 | [base-5.3_to_base-6/](base-5.3_to_base-6/) | Soft `hints.*` inject contract · pack `v2/base/base-6/` · **additive only** · [HINTS.md](../HINTS.md) |
 | base-6.1 → base-7.x | [base-6.1_to_base-7.x/](base-6.1_to_base-7.x/) | Working train · Plan, then call + `rail` · pack `v2/base/base-7.x/` · parent base-6.1 · **not** a wire break |
-| base-6.1 → base-7.0 | [base-6.1_to_base-7.0/](base-6.1_to_base-7.0/) | Numbered ship · Zeus 5.5TH embeds base-6.1 and base-7.0 · served pin base-7.0 · `CURRENT.json` stays base-1 |
+| base-6.1 → base-7.0 | [base-6.1_to_base-7.0/](base-6.1_to_base-7.0/) | Previous numbered ship · Plan, then call + `rail` · `CURRENT.json` stays base-1 |
+| base-7.0 → base-7.1 | [base-7.0_to_base-7.1/](base-7.0_to_base-7.1/) | Binding fix · FTS `@step.doc_keys` · find/hybrid/node-vector `@step.node_ids` · [CR-40](https://kotenai.atlassian.net/browse/CR-40) · local Zeus pair base-6.1 + base-7.1 · `CURRENT.json` stays base-1 |
+| base-7.1 → base-7.2 | [base-7.1_to_base-7.2/](base-7.1_to_base-7.2/) | Slot rule · copy the list the next slot requires · Zeus embed still base-7.1 · `CURRENT.json` stays base-1 |
+| base-7.2 → base-7.3 | [base-7.2_to_base-7.3/](base-7.2_to_base-7.3/) | Walk close · a stored field on the seed does not replace `walk_path` · Zeus embed still base-7.1 · `CURRENT.json` stays base-1 |
+| base-7.3 → base-7.4 | [base-7.3_to_base-7.4/](base-7.3_to_base-7.4/) | Call align · plan, tool text, and mode examples describe the same call · Zeus embed still base-7.1 · `CURRENT.json` stays base-1 |
+| base-7.4 → base-8.0 | [base-7.4_to_base-8.0/](base-7.4_to_base-8.0/) | Constitution morph · numbered name of base-8-prototype-1 · released catalog 2026-11-21 · parent base-7.4 · Zeus embed still base-7.1 · suite not run · `CURRENT.json` stays base-1 |
 
 ## When you finish a new hop
 

@@ -1,5 +1,18 @@
 # Optimization theory — staples `fast_pass` · `scout` · `thorough`
 
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file is the older speed theory. Do not stamp it into L0 `messages[]`. The names below are retired, not a second suggestion list.
+>
+> | Older name | What it is now |
+> | --- | --- |
+> | `fast_pass` | Fast path. One pipeline. No probe. |
+> | `scout` | Probe. One cheap look, then the fast path or a named gap. |
+> | `thorough` | A richer fast path. Not a third suggestion. |
+> | `known_goal` | The plan is already writable. That is the fast path. |
+> | `open_ended` | The evidence size is unknown, or a basic value may not be stored. That is the probe. |
+> | out of corpus | A gap (`wish_i_knew`). Not a bigger search. |
+>
+> The diagrams below still use the old names. Read them through the table. `named_query` in those drawings is the executor behind catalog verb `rail`, not another verb and not a `/rail` route. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+>
 > **Doc status** · **WORK IN PROGRESS** · drafted **2026-09-01** · updated **2026-09-02** · **not** a BASE pack change · **not** hashed CORE · production pin **base-1** · candidate line **base-6.2** · version matrix: [COMPAT.md](../COMPAT.md)
 >
 > Do **not** stamp this into L0 `messages[]`. Do **not** flip `CURRENT.json`. Cards must be **rendered** into `messages` / Workbench suffix or the model never sees them (`guidance` is stripped on the wire).
@@ -10,6 +23,8 @@
 **Related:** [OPTIMIZATION.md](OPTIMIZATION.md) (`OPT:0` Pachinko, `OPT:6`, `OPT:18`) · [BEST_PRACTICES.md](BEST_PRACTICES.md) · [HINTS.md](HINTS.md) · [PROMPT_RULE_PLACEMENT.md](PROMPT_RULE_PLACEMENT.md) · [MODE.md](MODE.md) · travel funnel (external) `USE_CASE_TRAVEL_BOOKING_STEP_BY_STEP_v2.md`
 
 **TL;DR:** Optimize the *path* from a question to ORDER (the answer this SLA is allowed to cost) by shrinking one evidence bag with `fast_pass`, `scout`, or `thorough` — not by running more agents over more rows.
+
+**Name map wins.** Those three words are the retired spellings in the table at the top. They are not three live suggestions.
 
 **Why / what are you optimizing?** Live chats often “answer” by brute-force `List` hops: each entity type is a new global bag, Sessions look busy, and the user still does not have a usable result. Hot-path was meant to find *common styles* of that waste and freeze a better plan. The thing to optimize is **catalog work under an SLA** — how much of the graph you must touch, in how many AI rounds, to be allowed to stop — not wall-clock of a dump, not hop-count as a score, and not a PREPARED statement for a causal essay. A known-goal ask (travel funnel: collect binds / a sized bag) and an in-graph open-ended ask (unknown evidence size) need different *default* staples on the same theory; out-of-corpus “why Rome fell” on a hotel overlay is a gap, not a bigger search.
 
@@ -53,7 +68,7 @@ Optimization = reach ORDER (the answer this turn is allowed to cost)
 
 Not: more sub-agents, more rows, more Lists, or a faster empty 200.  
 Not: hop-count as the reward.  
-Not: “always named_query” on day one (that tool is **not** in the current chat_request verb list).
+Not: call `rail` on day one. `rail` runs only when the scope brief names one. The executor is still the named-query route. `named_query` is not a fifteenth catalog verb.
 
 The staples are the **theory**. Problem class, SLA, and complexity only **pick which staple** and how hard it may spend.
 
@@ -83,18 +98,18 @@ These are closed names. Do not invent a fourth until a staple is proven insuffic
 
 ### `fast_pass` — one planned call
 
-**Law:** exactly **one** AI round. Emit **one terminating `pipeline`** (or one rail **when that tool exists**). Write Layer A **before** results (CORE tradeoff). Bind `@step.ids` / `narrow_to`. Compact `project`.
+**Older card:** exactly **one** AI round. Emit **one terminating `pipeline`**. `rail` only when the scope brief names one. Bind the list the next slot requires (`@step.node_ids` or `@step.doc_keys`). `narrow_to` takes node ids only. `project` has no `limit`. Facts in the summary come from the rows. The "Law" label this card used to wear is retired. The test is the constitution.
 
 **Use when:** the plan is already known — tokens, entity types, and funnel steps can be authored without peeking.
 
 **Forbidden:** empty terminate “to look fast”; N unbound Lists; a second pipeline “just to see.”
 
-**Today on the pin:** “logic on Zeus” = **pipeline + transforms** (`set` / `order` / `enrich` / `project`).  
-**Later:** graduate a hot fingerprint to a **callable** `named_query` (HTTP `POST /v1/.../named_queries/{name}/execute` exists; it is **not** a catalog verb until Client/Hub wires it). Do not make `fast_pass` mean “call named_query” until that wire exists.
+**Today:** “logic on Zeus” = **pipeline + transforms** (`set` / `order` / `enrich` / `project`).  
+**Rail:** a hot fingerprint graduates to a `rail` the scope brief names. The executor is still the named-query execute route. There is no `/rail` route. `named_query` is not a fifteenth catalog verb. The fast path does not call `rail` unless the brief names one.
 
 ### `scout` — one look, then commit
 
-**Law:** at most **one probe round**, then **one** commit pipeline. Probe is not ORDER.
+**Older card:** at most **one probe round**, then **one** commit pipeline. The probe is not the answer. The test is the constitution.
 
 Probe **may:** `find` `limit:1`–`3` or `return:selectivity` on a MINI-SCHEMA path; tiny `search`; `describe` only if BRIEF/MINI-SCHEMA is missing.  
 Probe **must not:** `get_stats` / `list_entity_types` / recount `nodes_total` (CORE); chain `List hotel`, `List airport`, `List landmark`.
@@ -105,7 +120,7 @@ Probe **must not:** `get_stats` / `list_entity_types` / recount `nodes_total` (C
 
 ### `thorough` — bound plan, richer ORDER
 
-**Law:** still **one** (maybe two if hydrate) AI round. Still **one** bound pipeline, cap 8, `@step.ids`. Richer `project` / optional `get` `include:["body"]`. Coverage > wall time.
+**Older card:** still **one** bound pipeline under the ceiling. Bind the list the next slot requires. Richer `project`, or `get` on `@step.node_ids` with `include:["body"]`. `get` does not take doc keys. This is a richer fast path, not a third suggestion.
 
 **Use when:** SLA wants attributes, snippets, parts[] coverage — not a faster List dump.
 
@@ -327,12 +342,12 @@ Default staple: thorough (or scout → thorough). Do not default fast_pass.
 
 ```text
 ## Optimization: fast_pass
-Exactly one AI round. One terminating pipeline (cap short). Bind @step.ids.
-Plan the funnel up front; summary is written before results.
-Shape with set/order/enrich/project. Compact project.
-Do not terminate empty. Do not scout. Do not List-per-entity.
-If live tokens are unknown, this is the wrong staple — use scout.
-named_query only if that tool is actually on the catalog.
+Exactly one AI round. One terminating pipeline. Bind the list the next slot requires.
+Plan the funnel up front. Fill summary facts from the rows that return.
+Shape with set/order/enrich/project. project has no limit.
+Do not terminate empty. Do not probe. Do not List-per-entity.
+If a basic value may not be stored, this is the wrong suggestion — probe once.
+rail only when the scope brief names one.
 ```
 
 ### Staple: scout
@@ -342,7 +357,7 @@ named_query only if that tool is actually on the catalog.
 MINI-SCHEMA names types; it does not name live values.
 At most one probe: find limit 1–3 or selectivity on a [gsi] path, or search limit 5,
 or describe if brief is missing.
-Probe is not ORDER. Next round: one terminating pipeline using observed @ids / tokens.
+The probe is not the answer. Next round: one pipeline bound to the list the next slot requires.
 Never rediscover nodes_total / entity type lists. Never List every entity type.
 ```
 
@@ -350,7 +365,7 @@ Never rediscover nodes_total / entity type lists. Never List every entity type.
 
 ```text
 ## Optimization: thorough
-Coverage > wall time, still one bound pipeline (cap 8), still @step.ids.
+A richer fast path. Still one bound pipeline under the ceiling. Bind the list the next slot requires.
 Richer project / get include body when attributes are the SLA.
 Do not spend rounds on List-per-entity. Extra AI round only to hydrate a thin bag.
 Empty: one bound adjust, then wish_i_knew. Never invent rows.

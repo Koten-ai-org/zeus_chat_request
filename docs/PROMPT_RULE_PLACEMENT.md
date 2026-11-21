@@ -1,10 +1,12 @@
 # Prompt rule placement methodology
 
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test a sentence must pass **before** this page places it. This file says which surface. It does not replace the constitution. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+>
 > **Doc status** · last reviewed **2026-07-28** · production pin **base-1** · candidate pack **base-6** · version matrix: [COMPAT.md](../COMPAT.md)  
 > **Citation:** use this doc when adding or moving any instruction (CORE, mode overlay, `BP:N`, `OPT:N`, `hints.*`, Client law)  
 > **Consumers:** catalog authors, Prompt Helper, zeus_client, Zeus Hub Workbench
 
-**Related:** [BIBLE.md](BIBLE.md) · [MODE.md](MODE.md) · [BEST_PRACTICES.md](BEST_PRACTICES.md) · [OPTIMIZATION.md](OPTIMIZATION.md) · [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md) (**WIP** pickable postures) · [HINTS.md](HINTS.md) · [PROMPT_ASSEMBLY.md](PROMPT_ASSEMBLY.md) · [PROMPT_SETTINGS.md](PROMPT_SETTINGS.md) · [WISH_I_KNEW_DUAL.md](WISH_I_KNEW_DUAL.md) · [ROADMAP.md](ROADMAP.md) · design-docs [DESIGN.md §14](https://github.com/koten-ai/zeus_design_docs/blob/main/DESIGN.md) (engine modes)
+**Related:** [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) · [BIBLE.md](BIBLE.md) · [MODE.md](MODE.md) · [BEST_PRACTICES.md](BEST_PRACTICES.md) · [OPTIMIZATION.md](OPTIMIZATION.md) · [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md) (older speed theory; names retired) · [HINTS.md](HINTS.md) · [PROMPT_ASSEMBLY.md](PROMPT_ASSEMBLY.md) · [PROMPT_SETTINGS.md](PROMPT_SETTINGS.md) · [WISH_I_KNEW_DUAL.md](WISH_I_KNEW_DUAL.md) · [ROADMAP.md](ROADMAP.md) · design-docs [DESIGN.md §14](https://github.com/koten-ai/zeus_design_docs/blob/main/DESIGN.md) (engine modes)
 
 **Why this exists:** Instruction reliability fails when authors put traffic-only polish in every stamp, or leave contract-critical law only in optional essays. This file is the **stable method** for *where* a rule lives — apply it to **old rules** and **new ones**.
 
@@ -19,7 +21,7 @@ OPT:N / hints.* / custom stamp        =  after traffic (or scope-specific pain)
 Client / engine                       =  enforce security & success; never "hope" the model
 ```
 
-**Looser mode (open/fraud) changes join/confidence *flavor* — not the contract wire.**
+**Looser mode (open/fraud) changes join/confidence *flavor* — not the contract wire, and not the suggestion (fast path or probe).**
 
 ---
 
@@ -32,7 +34,7 @@ Client / engine                       =  enforce security & success; never "hope
 | **SCHEMA** | Tool / return JSON Schema (required four, wish shape) | pack `verbs[]`, `response_output_schema.json` | **Yes** (verbs) | Every turn |
 | **BP** | Short always/never laws `BP:N` | [BEST_PRACTICES.md](BEST_PRACTICES.md); thin lines may mirror CORE | Prefer **cite** in CORE; full card in BP file | Day-one / Helper; not full book in every pack |
 | **OPT** | Traffic sharpen `OPT:N` | [OPTIMIZATION.md](OPTIMIZATION.md) | Only if stamped into custom | Hot Path / Helper / custom when pattern matches |
-| **STRATEGY** | **WIP** staples `fast_pass` \| `scout` \| `thorough`; class `known_goal` \| `open_ended` as default | [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md) · `guidance.optimization` / `hints.optimization` | **No** (hash-excluded) | Must be **rendered** into messages; named_query is not a pin verb |
+| **STRATEGY** | Retired names. `fast_pass` = fast path, `scout` = probe, `thorough` = a richer fast path. `known_goal` = a writable plan. `open_ended` = an unknown value or an unknown evidence size. | [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md) · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) | **No** (hash-excluded) | Not a second law. A hot path graduates to a `rail` the brief names. |
 | **HINTS** | Soft inject `hints.*` | Client runtime (base-6+) | **No** (hash-excluded) | After hard `rules{}`; size-capped |
 | **CLIENT** | Assemble, redact G2, policy table, messages[], injects, validate | zeus_client / Zeus Hub | N/A | Every turn |
 | **ENGINE** | Tenant wall, hop caps, mode confidence floors | Zeus `internal/modes/` | N/A | Always enforce |
@@ -251,7 +253,7 @@ Need fraud + tenant governance?
 
 | Place | Content |
 | --- | --- |
-| **CORE thin ALL** | @step.ids; one plan |
+| **CORE thin ALL** | the list the next slot requires; one plan. Do not teach `@step.ids` as the bind. |
 | **BP ALL** | BP:4 multi-turn reuse |
 | **CLIENT ALL** | Append messages[] + tool results |
 | **CLIENT should** | `ai_process_result` default false |

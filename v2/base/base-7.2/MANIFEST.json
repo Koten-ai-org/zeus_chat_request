@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "base_id": "base-7.2",
+  "kind": "base",
+  "status": "slot_rule",
+  "note": "base-7.2 cut from base-7.1. Copy @step.node_ids into a node-id slot. Copy @step.doc_keys into walk_path src_keys. project, order, and enrich accept either list. FTS search leaves node_ids empty. @step.ids stays node ids only. Do not invent production contract hashes. CURRENT.json stays base-1.",
+  "paths": {
+    "min": "v2/base/base-7.2/min",
+    "text": "v2/base/base-7.2/text",
+    "bible": "docs/BIBLE.md",
+    "roadmap": "docs/ROADMAP.md",
+    "create_base": "docs/CREATE_BASE.md",
+    "response_output_schema": "v2/base/base-7.2/response_output_schema.json",
+    "response_output_example": "v2/base/base-7.2/response_output_example.json"
+  },
+  "parent_source": "(refresh) v2/base/base-7.2",
+  "updated_at": "2026-11-20T08:48:43Z",
+  "generator": "scripts/new_base.py",
+  "catalogs": [
+    {
+      "file": "v2/base/base-7.2/min/chat_request_analytics_base-7.2.json",
+      "mode": "analytics",
+      "base_id": "base-7.2",
+      "prototype": false,
+      "bytes": 46889
+    },
+    {
+      "file": "v2/base/base-7.2/min/chat_request_auto_base-7.2.json",
+      "mode": "auto",
+      "base_id": "base-7.2",
+      "prototype": false,
+      "bytes": 46728
+    },
+    {
+      "file": "v2/base/base-7.2/min/chat_request_code_base-7.2.json",
+      "mode": "code",
+      "base_id": "base-7.2",
+      "prototype": false,
+      "bytes": 46991
+    },
+    {
+      "file": "v2/base/base-7.2/min/chat_request_custom_base-7.2.json",
+      "mode": "custom",
+      "base_id": "base-7.2",
+      "prototype": false,
+      "bytes": 46281
+    },
+    {
+      "file": "v2/base/base-7.2/min/chat_request_fraud_base-7.2.json",
+      "mode": "fraud",
+      "base_id": "base-7.2",
+      "prototype": false,
+      "bytes": 47228
+    },
+    {
+      "file": "v2/base/base-7.2/min/chat_request_open_base-7.2.json",
+      "mode": "open",
+      "base_id": "base-7.2",
+      "prototype": false,
+      "bytes": 46382
+    },
+    {
+      "file": "v2/base/base-7.2/min/chat_request_private_base-7.2.json",
+      "mode": "private",
+      "base_id": "base-7.2",
+      "prototype": false,
+      "bytes": 46391
+    },
+    {
+      "file": "v2/base/base-7.2/min/chat_request_regulated_base-7.2.json",
+      "mode": "regulated",
+      "base_id": "base-7.2",
+      "prototype": false,
+      "bytes": 46970
+    },
+    {
+      "file": "v2/base/base-7.2/min/chat_request_research_base-7.2.json",
+      "mode": "research",
+      "base_id": "base-7.2",
+      "prototype": false,
+      "bytes": 47029
+    },
+    {
+      "file": "v2/base/base-7.2/min/chat_request_tenant_base-7.2.json",
+      "mode": "tenant",
+      "base_id": "base-7.2",
+      "prototype": false,
+      "bytes": 46412
+    }
+  ]
+}

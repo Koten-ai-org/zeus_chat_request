@@ -1,10 +1,10 @@
 # BASE + Helios roadmap
 
-> **Doc status** · last reviewed **2026-11-17** · production pin **base-1** · **ship folder base-7.0** (`v2/base/base-7.0/` · working train `v2/base/base-7.x/` · [CR-35](https://kotenai.atlassian.net/browse/CR-35) · [CR-37](https://kotenai.atlassian.net/browse/CR-37) · parent chain **base-7.x ← base-6.1**) · **base-6.2** size cut regressed ([CR-34](https://kotenai.atlassian.net/browse/CR-34)) · prior **base-6.1** · last wire break **base-5** · Zeus 0.6 vendor **base-5.3** · Client residual **ZC-WISH-035/044/040** · multi-turn reuse in **BEST_PRACTICES / OPTIMIZATION** · version matrix: [COMPAT.md](../COMPAT.md)
+> **Doc status** · last reviewed **2026-11-21** · production pin **base-1** · **released catalog base-8.0** (2026-11-21, `v2/base/base-8.0/` · numbered name of base-8-prototype-1 · parent **base-7.4** · suite not run · not the pin · Zeus 5.5TH served pin stays **base-7.1**) · call align `v2/base/base-7.4/` · binding fix `v2/base/base-7.1/` · [CR-40](https://kotenai.atlassian.net/browse/CR-40) · parent **base-7.0** · Plan-then-call ship `v2/base/base-7.0/` · working train `v2/base/base-7.x/` · [CR-35](https://kotenai.atlassian.net/browse/CR-35) · [CR-37](https://kotenai.atlassian.net/browse/CR-37) · parent chain **base-7.x ← base-6.1** · **base-6.2** size cut regressed ([CR-34](https://kotenai.atlassian.net/browse/CR-34)) · prior **base-6.1** · last wire break **base-5** · Zeus 0.6 vendor **base-5.3** · Client residual **ZC-WISH-035/044/040** · multi-turn reuse in **BEST_PRACTICES / OPTIMIZATION** · version matrix: [COMPAT.md](../COMPAT.md)
 
 
 **Status:** living plan after base-1 → base-4 → **base-5 wire freeze** → **5.1 / 5.2 / 5.3 content** (5.3 pack on main)  
-**Normative (base-4 era docs, base-5 wire freeze):** [BIBLE.md](BIBLE.md) · **Lessons:** [migration/base-1_to_base-4/lessons-learned.md](migration/base-1_to_base-4/lessons-learned.md) · [migration/base-4_to_base-5/lessons-learned.md](migration/base-4_to_base-5/lessons-learned.md) · [migration/base-5_to_base-5.2/lessons-learned.md](migration/base-5_to_base-5.2/lessons-learned.md) · [migration/base-5.2_to_base-5.3/lessons-learned.md](migration/base-5.2_to_base-5.3/lessons-learned.md)  
+**Call law:** [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md). **Ownership matrix (base-4 era docs, base-5 wire freeze):** [BIBLE.md](BIBLE.md). **Hop lessons (archives):** [migration/base-1_to_base-4/lessons-learned.md](migration/base-1_to_base-4/lessons-learned.md) · [migration/base-4_to_base-5/lessons-learned.md](migration/base-4_to_base-5/lessons-learned.md) · [migration/base-5_to_base-5.2/lessons-learned.md](migration/base-5_to_base-5.2/lessons-learned.md) · [migration/base-5.2_to_base-5.3/lessons-learned.md](migration/base-5.2_to_base-5.3/lessons-learned.md)  
 **Helios requests (analytics emits):** [HELIOS_WISHLIST_FOR_CHAT_REQUEST.md](HELIOS_WISHLIST_FOR_CHAT_REQUEST.md)  
 **zeus_client backlog (implement floor):** [ZEUS_CLIENT_WISHLIST_FOR_CHAT_REQUEST.md](ZEUS_CLIENT_WISHLIST_FOR_CHAT_REQUEST.md) (`ZC-WISH-*`)  
 **base-5 inject / Layer A deltas:** [RULES_OBJECT_AND_OUTPUT_REQUEST.md](RULES_OBJECT_AND_OUTPUT_REQUEST.md) — **rules + triggers as objects**; Client **`output_request` → `app_output`** (each app field = **`type` + `description`**; type-only is not enough)  
@@ -15,7 +15,12 @@
 **Retrieval playbook:** [BEST_PRACTICES.md](BEST_PRACTICES.md) — single-focus recipes + multi-intent + **multi-turn short law** (§1.3 Option B); open ≠ multi-ask  
 **Soft HINTS (base-6):** [HINTS.md](HINTS.md) · **§ HINTS catalog** below + **§ base-6** — hash-excluded `hints.*` after `rules{}`  
 **base-6.2 skinny prefix:** **§ base-6.2** · **[CR-34](https://kotenai.atlassian.net/browse/CR-34)** — system + `return`/`pipeline` diet · full 13 verbs · no wire break  
-**base-7.x chain the API (critical):** **§ base-7.x** · ship [`v2/base/base-7.0/`](../v2/base/base-7.0/) · **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** · **[CR-37](https://kotenai.atlassian.net/browse/CR-37)** — world, entry, path, goal, 8-call budget · one pipeline per drill-down · new `rail` verb (binds only) · boolean / `one_of` MINI-SCHEMA teaching · parent **[CR-1](https://kotenai.atlassian.net/browse/CR-1)**  
+**base-7.x chain the API (critical):** **§ base-7.x** · Plan-then-call ship [`v2/base/base-7.0/`](../v2/base/base-7.0/) · **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** · **[CR-37](https://kotenai.atlassian.net/browse/CR-37)** — world, entry, path, goal, 8-call budget · one pipeline per drill-down · new `rail` verb (binds only) · boolean / `one_of` MINI-SCHEMA teaching · parent **[CR-1](https://kotenai.atlassian.net/browse/CR-1)**  
+**base-7.1 binding fix:** [`v2/base/base-7.1/`](../v2/base/base-7.1/) · **[CR-40](https://kotenai.atlassian.net/browse/CR-40)** — FTS `@step.doc_keys` · find / hybrid / node-vector `@step.node_ids` · parent **base-7.0** · Zeus 5.5TH served pin · not a wire break · `CURRENT.json` stays base-1  
+**base-7.2 slot rule:** [`v2/base/base-7.2/`](../v2/base/base-7.2/) — copy `@step.node_ids` into a node-id slot · `@step.doc_keys` into `walk_path` `src_keys` · `project`, `order`, and `enrich` accept either · FTS leaves `node_ids` empty · parent **base-7.1** · one 21-question pass scored 20/21 vs 16/21, net −4 · Zeus embed still base-7.1 · no new ticket · `CURRENT.json` stays base-1  
+**base-7.3 walk close:** [`v2/base/base-7.3/`](../v2/base/base-7.3/) — a known stored value stays `find` unless it is the other end of a WALK_PATHS chain · the `walk_path` close still runs when the seed row already shows that field · parent **base-7.2** · Zeus embed still base-7.1 · no new ticket · suite not run · `CURRENT.json` stays base-1  
+**base-7.4 call align:** [`v2/base/base-7.4/`](../v2/base/base-7.4/) — the plan, the tool text, and the mode examples describe the same call · `narrow_to` follows node ids · `project` has no `limit` · do not bind `@step.ids` · `set` requires `id_kind` · parent **base-7.3** · parent of base-8.0 · Zeus embed still base-7.1 · no new ticket · suite not run · `CURRENT.json` stays base-1  
+**base-8.0 constitution morph:** [`v2/base/base-8.0/`](../v2/base/base-8.0/) — numbered name of base-8-prototype-1 · the plan states the access rule once · `narrow_to` takes node ids only · `query_decomposition` records fast path or one probe · parent **base-7.4** · released catalog 2026-11-21 · Zeus embed still base-7.1 · no new ticket · suite not run · not the pin · `CURRENT.json` stays base-1 · the earlier folders base-8-prototype and base-8-prototype-1 stay  
 **End-goal optimization:** [OPTIMIZATION.md](OPTIMIZATION.md) — Pachinko funnel · Hot Path mine · **multi-turn CORE (Option A)** · **`named_query` rails** · Helios Funnel · **[ZE-267](https://kotenai.atlassian.net/browse/ZE-267)**  
 **WIP optimization theory:** [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md) — staples **`fast_pass` · `scout` · `thorough`** (`OPT:36`). Class `known_goal` / `open_ended` picks a default staple. Not a pack change. Not CORE.  
 
@@ -270,7 +275,7 @@ SCHEMA        =  types/enums + KEY one-liners — not essays duplicated from COR
 ### Sequencing
 
 ```text
-base-6.1 pack (CR-27) ──► base-7.x Plan, then call (CR-35) ──► base-7.0 ship
+base-6.1 pack (CR-27) ──► base-7.x Plan, then call (CR-35) ──► base-7.0 ship ──► base-7.1 binding fix (CR-40) ──► base-7.2 slot rule ──► base-7.3 walk close ──► base-7.4 call align ──► base-8.0 constitution
         │                      │
         │                      └── base-7 Workbench product (CR-5) orthogonal
         ├── base-6.2 skinny (CR-34) — size cut; performance regression; not the 7.x parent
@@ -295,7 +300,12 @@ No production traffic on the **base-4/5 line** yet. Use that:
 | **base-6** | **ADDITIVE** soft inject | Soft **`hints.*`** after hard `rules{}` ([HINTS.md](HINTS.md)) |
 | **base-6.1** | **ADDITIVE** Client-loop / emit train on base-6 | Root **`user`** enum · **`ip_address`** (IPv4/IPv6) · **`ai_process_result`** (default false) — **§ base-6.1** |
 | **base-6.2** | **Content skinny** on base-6.1 wire — **not** a wire break | Diet system + `return`/`pipeline` · full 13 verbs · ~**−25%** catalog prefix — **§ base-6.2** · **[CR-34](https://kotenai.atlassian.net/browse/CR-34)** |
-| **base-7.0** | **ADDITIVE catalog method** on the base-6.1 catalog — **not** a wire break. Numbered ship of **base-7.x**. Parent chain is **base-7.x ← base-6.1**, not the base-6.2 size cut. | **Plan, then call** · one pipeline per drill-down · new **`rail`** verb (binds only) · boolean / `one_of` teaching — **§ base-7.x** · **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** · **[CR-37](https://kotenai.atlassian.net/browse/CR-37)** · pack [`v2/base/base-7.0/`](../v2/base/base-7.0/) |
+| **base-7.0** | **ADDITIVE catalog method** on the base-6.1 catalog — **not** a wire break. Previous numbered ship of **base-7.x**. Parent chain is **base-7.x ← base-6.1**, not the base-6.2 size cut. | **Plan, then call** · one pipeline per drill-down · new **`rail`** verb (binds only) · boolean / `one_of` teaching — **§ base-7.x** · **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** · **[CR-37](https://kotenai.atlassian.net/browse/CR-37)** · pack [`v2/base/base-7.0/`](../v2/base/base-7.0/) |
+| **base-7.1** | **ADDITIVE sentence diet** on base-7.0 — **not** a wire break. Zeus 5.5TH served pin. | FTS search binds `@step.doc_keys`. find, hybrid, and node-vector bind `@step.node_ids`. `@step.ids` stays node ids only. **[CR-40](https://kotenai.atlassian.net/browse/CR-40)** · pack [`v2/base/base-7.1/`](../v2/base/base-7.1/) |
+| **base-7.2** | **ADDITIVE sentence diet** on base-7.1 — **not** a wire break. Measured slot-rule pack. Not the Zeus pin. | Copy the list the next slot requires. Node-id slots take `@step.node_ids`. `walk_path` `src_keys` takes `@step.doc_keys`. `project`, `order`, and `enrich` accept either. Pack [`v2/base/base-7.2/`](../v2/base/base-7.2/) |
+| **base-7.3** | **ADDITIVE sentence diet** on base-7.2 — **not** a wire break. Walk-close pack. Not the Zeus pin. | A known stored value stays `find` unless it is the other end of a WALK_PATHS chain. The `walk_path` close still runs when the seed row already shows that field. Pack [`v2/base/base-7.3/`](../v2/base/base-7.3/) |
+| **base-7.4** | **ADDITIVE sentence align** on base-7.3 — **not** a wire break. Call-align parent of base-8.0. Not the Zeus pin. | The plan, the tool text, and the mode examples describe the same call. `project` has no `limit`. `set` requires `id_kind`. Pack [`v2/base/base-7.4/`](../v2/base/base-7.4/) |
+| **base-8.0** | **ADDITIVE constitution morph** on base-7.4 — **not** a wire break. Released catalog 2026-11-21. Numbered name of base-8-prototype-1. Not the Zeus pin. Suite not run. | The plan states the access rule once. `narrow_to` takes node ids only. `query_decomposition` records fast path or one probe. Pack [`v2/base/base-8.0/`](../v2/base/base-8.0/) |
 | **base-6.3+ / base-7 product** | **ADDITIVE / OPTIONAL only** | Further soft inject productization · Workbench UX (**CR-5**) · pin when green |
 | **Helios wishlist** | **Nice-to-have** (cheap provider first) | Pri-1 report scalars in [HELIOS_WISHLIST…](HELIOS_WISHLIST_FOR_CHAT_REQUEST.md) — **not** Client wishlist bulk |
 
@@ -327,7 +337,7 @@ base-6.2  = SKINNY PREFIX (system + verb schemas) on full-13 stamp
             Collapse triple-teach Terminate × return × pipeline; Client stamp
             law out of CORE; no verb drop; no wire break. See § base-6.2 · CR-34.
 
-base-7.0  = PLAN, THEN CALL. Numbered ship of the base-7.x train.
+base-7.0  = PLAN, THEN CALL. Previous numbered ship of the base-7.x train.
             Parent chain is base-7.x ← base-6.1. The base-6.2 size cut
             regressed, so this train does not diet. World + entry + path +
             goal + 8-call budget. One drill-down is one pipeline.
@@ -335,6 +345,45 @@ base-7.0  = PLAN, THEN CALL. Numbered ship of the base-7.x train.
             in MINI-SCHEMA; tenant lists stay on the entity map.
             Do not grow a route per question. See § base-7.x · CR-35 · CR-37.
             CURRENT stays base-1. Zeus does not execute rail yet.
+
+base-7.1  = BINDING FIX on base-7.0. FTS search binds @step.doc_keys.
+            find, hybrid, and node-vector bind @step.node_ids.
+            @step.ids stays node ids only. Not a wire break. CR-40.
+            Zeus 5.5TH served pin. CURRENT stays base-1.
+            Do not edit base-7.0 in place.
+
+base-7.2  = SLOT RULE on base-7.1. Copy the list the next slot requires.
+            Node-id slots take @step.node_ids. walk_path src_keys takes
+            @step.doc_keys. project, order, and enrich accept either.
+            FTS search leaves node_ids empty. Not a wire break.
+            Measured slot-rule pack. One 21-question pass scored
+            20/21 vs 16/21, net -4. Zeus embed stays base-7.1.
+            CURRENT stays base-1. Do not edit base-7.1 in place.
+
+base-7.3  = WALK CLOSE on base-7.2. A known stored value stays find
+            unless it is the other end of a WALK_PATHS chain.
+            The walk_path close still runs when the seed row already
+            shows that field. from.src_keys stays @step.doc_keys.
+            Not a wire break. Walk-close pack.
+            Zeus embed stays base-7.1.
+            CURRENT stays base-1. Do not edit base-7.2 in place.
+
+base-7.4  = CALL ALIGN on base-7.3. The plan, the tool text, and
+            the mode examples describe the same call. narrow_to
+            follows node ids. project has no limit. Do not bind
+            @step.ids. set requires id_kind. Not a wire break.
+            Parent of base-8.0. Zeus embed stays base-7.1.
+            CURRENT stays base-1. Do not edit base-7.3 in place.
+
+base-8.0  = CONSTITUTION MORPH. Numbered name of base-8-prototype-1.
+            Parent base-7.4. The plan states the access rule once.
+            narrow_to takes node ids only. query_decomposition
+            records fast path or one probe. Not a wire break.
+            Released catalog 2026-11-21. Suite not run.
+            Zeus embed stays base-7.1.
+            CURRENT stays base-1. Do not edit base-7.4 in place.
+            The earlier folders base-8-prototype and
+            base-8-prototype-1 stay.
 
 Helios    = analytics spine on Zeus/Client; optional_when if AI ever needed
             Never block pin on Pri-2/3/4/5 AI fields
@@ -424,13 +473,18 @@ Full plan: **§ Getting skinny**.
 | Client stamps `user` + `ip_address` + `ai_process_result` loop | base-6.1 residual | **CR-28 / CR-29** · ZC-WISH-035 / 044 |
 | Helios filter `user="zeus_client"` | base-6.1 residual | **CR-30** · HEL-WISH-022 |
 | ~~**base-6.2 pack** — skinny system + tools~~ | ~~Catalog prefix diet~~ | **CR-34** pack **landed** · A/B residual |
-| **base-7.0 pack** — Plan, then call + `rail` + boolean / `one_of` | Numbered ship of `v2/base/base-7.x/`; tickets still To Do (stamped `rail` run open) | **CR-35** · **CR-37** · `v2/base/base-7.0/` · **§ base-7.x** |
+| **base-7.0 pack** — Plan, then call + `rail` + boolean / `one_of` | Previous numbered ship of `v2/base/base-7.x/`; tickets still To Do (stamped `rail` run open) | **CR-35** · **CR-37** · `v2/base/base-7.0/` · **§ base-7.x** |
+| **base-7.1 pack** — FTS `@step.doc_keys` · find/hybrid/node-vector `@step.node_ids` | Binding fix. One 21-question pass tied 17/21 vs base-7.0. Zeus 5.5TH embed serves this pack. Lab image and CURRENT pin still open. | **CR-40** · `v2/base/base-7.1/` |
+| **base-7.2 pack** — copy the list the next slot requires | Measured slot-rule pack. One 21-question pass scored 20/21 vs 16/21, net −4. Zeus embed still base-7.1. | `v2/base/base-7.2/` · hop [base-7.1 → base-7.2](migration/base-7.1_to_base-7.2/) |
+| **base-7.3 pack** — a stored field on the seed does not replace `walk_path` | Walk-close pack. Suite not run. Zeus embed still base-7.1. | `v2/base/base-7.3/` · hop [base-7.2 → base-7.3](migration/base-7.2_to_base-7.3/) |
+| **base-7.4 pack** — plan, tool text, and mode examples describe the same call | Call-align parent of base-8.0. Suite not run. Zeus embed still base-7.1. | `v2/base/base-7.4/` · hop [base-7.3 → base-7.4](migration/base-7.3_to_base-7.4/) |
+| **base-8.0 pack** — numbered name of the base-8-prototype-1 constitution morph | Released catalog 2026-11-21. Suite not run. Not the pin. Zeus embed still base-7.1. The earlier prototype folders stay. | `v2/base/base-8.0/` · hop [base-7.4 → base-8.0](migration/base-7.4_to_base-8.0/) |
 | base-7 Workbench / stamp product | Later, orthogonal to CR-35 | **CR-5** |
 
-**Pack SoT for new work:** **base-5 wire** · **ship folder base-7.0** (`v2/base/base-7.0/`, working train `v2/base/base-7.x/`, parent chain **base-7.x ← base-6.1**) · **base-6.2** is the size-cut regression · prior **base-6.1** · **base-6** · **base-5.3**.  
+**Pack SoT for new work:** **base-5 wire** · **released catalog base-8.0** (2026-11-21, `v2/base/base-8.0/`, numbered name of base-8-prototype-1, parent **base-7.4**, suite not run, not the pin) · call align `v2/base/base-7.4/` · Zeus 5.5TH served pin **base-7.1** · Plan-then-call ship `v2/base/base-7.0/` · working train `v2/base/base-7.x/` · parent chain **base-7.x ← base-6.1** · **base-6.2** is the size-cut regression · prior **base-6.1** · **base-6** · **base-5.3**.  
 **Production pin:** **base-1**.  
-**Zeus 0.6 vendor:** **base-5.3** as of **ZE-273** / `0.6.15` (base-6 / 6.1 / 6.2 / 7.0 packs available; not required pin).  
-**Hop:** [migration/base-6.1_to_base-7.0/](migration/base-6.1_to_base-7.0/) · working train [base-6.1_to_base-7.x/](migration/base-6.1_to_base-7.x/) · prior [base-6.1_to_base-6.2/](migration/base-6.1_to_base-6.2/) · [base-6_to_base-6.1/](migration/base-6_to_base-6.1/) · [HINTS.md](HINTS.md).  
+**Zeus 0.6 vendor:** **base-5.3** as of **ZE-273** / `0.6.15` (base-6 / 6.1 / 6.2 / 7.0 / 7.1 / 7.2 / 7.3 / 7.4 / 8.0 packs available; not required pin).  
+**Hop:** [migration/base-7.4_to_base-8.0/](migration/base-7.4_to_base-8.0/) · [migration/base-7.3_to_base-7.4/](migration/base-7.3_to_base-7.4/) · [migration/base-7.2_to_base-7.3/](migration/base-7.2_to_base-7.3/) · [migration/base-7.1_to_base-7.2/](migration/base-7.1_to_base-7.2/) · [migration/base-7.0_to_base-7.1/](migration/base-7.0_to_base-7.1/) · [migration/base-6.1_to_base-7.0/](migration/base-6.1_to_base-7.0/) · working train [base-6.1_to_base-7.x/](migration/base-6.1_to_base-7.x/) · prior [base-6.1_to_base-6.2/](migration/base-6.1_to_base-6.2/) · [base-6_to_base-6.1/](migration/base-6_to_base-6.1/) · [HINTS.md](HINTS.md).  
 **Modes:** [MODE.md](MODE.md) · plan [work/RECREATE_MODE.md](../work/RECREATE_MODE.md).  
 **Client implement order:** [ZEUS_CLIENT_WISHLIST…](ZEUS_CLIENT_WISHLIST_FOR_CHAT_REQUEST.md) · **ZC-WISH-035/044** (base-6.1) · soft hints **ZC-WISH-040**.
 
@@ -475,6 +529,7 @@ Last status pass: **2026-07-28** (CR-34 + full **§ base-6.2** train doc: baseli
 | **CR-34** | **base-6.2** skinny chat_prompt (system + tools; full-13) | **In Review** (pack) · A/B residual | **§ base-6.2** · § Getting skinny |
 | **CR-35** | **base-7.x** Plan, then call + `rail` verb | To Do (parent **CR-1**) · numbered ship `v2/base/base-7.0/` · stamped `rail` run still open | **§ base-7.x** |
 | **CR-37** | Boolean and `one_of` rows in MINI-SCHEMA and `find` `where` | To Do · sentences are in the base-7.0 pack · runtime lists stay on the entity map | **§ base-7.x** · ZE-445 / ZE-450 |
+| **CR-40** | **base-7.1** bind FTS steps with `@step.doc_keys` | To Do · pack `v2/base/base-7.1/` · suite, lab image, and CURRENT pin still open | hop [base-7.0 → base-7.1](migration/base-7.0_to_base-7.1/) |
 
 **Zeus project (engine/Hub) companions**
 
@@ -1263,7 +1318,7 @@ Access path → verb
   equality / [gsi]    → find  (where equality only)
   language / text_fts → search (strategy:fts|hybrid)
   connected / hops    → traverse (or walk_path from WALK_PATHS)
-  multi-step          → pipeline (bind @step.ids)
+  multi-step          → pipeline (bind the list the next slot requires; @step.ids is node ids only)
   final answer        → return OR terminating pipeline
   fresher inventory   → describe (only if brief/schema insufficient)
   corpus analytics    → analyze (heavy; may pending)
@@ -1663,7 +1718,7 @@ Caps: soft ~1–2 KB inject; hard reject oversized pastes (PROMPT_SETTINGS secur
 ## base-7.x — “Plan, then call” (critical — chain the API)
 
 **Jira:** **[CR-35](https://kotenai.atlassian.net/browse/CR-35)** · **[CR-37](https://kotenai.atlassian.net/browse/CR-37)** · parent epic **[CR-1](https://kotenai.atlassian.net/browse/CR-1)** · both still To Do. The stamped `rail` run is still open.  
-**Pack:** numbered ship [`v2/base/base-7.0/`](../v2/base/base-7.0/). Working train [`v2/base/base-7.x/`](../v2/base/base-7.x/) copied from **base-6.1**. The base-6.2 size cut was a performance regression, so it is not the parent. This section is the train. It does not replace **§ base-7** Workbench ([CR-5](https://kotenai.atlassian.net/browse/CR-5)). `CURRENT.json` stays **base-1**.
+**Pack:** previous numbered ship [`v2/base/base-7.0/`](../v2/base/base-7.0/). Binding fix [`v2/base/base-7.1/`](../v2/base/base-7.1/) ([CR-40](https://kotenai.atlassian.net/browse/CR-40)) is the Zeus 5.5TH embed. Slot rule [`v2/base/base-7.2/`](../v2/base/base-7.2/) is the measured pack. Walk close [`v2/base/base-7.3/`](../v2/base/base-7.3/) is the walk-close pack. Call align [`v2/base/base-7.4/`](../v2/base/base-7.4/) is the parent of the current candidate. Constitution morph [`v2/base/base-8.0/`](../v2/base/base-8.0/) is the folder for new catalog work. It is the numbered name of base-8-prototype-1. Working train [`v2/base/base-7.x/`](../v2/base/base-7.x/) copied from **base-6.1**. The base-6.2 size cut was a performance regression, so it is not the parent. This section is the train. It does not replace **§ base-7** Workbench ([CR-5](https://kotenai.atlassian.net/browse/CR-5)). `CURRENT.json` stays **base-1**. Do not edit base-7.0, base-7.1, base-7.2, base-7.3, or base-7.4 in place. Do not edit base-8.0 by rewriting an older folder.
 
 **Theme:** The model is good at a sentence. SQL++ is good at a predicate. The catalog is the middle. A new question must not become a new REST route or a new prepared statement. It becomes a plan over the verbs already in the pin, plus one `rail` call when the question needs a hard fact.
 
@@ -1714,6 +1769,11 @@ Query text is embedded by the shared `embed(scope, text)` function ([ZE-406](htt
 - [x] Spec on this roadmap · ticket **CR-35**
 - [x] Pack `v2/base/base-7.x/` + hop from base-6.1
 - [x] Numbered ship `v2/base/base-7.0/` · `verify_base_pack.py --base 7.0` · `diff_modes.py --fail-if-clone`
+- [x] Binding fix `v2/base/base-7.1/` · [CR-40](https://kotenai.atlassian.net/browse/CR-40) · `verify_base_pack.py --base 7.1` · `diff_modes.py --fail-if-clone` · scan count 140
+- [x] Slot rule `v2/base/base-7.2/` · `verify_base_pack.py --base 7.2` · `diff_modes.py --fail-if-clone` · scan count 150 · one 21-question pass scored 20/21 vs 16/21, net −4 · Zeus embed still base-7.1
+- [x] Walk close `v2/base/base-7.3/` · `verify_base_pack.py --base 7.3` · `diff_modes.py --fail-if-clone` · scan count 160 · suite not run · Zeus embed still base-7.1
+- [x] Call align `v2/base/base-7.4/` · `verify_base_pack.py --base 7.4` · `diff_modes.py --fail-if-clone` · scan count 170 · suite not run · Zeus embed still base-7.1
+- [x] Constitution morph `v2/base/base-8.0/` · numbered name of base-8-prototype-1 · `verify_base_pack.py --base 8.0` · `diff_modes.py --fail-if-clone` · scan count 200 · suite not run · Zeus embed still base-7.1
 - [x] Every mode file leads with **Plan, then call**
 - [x] `rail` is on every mode file · `name` + `binds` only · no SQL string
 - [x] Access-path lead is "the cheapest move that still follows the plan"
@@ -1725,12 +1785,12 @@ Query text is embedded by the shared `embed(scope, text)` function ([ZE-406](htt
 ### Sequencing
 
 ```text
-base-6.1 (CR-27) ──► base-7.x Plan, then call (CR-35) ──► base-7.0 numbered ship
+base-6.1 (CR-27) ──► base-7.x Plan, then call (CR-35) ──► base-7.0 numbered ship ──► base-7.1 binding fix (CR-40) ──► base-7.2 slot rule ──► base-7.3 walk close ──► base-7.4 call align ──► base-8.0 constitution
         │                                                      │
         │                                                      └── vendor when a stamped rail run is green
         ├── base-6.2 skinny (CR-34) stays a side branch (size cut regressed)
         └── base-7 Workbench (CR-5) stays its own product train
-CURRENT stays base-1. CR-37 teaching is in the base-7.0 files. Tickets stay To Do until the stamped run.
+CURRENT stays base-1. CR-37 teaching is in the base-7.0 files and is carried forward. CR-40 is the binding fix and stays To Do. base-7.2, base-7.3, base-7.4, and base-8.0 have no ticket. The Zeus embed stays base-7.1. The 7.2 suite scored 20/21 vs 16/21, net −4. The 7.3, 7.4, and 8.0 suites have not been run. The earlier folders base-8-prototype and base-8-prototype-1 stay.
 ZE-406 / ZE-407 embed the phrase and the query through one function
      (engine). CR-35 only keeps query_text as the user's words.
 ```
@@ -1762,6 +1822,8 @@ Orthogonal to **§ base-7.x** / **[CR-35](https://kotenai.atlassian.net/browse/C
 ---
 
 ## base-8+ — “Pin + optional compression / AI-heavy”
+
+The catalog folder [`v2/base/base-8.0/`](../v2/base/base-8.0/) is the numbered constitution morph. It is not this section. This section is still the pin promote.
 
 **Jira:** epic **[CR-18](https://kotenai.atlassian.net/browse/CR-18)** — pin promote · **blocked by CR-20 + CR-21** · do not start until green.
 
@@ -1821,7 +1883,7 @@ base-6+ ADDITIVE / OPTIONAL only
         multi-intent = playbook + hints.multipart — NOT mode=open
         end-goal: shape funnel (Pachinko rails) — don’t shrink the box (not Path B2)
            │
-base-7.0  PLAN, THEN CALL. Numbered ship of base-7.x (critical, CR-35, CR-37)
+base-7.0  PLAN, THEN CALL. Previous numbered ship of base-7.x (critical, CR-35, CR-37)
           parent chain base-7.x ← base-6.1; the base-6.2 size cut is not this parent
           world · entry · path · goal · at most 8 calls
           one drill-down = one pipeline
@@ -1830,6 +1892,53 @@ base-7.0  PLAN, THEN CALL. Numbered ship of base-7.x (critical, CR-35, CR-37)
           do not add a route or a system paragraph per question
           CURRENT stays base-1; Zeus does not execute rail yet
           Workbench (CR-5) stays a separate product train
+           │
+base-7.1  BINDING FIX on base-7.0 (CR-40)
+          FTS search → @step.doc_keys
+          find, hybrid, node-vector → @step.node_ids
+          @step.ids stays node ids only
+          Zeus 5.5TH served pin
+          not a wire break; do not edit base-7.0 in place
+          CURRENT stays base-1
+           │
+base-7.2  SLOT RULE on base-7.1
+          copy the list the next slot requires
+          node-id slots → @step.node_ids
+          walk_path src_keys → @step.doc_keys
+          project, order, enrich accept either
+          FTS search leaves node_ids empty
+          measured pack; Zeus embed stays base-7.1
+          not a wire break; do not edit base-7.1 in place
+          CURRENT stays base-1
+           │
+base-7.3  WALK CLOSE on base-7.2
+          known stored value stays find unless it is the other
+          end of a WALK_PATHS chain
+          walk_path still closes when the seed row shows that field
+          from.src_keys stays @step.doc_keys
+          Zeus embed stays base-7.1
+          not a wire break; do not edit base-7.2 in place
+          CURRENT stays base-1
+           │
+base-7.4  CALL ALIGN on base-7.3
+          plan, tool text, and mode examples describe the same call
+          narrow_to follows node ids
+          project has no limit; the ranked example caps order
+          do not bind @step.ids; set requires id_kind
+          parent of base-8.0; Zeus embed stays base-7.1
+          not a wire break; do not edit base-7.3 in place
+          CURRENT stays base-1
+           │
+base-8.0  CONSTITUTION MORPH. Numbered name of base-8-prototype-1
+          parent base-7.4
+          the plan states the access rule once
+          narrow_to takes node ids only
+          query_decomposition records fast path or one probe
+          released catalog 2026-11-21; suite not run; not the pin
+          Zeus embed stays base-7.1
+          not a wire break; do not edit base-7.4 in place
+          earlier folders base-8-prototype and base-8-prototype-1 stay
+          CURRENT stays base-1
 ```
 
 ```text

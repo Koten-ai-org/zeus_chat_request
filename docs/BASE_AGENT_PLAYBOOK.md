@@ -1,5 +1,7 @@
 # BASE agent playbook — comply & upgrade
 
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test a sentence about how to call Zeus must pass before a checklist places it. This file is procedures. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**. Zeus embed stays **base-6.1** and **base-7.1**.
+>
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · candidate pack **base-5** · prior candidate **base-4** · version matrix: [COMPAT.md](../COMPAT.md)
 
 **Audience:** coding agents (and humans) changing **catalogs**, **Zeus engine**, or **zeus_client** for a given `base-N`.  
@@ -21,7 +23,8 @@
 3. BASE ≠ Zeus semver ≠ Client version.  
 4. Pack = `v2/base/base-<id>/` (e.g. `base-5`, `base-5.1`) — **each train is a full folder**; design = `docs/`; hops = `docs/migration/…`. Never train-only via `content_train`.  
 5. Required four always: `summary`, `query_decomposition`, `decomposition`, `confidence`.  
-6. G2 admin never in chat UI; tool JSON is untrusted data.
+6. G2 admin never in chat UI; tool JSON is untrusted data.  
+7. A sentence about how to call Zeus passes [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) before it is placed. [PROMPT_RULE_PLACEMENT.md](PROMPT_RULE_PLACEMENT.md) chooses the surface after that. A hop folder is an archive.
 
 ---
 
@@ -107,6 +110,9 @@ Execute in order. Skip only if the hop folder says “design only” and you are
 5. Re-export text; refresh MANIFEST; scan_catalogs
 6. VERIFY (P0):
      python3 scripts/verify_base_pack.py --base Y   # must OK before pack PR
+6a. Size table, then the page:
+     python3 scripts/chat_request_size.py
+     # writes v2/base/chat_request_size.csv, then v2/base/chat_request_size.html from that CSV
 7. Zeus engine: snapshot / PIN / Detective / loaders / return schema (see §5; often separate ticket)
 8. zeus_client: parse/validate new fields; dual-read only if X→Y break and ≤1 release; redaction; policy table
 9. Update COMPAT.md triples + feature table + RELEASE_NOTES.md
@@ -139,6 +145,12 @@ Execute in order. Skip only if the hop folder says “design only” and you are
 | base-1 → base-4 | [migration/base-1_to_base-4/](migration/base-1_to_base-4/) | Candidate pack | §2.1 → §2.2 |
 | base-4 → base-5 | [migration/base-4_to_base-5/](migration/base-4_to_base-5/) | **Candidate pack** (breaking freeze shipped; pin still base-1) | §2.2 → §2.3 |
 | base-5 → base-6+ | (add hop only if needed) | **Additive only** by default | No wire rename/remove |
+| base-6.1 → base-7.0 | [migration/base-6.1_to_base-7.0/](migration/base-6.1_to_base-7.0/) | Previous numbered ship | No wire rename/remove |
+| base-7.0 → base-7.1 | [migration/base-7.0_to_base-7.1/](migration/base-7.0_to_base-7.1/) | **Binding fix** (CR-40). Local Zeus pair base-6.1 + base-7.1. `CURRENT.json` stays base-1. | No wire rename/remove |
+| base-7.1 → base-7.2 | [migration/base-7.1_to_base-7.2/](migration/base-7.1_to_base-7.2/) | **Slot rule.** Zeus embed still base-7.1. `CURRENT.json` stays base-1. | No wire rename/remove |
+| base-7.2 → base-7.3 | [migration/base-7.2_to_base-7.3/](migration/base-7.2_to_base-7.3/) | **Walk close.** Zeus embed still base-7.1. `CURRENT.json` stays base-1. | No wire rename/remove |
+| base-7.3 → base-7.4 | [migration/base-7.3_to_base-7.4/](migration/base-7.3_to_base-7.4/) | **Call align.** Zeus embed still base-7.1. `CURRENT.json` stays base-1. | No wire rename/remove |
+| base-7.4 → base-8.0 | [migration/base-7.4_to_base-8.0/](migration/base-7.4_to_base-8.0/) | **Constitution morph.** Numbered name of base-8-prototype-1. Released catalog 2026-11-21. Suite not run. Zeus embed still base-7.1. `CURRENT.json` stays base-1. | No wire rename/remove |
 
 ### 4.1 base-1 → base-4 (summary)
 
@@ -161,6 +173,56 @@ Execute in order. Skip only if the hop folder says “design only” and you are
 **After this hop:** only additive/optional BASE changes until a new major is justified.
 
 **Detail:** [ROADMAP.md](ROADMAP.md) · [RULES_OBJECT…](RULES_OBJECT_AND_OUTPUT_REQUEST.md) · [PROMPT_SETTINGS.md](PROMPT_SETTINGS.md) · [migration/base-4_to_base-5/](migration/base-4_to_base-5/)
+
+### 4.3 base-7.0 → base-7.1 (summary — additive)
+
+| Area | Delta |
+| --- | --- |
+| Catalog | FTS `search` binds `@step.doc_keys`. `find`, hybrid, and node-vector bind `@step.node_ids`. `@step.ids` stays node ids only. |
+| Zeus | Local 5.5TH tree embeds base-6.1 and base-7.1. Served pin in that tree is base-7.1. No fall-through from `@step.ids` to doc keys. |
+| Client | No parser change. The wire is the same. |
+
+**Detail:** [migration/base-7.0_to_base-7.1/GUIDE.md](migration/base-7.0_to_base-7.1/GUIDE.md) · [RELEASE_CHECKLIST.md](migration/base-7.0_to_base-7.1/RELEASE_CHECKLIST.md) · [CR-40](https://kotenai.atlassian.net/browse/CR-40)
+
+### 4.4 base-7.1 → base-7.2 (summary — additive)
+
+| Area | Delta |
+| --- | --- |
+| Catalog | Copy the list the next slot requires. Node-id slots take `@step.node_ids`. `walk_path` `src_keys` takes `@step.doc_keys`. `project`, `order`, and `enrich` accept either. |
+| Zeus | The local 5.5TH embed is still base-6.1 and base-7.1. This pack is not that pin. |
+| Client | No parser change. The wire is the same. |
+
+**Detail:** [migration/base-7.1_to_base-7.2/GUIDE.md](migration/base-7.1_to_base-7.2/GUIDE.md) · [RELEASE_CHECKLIST.md](migration/base-7.1_to_base-7.2/RELEASE_CHECKLIST.md)
+
+### 4.5 base-7.2 → base-7.3 (summary — additive)
+
+| Area | Delta |
+| --- | --- |
+| Catalog | A known stored value stays `find`, unless it is the other end of a WALK_PATHS chain. The `walk_path` close still runs when the seed row already shows that field. `from.src_keys` stays `@step.doc_keys`. |
+| Zeus | The local 5.5TH embed is still base-6.1 and base-7.1. This pack is not that pin. |
+| Client | No parser change. The wire is the same. |
+
+**Detail:** [migration/base-7.2_to_base-7.3/GUIDE.md](migration/base-7.2_to_base-7.3/GUIDE.md) · [RELEASE_CHECKLIST.md](migration/base-7.2_to_base-7.3/RELEASE_CHECKLIST.md)
+
+### 4.6 base-7.3 → base-7.4 (summary — additive)
+
+| Area | Delta |
+| --- | --- |
+| Catalog | The plan, the tool text, and the mode examples describe the same call. `narrow_to` follows node ids. `project` has no `limit`. Do not bind `@step.ids`. `set` requires `id_kind`. |
+| Zeus | The local 5.5TH embed is still base-6.1 and base-7.1. This pack is not that pin. The live `WALK_PATHS` brief is unchanged. |
+| Client | No parser change. The HTTP wire is the same. `set.id_kind` was already required by the engine. |
+
+**Detail:** [migration/base-7.3_to_base-7.4/GUIDE.md](migration/base-7.3_to_base-7.4/GUIDE.md) · [RELEASE_CHECKLIST.md](migration/base-7.3_to_base-7.4/RELEASE_CHECKLIST.md)
+
+### 4.7 base-7.4 → base-8.0 (summary — additive)
+
+| Area | Delta |
+| --- | --- |
+| Catalog | Numbered name of the base-8-prototype-1 constitution morph. The plan states the access rule once. `narrow_to` takes node ids only. `query_decomposition` records fast path or one probe. Two intents that share a world are two chains in one pipeline. `project` has no `limit`. |
+| Zeus | The local 5.5TH embed is still base-6.1 and base-7.1. This pack is not that pin. The lab image may still list `base-8-prototype-1`. |
+| Client | No parser change. The HTTP wire is the same. Each mode keeps the contract hash copied from its base-7.4 file. |
+
+**Detail:** [migration/base-7.4_to_base-8.0/GUIDE.md](migration/base-7.4_to_base-8.0/GUIDE.md) · [RELEASE_CHECKLIST.md](migration/base-7.4_to_base-8.0/RELEASE_CHECKLIST.md)
 
 ---
 

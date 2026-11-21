@@ -1,5 +1,7 @@
 # Fine-tuning & end-goal optimization (Pachinko → named rails)
 
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file is the after-traffic essay. A traffic card is not a second law. Where this essay says `named_query`, the catalog name is `rail`, and the executor is still the named-query execute route. There is no `/rail` route. The staple names `fast_pass`, `scout`, and `thorough` are retired: fast path, probe, and a richer fast path. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+>
 > **Doc status** · last reviewed **2026-07-27** · production pin **base-1** · candidate pack **base-6** (content; wire still base-5) · version matrix: [COMPAT.md](../COMPAT.md)  
 > **Citation prefix:** `OPT:N` (stable IDs for Prompt Helper / chat_request refs — e.g. `see OPT:4`, `see OPT:14`)  
 > **Consumers:** humans (product, Hot Path, Funnel) **and Zeus Hub Prompt Helper** — Helper may load this file, attach verbose cards by fingerprint, insert into drafts/stamps, and cite **`OPT:N`** in `chat_request` / Display Pad / board-release notes. Prefer **OPT:29+** only when the pattern matches (not every turn).
@@ -76,7 +78,7 @@ Use **`OPT:N`** in stamps, Display Pad, Helper actions, and contracted notes. **
 | **OPT:35** | Why verbose OPT cards are worth tokens | traffic · meta |
 | **OPT:36** | Staples `fast_pass` / `scout` / `thorough` (+ class `known_goal` / `open_ended`) | **WIP** · [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md) |
 
-**Cross-doc:** day-one multi-turn short law = **BP:4**; longer CORE under traffic = **OPT:4**; worked multi-turn recipe = **OPT:29**. **WIP theory:** staples **`fast_pass` · `scout` · `thorough`**. Class (`known_goal` sized bag vs `open_ended` in-graph unknown budget) only picks a **default staple**. Named_query is a **graduation**, not a current catalog verb. See [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md); do not hash into CORE yet.
+**Cross-doc:** day-one multi-turn short law = **BP:4**; longer CORE under traffic = **OPT:4**; worked multi-turn recipe = **OPT:29**. The older names `fast_pass`, `scout`, and `thorough` map to the suggestion in [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md): fast path, probe, and a richer fast path. `known_goal` is a plan already writable. `open_ended` is an unknown value or an unknown evidence size. Out of the dataset is a gap. The catalog verb is `rail`. It runs only when the scope brief names one. The executor is still the named-query execute route. `named_query` is not a fifteenth verb. Do not hash this theory into CORE.
 
 ### Why OPT cards can be longer than BP cards
 
@@ -207,7 +209,7 @@ Promote into a **content train** CORE block (or stamped custom) when Hot Path sh
   over rediscovering the same set with a new broad find/search.
 - Intersect new filters (e.g. pizza / category) with that prior set when possible;
   do not answer a restricted follow-up with an unconstrained global search.
-- Within a pipeline, keep binding prior step ids as @step.ids.
+- Within a pipeline, bind the list the next slot requires (`@step.node_ids` or `@step.doc_keys`). `@step.ids` is node ids only.
 - If prior rows are not available in context, re-fetch the smallest set needed or clarify —
   do not invent the prior list.
 ```

@@ -1,5 +1,7 @@
 # Creating a new BASE pack (`base-N`)
 
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the sentence test. Run `python3 scripts/constitution_exam.py` after the size page and before a suite. A falling issue count is not accuracy. A sentence that fails the review on that page does not go into a suite. Released catalog is **base-8.0** (2026-11-21), the numbered name of `v2/base/base-8-prototype-1`. Parent is base-7.4. The earlier folders `base-8-prototype` and `base-8-prototype-1` stay. `CURRENT.json` stays **base-1**. Zeus embed stays **base-6.1** and **base-7.1**. Suite not run.
+>
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · candidate pack **base-5** · prior candidate **base-4** · version matrix: [COMPAT.md](../COMPAT.md)
 
 
@@ -100,6 +102,23 @@ python3 scripts/export_base_text.py --from v2/base/base-4/min --base 5
      python3 scripts/scan_catalogs.py
 6. VERIFY (P0 — fail = do not open pack PR):
      python3 scripts/verify_base_pack.py --base N
+6a. Size table, then the page. Recount every pack cut. Do not copy the numbers by hand
+    and do not hand-edit the page:
+     python3 scripts/chat_request_size.py
+     Writes v2/base/chat_request_size.csv, then v2/base/chat_request_size.html from that CSV.
+     The page embeds the rows as a static JavaScript object. Open the file.
+     It does not fetch the CSV and it does not need a web server.
+     A new base adds rows. Do not edit an older base in place.
+6a2. Constitution exam, after the size page. Same rule: the script writes the
+     page, and the page is not hand-edited.
+     python3 scripts/constitution_exam.py
+     Writes v2/base/constitution_exam.html. Open the file. It does not need a
+     web server. Read it against CONSTITUION_DESIGN.md before a suite.
+     A falling issue count is not accuracy. A sentence that fails that page does not go into a suite.
+     kind=pack is one row per catalog JSON. Deltas use _lineage.parent_base_id.
+     tk is UTF-8 bytes ÷ 4, rounded up.
+     kind=injection and kind=appended come from baseline/reports evidence JSON
+     when a run recorded the live suffix. A missing evidence file leaves those rows out.
 6b. Mode overlays only on packs that need them (e.g. base-5.1+):
      python3 scripts/assemble_mode_prompts.py --base 5.1
      python3 scripts/diff_modes.py --base 5.1 --fail-if-clone
