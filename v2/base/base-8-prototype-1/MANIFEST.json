@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "base_id": "base-8-prototype-1",
+  "kind": "base",
+  "status": "prototype",
+  "note": "base-8-prototype-1 cut again from base-7.4 after the constitution update. The plan states the access rule once, including that narrow_to takes node ids only. query_decomposition records fast path or one probe (vague question, unknown evidence size, or a basic value that may not be stored). A shared value is probed once. Two intents that share a world are two chains in one pipeline. project has no limit; order takes limit. On a fast path the terminating pipeline may carry the decomposition and the summary shape. Not the catalog candidate. The earlier folder base-8-prototype stays. base-7.4 stays. CURRENT.json stays base-1. Zeus embed stays base-6.1 and base-7.1. Do not invent production contract hashes. Suite not run.",
+  "paths": {
+    "min": "v2/base/base-8-prototype-1/min",
+    "text": "v2/base/base-8-prototype-1/text",
+    "bible": "docs/BIBLE.md",
+    "roadmap": "docs/ROADMAP.md",
+    "create_base": "docs/CREATE_BASE.md",
+    "response_output_schema": "v2/base/base-8-prototype-1/response_output_schema.json",
+    "response_output_example": "v2/base/base-8-prototype-1/response_output_example.json"
+  },
+  "parent_source": "v2/base/base-7.4",
+  "updated_at": "2026-11-21T04:03:45Z",
+  "generator": "scripts/new_base.py",
+  "catalogs": [
+    {
+      "file": "v2/base/base-8-prototype-1/min/chat_request_analytics_base-8-prototype-1.json",
+      "mode": "analytics",
+      "base_id": "base-8-prototype-1",
+      "prototype": true,
+      "bytes": 47299
+    },
+    {
+      "file": "v2/base/base-8-prototype-1/min/chat_request_auto_base-8-prototype-1.json",
+      "mode": "auto",
+      "base_id": "base-8-prototype-1",
+      "prototype": true,
+      "bytes": 47138
+    },
+    {
+      "file": "v2/base/base-8-prototype-1/min/chat_request_code_base-8-prototype-1.json",
+      "mode": "code",
+      "base_id": "base-8-prototype-1",
+      "prototype": true,
+      "bytes": 47400
+    },
+    {
+      "file": "v2/base/base-8-prototype-1/min/chat_request_custom_base-8-prototype-1.json",
+      "mode": "custom",
+      "base_id": "base-8-prototype-1",
+      "prototype": true,
+      "bytes": 46691
+    },
+    {
+      "file": "v2/base/base-8-prototype-1/min/chat_request_fraud_base-8-prototype-1.json",
+      "mode": "fraud",
+      "base_id": "base-8-prototype-1",
+      "prototype": true,
+      "bytes": 47648
+    },
+    {
+      "file": "v2/base/base-8-prototype-1/min/chat_request_open_base-8-prototype-1.json",
+      "mode": "open",
+      "base_id": "base-8-prototype-1",
+      "prototype": true,
+      "bytes": 46768
+    },
+    {
+      "file": "v2/base/base-8-prototype-1/min/chat_request_private_base-8-prototype-1.json",
+      "mode": "private",
+      "base_id": "base-8-prototype-1",
+      "prototype": true,
+      "bytes": 46825
+    },
+    {
+      "file": "v2/base/base-8-prototype-1/min/chat_request_regulated_base-8-prototype-1.json",
+      "mode": "regulated",
+      "base_id": "base-8-prototype-1",
+      "prototype": true,
+      "bytes": 47371
+    },
+    {
+      "file": "v2/base/base-8-prototype-1/min/chat_request_research_base-8-prototype-1.json",
+      "mode": "research",
+      "base_id": "base-8-prototype-1",
+      "prototype": true,
+      "bytes": 47480
+    },
+    {
+      "file": "v2/base/base-8-prototype-1/min/chat_request_tenant_base-8-prototype-1.json",
+      "mode": "tenant",
+      "base_id": "base-8-prototype-1",
+      "prototype": true,
+      "bytes": 46822
+    }
+  ]
+}

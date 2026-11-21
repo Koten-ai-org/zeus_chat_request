@@ -1,5 +1,7 @@
 # Assembled prompt shape (base-4 design)
 
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file owns byte order: what the model reads, in what order. [PROMPT_RULE_PLACEMENT.md](PROMPT_RULE_PLACEMENT.md) owns which surface a sentence uses after it passes. [BIBLE.md](BIBLE.md) owns the base-4 and base-5 key matrix. None of those is a second call law. Catalog candidate is **base-8.0**. `CURRENT.json` stays **base-1**. The filenames below are the base-4 wire illustration.
+>
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · design line **base-4** (base-5 = design only) · version matrix: [COMPAT.md](../COMPAT.md)
 
 
@@ -7,7 +9,7 @@
 
 **Status:** authoring model aligned with **base-4** (the new chat_request line).  
 **Production pin:** still **base-1** (`CURRENT.json` / `v2/min`) until promote.  
-**Normative base-4:** [docs/BIBLE.md](BIBLE.md)
+**Ownership matrix (base-4 / base-5 wire):** [docs/BIBLE.md](BIBLE.md). **Call law:** [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md).
 
 | | |
 | --- | --- |
@@ -201,7 +203,7 @@ app_output:
 
 ## Company / service context (tenant interject — not in BASE body)
 
-**Purpose:** Tell the LLM **what the product/company is for**, beyond the 13 verbs and MINI-SCHEMA.  
+**Purpose:** Tell the LLM **what the product/company is for**, beyond the catalog verbs and MINI-SCHEMA.  
 Examples: ice cream shop vs hotel booking vs fraud ops console.
 
 This is a **Client / Workbench inject**, not stamped BASE prose (every tenant would thrash the hash).

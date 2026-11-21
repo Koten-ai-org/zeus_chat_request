@@ -1,5 +1,7 @@
 # Soft HINTS inject contract (base-6+)
 
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file is the hash-excluded `hints.*` contract. A hint never replaces the jailbreak law, the mini-schema, or the required four. `hints.*` is still not injected on the live client (ZC-WISH-040). Catalog candidate is **base-8.0**. `CURRENT.json` stays **base-1**.
+>
 > **Doc status** · last reviewed **2026-07-27** · production pin **base-1** · candidate pack **base-6** · version matrix: [COMPAT.md](../COMPAT.md)
 
 **Audience:** Zeus Client, Hub Workbench, catalog authors  
@@ -44,13 +46,13 @@ If a hint is true **every** turn for **every** tenant forever → promote to COR
 | **P0** | **Path / recipe** | `hints.path.default_recipe`, `prefer[]`, `avoid[]` | Steer LOOKUP/TEXT/TOP_N/HOP without re-stamp |
 | **P0** | **Field gotchas** | `hints.fields[]` (3–5 lines) | “description is text_fts → search”; `ex:` conventions |
 | **P0** | **Multi-intent** | `hints.multipart.force_parts`, `max_parts`, `join_default`, `if_underspecified` | Paragraph users — **not** “switch mode to open” |
-| **P1** | **Hot Path paste** | `hints.hot_path[]` named winning pipelines | Empiric per scope from Path Finder / books; **graduates to `named_query` rails** ([OPTIMIZATION.md](OPTIMIZATION.md)) |
+| **P1** | **Hot Path paste** | `hints.hot_path[]` named winning pipelines | Empiric per scope from Path Finder / books. A hot path graduates to a `rail` the scope brief names. The executor stays the named-query route. `named_query` is not a new catalog verb. ([OPTIMIZATION.md](OPTIMIZATION.md)) |
 | **P1** | **Negative / last-fail** | `hints.avoid_patterns[]` | Detective: don’t describe when inject green; no `direction` on order |
 | **P2** | **Join bias** | `hints.join.prefer_edges`, `noise_floor`, `super_node_cap` | Soft echo of mode; engine mode remains hard for authz |
 | **P2** | **A/B** | `hints.ab_arm`, `hints.ab_paste` | Experiments without thrashing `contract_hash` |
 | **P2** | **Terminate soft** | `hints.terminate.soft_require`, `summary_style` | Extra G2/G3 nudge; required four stay catalog |
 | **P2** | **Budget / channel** | `hints.budget.max_steps`, `search_timeout_ms`, `channel` | Voice / low-latency SKUs |
-| **P2** | **Optimization (WIP)** | `hints.optimization.strategy` = `fast_pass` \| `scout` \| `thorough`; optional `question_class` | Staples are the theory. Class is a **default**, not a second product. [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md) |
+| **P2** | **Optimization (retired names)** | `hints.optimization.strategy` records the suggestion: fast path, probe, or a richer fast path. Older spellings `fast_pass`, `scout`, `thorough` map to those three words. `question_class` `known_goal` means the plan is already writable. `open_ended` means the value or the evidence size is unknown. | The suggestion is chosen inside `query_decomposition`. It is not a mode. Out of this dataset is a gap, not a third suggestion. [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) · [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md) |
 | **P3** | **Product / motion** | `hints.product.motion`, `default_limit` | Explore/compare/refine product chrome |
 | **P3** | **Recovery** | `hints.recovery.last_error`, `try_next` | Session-only after tool fail |
 | **P3** | **Playbook chip** | `hints.playbook_id` + params | Workbench chip → named recipe |
@@ -87,9 +89,9 @@ hints:
     prefer_one_pipeline: true
     max_steps: 5
     search_timeout_ms: 5000
-  optimization:   # WIP — see OPTIMIZATION_STRATEGIES.md; not live until Client injects
-    strategy: fast_pass | scout | thorough    # staples
-    question_class: known_goal | open_ended   # default; turn may mix on one overlay
+  optimization:   # not live until Client injects; names below are the old spellings
+    strategy: fast_path | probe | richer_fast_path    # old: fast_pass | scout | thorough
+    question_class: known_goal | open_ended    # writable plan | unknown value or size; out of dataset is a gap
   product:
     motion: explore | compare | refine
     channel: web | voice
@@ -108,8 +110,8 @@ Caps: soft ~1–2 KB inject; hard reject oversized pastes (PROMPT_SETTINGS secur
 | Company manifesto | `company_context` (word caps) |
 | Always-on Helios JTBD/sentiment | Off-path / optional_when |
 | “Long paragraph ⇒ mode=open” | [BEST_PRACTICES § multi-intent](BEST_PRACTICES.md) + `hints.multipart` |
-| “Explore because inject is thin ⇒ mode=open” | Staple **`scout`**, then `fast_pass` or `thorough` |
-| “Why Rome fell” on hotel inventory | Out of corpus → wish/clarify, not thorough; in-graph “why Tulum in April” is open_ended on that overlay |
+| “Explore because inject is thin ⇒ mode=open” | One probe, then the fast path or a named gap. Not a catalog mode. |
+| “Why Rome fell” on hotel inventory | Out of this dataset → a gap (`wish_i_knew`), not a bigger search |
 
 ### Multi-intent vs **open** mode (normative)
 

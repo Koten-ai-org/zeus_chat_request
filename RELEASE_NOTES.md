@@ -8,7 +8,7 @@ Published **Zeus V2 chat_request** catalogs for Zeus Client, Developer Helper MC
 | **Format** | `zeus.chat_request.v2` |
 | **Production pin** | **base-1** — `CURRENT.json` · `v2/min/` |
 | **Candidate pack** | **base-5** wire line — `v2/base/base-5/` (last breaking freeze; not pin) |
-| **Content train** | **base-7.0** — Plan, then call ([v2/base/base-7.0/](v2/base/base-7.0/) · [CR-35](https://kotenai.atlassian.net/browse/CR-35) · [CR-37](https://kotenai.atlassian.net/browse/CR-37)). Zeus 5.5TH serves this pack and also embeds base-6.1. `CURRENT.json` stays base-1. |
+| **Content train** | **base-8.0** — constitution morph, numbered name of base-8-prototype-1 ([v2/base/base-8.0/](v2/base/base-8.0/)). Parent **base-7.4**. The earlier folders base-8-prototype and base-8-prototype-1 stay. The local Zeus 5.5TH tree still serves **base-7.1** and also embeds base-6.1. `CURRENT.json` stays base-1. Suite not run. |
 | **Prior content** | base-6.1 report stamps · base-6 soft `hints.*` · base-5.3 skinny/world-model · base-5.2 dual gaps · base-5.1 modes |
 | **Prior candidate** | **base-4** — `v2/base/base-4/` |
 | **Roadmap** | [ROADMAP.md](docs/ROADMAP.md) |
@@ -21,7 +21,37 @@ Published **Zeus V2 chat_request** catalogs for Zeus Client, Developer Helper MC
 
 ### Highlights
 
-- **base-7.0 content train (CR-35, CR-37):** [`v2/base/base-7.0/`](v2/base/base-7.0/) — numbered ship of [`v2/base/base-7.x/`](v2/base/base-7.x/), parent chain `base-7.x` ← `base-6.1`, **additive** (not a wire break). `CURRENT.json` stays **base-1**. Zeus 5.5TH embeds **base-6.1** and **base-7.0**. The served pin is **base-7.0**. The 21-question suite is net +2 with one Orange row still out. The France beach retest is a tie and does not replace that page.
+- **base-8.0 constitution morph:** [`v2/base/base-8.0/`](v2/base/base-8.0/) — numbered name of [`v2/base/base-8-prototype-1/`](v2/base/base-8-prototype-1/), parent **base-7.4**, **additive** (not a wire break). `CURRENT.json` stays **base-1**. The local Zeus embed is still **base-6.1** and **base-7.1**. The earlier folders `base-8-prototype` and `base-8-prototype-1` stay. The 21-question suite has not been run. The lab image may still list `base-8-prototype-1` until it is rebuilt. An unpicked chat on that image still serves base-7.0.
+  - The plan states the access rule once. `narrow_to` takes node ids only. `query_decomposition` records fast path or one probe. Two intents that share a world are two chains in one pipeline. A shared value is probed once. `project` has no `limit`; `order` takes `limit`.
+  - Each mode keeps the contract hash copied from its base-7.4 file. The hash was not invented. `assemble_mode_prompts.py` was not run. `_base_meta.base_id` is still the inherited `base-6.1`. `contract.parent_base_id` is still the inherited `base-5.1` stamp.
+  - `verify_base_pack.py --base 8.0` and `diff_modes.py --fail-if-clone` passed. `scan_catalogs.py` count is **200**. Open exam issues on base-8.0 are 0. That count is the gate, not accuracy.
+  - Hop: [docs/migration/base-7.4_to_base-8.0/](docs/migration/base-7.4_to_base-8.0/)
+- **base-7.4 call align:** [`v2/base/base-7.4/`](v2/base/base-7.4/) — cut from base-7.3, **additive** (not a wire break). `CURRENT.json` stays **base-1**. The local Zeus embed is still **base-6.1** and **base-7.1**. The 21-question suite has not been run on this pack.
+  - The plan, the tool text, and the mode examples describe the same call. `narrow_to` follows node ids. The typical chain is `search` → `project` `@step.doc_keys`. `project` has no `limit`; the ranked example caps `order`.
+  - Do not bind `@step.ids`; that name is node ids only. `set` requires `id_kind`. Search examples are unchanged. The contract hash was copied. `assemble_mode_prompts.py` was not run.
+  - Analytics system growth versus base-7.3 is **+69** characters. File growth is **+677** characters on analytics. The token delta is not shared across modes. `verify_base_pack.py --base 7.4` and `diff_modes.py --fail-if-clone` passed. `scan_catalogs.py` count is **170**.
+  - Hop: [docs/migration/base-7.3_to_base-7.4/](docs/migration/base-7.3_to_base-7.4/)
+- **base-7.3 walk close:** [`v2/base/base-7.3/`](v2/base/base-7.3/) — cut from base-7.2, **additive** (not a wire break). `CURRENT.json` stays **base-1**. The local Zeus embed is still **base-6.1** and **base-7.1**. The 21-question suite has not been run on this pack.
+  - A known stored value stays `find`, unless that value is the other end of a WALK_PATHS chain.
+  - The related-type close is still `traverse` `walk_path` with `from.src_keys` `@step.doc_keys`, even when the seed row already shows that field.
+  - The slot rule from base-7.2 stays. `@step.ids` stays node ids only. The contract hash was copied, not invented. `assemble_mode_prompts.py` was not run.
+  - System growth versus base-7.2 is **+156** characters on every mode. Every mode file grows **+247** characters. The token delta is **+61** or **+62** (analytics **+61**). `verify_base_pack.py --base 7.3` and `diff_modes.py --fail-if-clone` passed. `scan_catalogs.py` count is **160**.
+  - Hop: [docs/migration/base-7.2_to_base-7.3/](docs/migration/base-7.2_to_base-7.3/)
+- **base-7.2 slot rule:** [`v2/base/base-7.2/`](v2/base/base-7.2/) — cut from base-7.1, **additive** (not a wire break). `CURRENT.json` stays **base-1**. The local Zeus embed is still **base-6.1** and **base-7.1**. One 21-question pass on 2026-11-20 scored base-7.1 20/21 vs base-7.2 16/21, net −4.
+  - Copy `@step.node_ids` into a node-id slot: get, hop, bfs, path, subgraph, `narrow_to`, analyze.
+  - Copy `@step.doc_keys` into `walk_path` `src_keys`.
+  - `project`, `order`, and `enrich` accept either list. FTS search leaves `node_ids` empty, so do not `narrow_to` that step.
+  - `@step.ids` stays node ids only. The contract hash was copied, not invented. `assemble_mode_prompts.py` was not run.
+  - System growth versus base-7.1 is **+156** characters on every mode. `verify_base_pack.py --base 7.2` and `diff_modes.py --fail-if-clone` passed. `scan_catalogs.py` count is **150**.
+  - Hop: [docs/migration/base-7.1_to_base-7.2/](docs/migration/base-7.1_to_base-7.2/)
+- **base-7.1 binding fix (CR-40):** [`v2/base/base-7.1/`](v2/base/base-7.1/) — cut from the working base-7.0 tree, **additive** (not a wire break). `CURRENT.json` stays **base-1**. The local Zeus 5.5TH tree embeds **base-6.1** and **base-7.1**. The served pin in that tree is **base-7.1**. The lab image still serves base-7.0. The 21-question suite has not been run on this pack.
+  - After an FTS `search`, bind `@step.doc_keys`. After `find`, hybrid, or node-vector, bind `@step.node_ids`. `@step.ids` stays node ids only.
+  - Analytics ranked-list example uses `@cands.node_ids` and `@ord.node_ids`.
+  - System growth versus base-7.0 is **+384** characters on nine modes and **+394** on analytics.
+  - `verify_base_pack.py --base 7.1` and `diff_modes.py --fail-if-clone` passed. `scan_catalogs.py` count is **140**. `assemble_mode_prompts.py` was not run. The contract hash was copied, not invented.
+  - Hop: [docs/migration/base-7.0_to_base-7.1/](docs/migration/base-7.0_to_base-7.1/)
+  - Residual: 21-question suite · lab image · CURRENT pin. [CR-40](https://kotenai.atlassian.net/browse/CR-40) stays open.
+- **base-7.0 content train (CR-35, CR-37):** [`v2/base/base-7.0/`](v2/base/base-7.0/) — previous numbered ship of [`v2/base/base-7.x/`](v2/base/base-7.x/), parent chain `base-7.x` ← `base-6.1`, **additive** (not a wire break). `CURRENT.json` stays **base-1**. The 21-question suite is net +2 with one Orange row still out. The France beach retest is a tie and does not replace that page.
   - **Plan, then call:** world, entry, path, goal, at most 8 calls. One drill-down is one pipeline.
   - New **`rail`** verb on all 10 modes: `name` from the SCOPE BRIEF, `binds` only, no SQL. Catalog teaching. Zeus does not execute `rail` yet.
   - **14 verbs** (base-6.1's thirteen plus `rail`). Required Layer A four unchanged.

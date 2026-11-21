@@ -1,5 +1,7 @@
 # Zeus chat_request — retrieval best practices
 
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file is the day-one recipe book. A recipe is not a second law. Catalog candidate is **base-8.0**. `CURRENT.json` stays **base-1**. The examples below follow law 2 and law 4: copy the list the next slot requires, `project` has no `limit`, `@step.ids` is node ids only, and `walk_path` `from.src_keys` is `@step.doc_keys`.
+>
 > **Doc status** · last reviewed **2026-07-27** · production pin **base-1** · candidate pack **base-6** (content; wire still base-5) · version matrix: [COMPAT.md](../COMPAT.md)  
 > **Citation prefix:** `BP:N` (stable IDs for Prompt Helper / chat_request refs — e.g. `see BP:4`)  
 > **Consumers:** humans (authors, operators) **and Zeus Hub Prompt Helper** — Helper may load this file, insert playbook cards into drafts/stamps, and cite **`BP:N`** in `chat_request` / Display Pad / CORE notes.
@@ -68,7 +70,7 @@ Use **`BP:N`** in stamps, Display Pad, CORE notes, and Helper actions so inserts
 | Layer | What it is | Where it lives |
 | --- | --- | --- |
 | **World model** | AI-Ready overlay: entities, attributes, relations (map of the world, not a form to invent into) | CORE blurb + inject brief/schema |
-| **Instruments** | 13 verbs, costs, WHEN/KEY on tool schemas | `verbs[]` in pack |
+| **Instruments** | 14 catalog verbs, costs, WHEN/KEY on tool schemas. The engine's public set is still 13. `rail` is catalog-only and runs only when the scope brief names one. | `verbs[]` in pack |
 | **Playbook (this doc)** | Sequences + decision rules for common ask shapes | Here → later short CORE excerpt |
 
 You already ship map + instruments in base-5.3. Playbook turns them into **reliable first moves**.
@@ -94,10 +96,10 @@ Capability (verbs, schema)  +  Policy of use (recipes, multi-part law)  →  goo
 | MINI-SCHEMA mark | First move | Never |
 | --- | --- | --- |
 | `[gsi]` / scalar / entity_fk equality | `find` (`where` equality only) | free text in `where` |
-| `text_fts` | `search` (`strategy:fts` / short `query_text`) | `find where` on that path |
+| `text_fts` | `search` (a soft phrase uses `strategy:hybrid`; `fts` when the question asks for full-text or a single indexed word; one short `query_text`) | `find where` on that path |
 | `display` | only in `project` / result rows | filter on it |
 | exact public id known | `get` (`include:["body"]` if full node needed) | re-find by name when id works |
-| “related / from / of” across entities | seed `find`/`search` → hop (traverse / walk_path / inverse `find`) | invent edge types |
+| “related / from / of” across entities | seed `find`/`search` → `traverse` `walk_path` with `from.src_keys` `@step.doc_keys` when the related type is on WALK_PATHS (inverse `find` only when that chain is absent). hop, bfs, path, subgraph, and `narrow_to` take `@step.node_ids`. | `find` where that related type's name is the value; invent edge types; bind `walk_path` from node ids |
 
 Cost tags (`[cheap]` / `[mod]` / `[exp]`) matter **after** correct class. Wrong class is more expensive than a slightly costlier correct verb.
 
@@ -107,7 +109,7 @@ Cost tags (`[cheap]` / `[mod]` / `[exp]`) matter **after** correct class. Wrong 
 | --- | --- |
 | Prefer inject BRIEF + MINI-SCHEMA over `describe` when present | Rediscover stats/entity lists when inject is green |
 | One pipeline for multi-step | Same pipeline thrice hoping for different data |
-| Bind `@step.ids` (not bare `@step`) | Invent counts / field values into `summary` |
+| Bind the list the next slot requires: `@step.node_ids` or `@step.doc_keys`. `@step.ids` is node ids only. | Invent counts / field values into `summary`; bind bare `@step` |
 | Empty result OK → adjust path, clarify, or `wish_i_knew` / `data_gaps`; **≥2 same-topic empties → inventory + MUST wish** | Fake rows / title-only terminate on empty streak |
 | `order` with `by: "field:<name>"` and `asc: false` for top-N | `direction: "desc"` on order (not the Zeus API) |
 | Prefer reusing prior Zeus tool evidence when the user points at it (**BP:4**) | Unconstrained global rediscovery for “those / listed / above” follow-ups |
@@ -116,7 +118,7 @@ Cost tags (`[cheap]` / `[mod]` / `[exp]`) matter **after** correct class. Wrong 
 
 ### BP:4 — Multi-turn reuse (prior Zeus results) — short law
 
-**Within a pipeline** you already bind prior step ids (`@step.ids`).  
+**Within a pipeline** you bind the list the next slot requires (`@step.node_ids` or `@step.doc_keys`). `@step.ids` is node ids only.  
 **Across user turns**, the model often has only chat history + prior tool rows still in `messages` (Client) — not the Hub “Zeus results” lightbox (UI-only).
 
 **House style (Option B — pack CORE / Prompt Helper card; cite `BP:4`):**
@@ -148,11 +150,11 @@ Most product turns collapse to a few pipelines. Teach these in CORE; mode overla
 | ID | Legacy | Name | Pattern | Use when |
 | --- | --- | --- | --- | --- |
 | **BP:5A** | A | **LOOKUP** | `find` (`return:ids`, equality `where`) → `project` | “list / filter X where field = value” |
-| **BP:5B** | B | **TEXT** | `search` (`fts`/`hybrid`, short `query_text`) → `project` | language, description, fuzzy name |
-| **BP:5C** | C | **TOP_N** | broad `find`/`search` → `order` `by:"field:X"` `asc:false` → `project` `limit:N` | highest / top / ranked |
-| **BP:5D** | D | **HOP** | seed `find`/`search` → `traverse` \| walk_path \| inverse `find` → `project` | related-to, multi-entity |
-| **BP:5E** | E | **HYDRATE** | …ids → `get` `include:["body"]` | need full node after id bag |
-| **BP:5F** | F | **COMPOSE** | two+ id bags → `set` (intersect/union/…) → `project` | “in A and B”, close/similar sets |
+| **BP:5B** | B | **TEXT** | `search` (`strategy:hybrid` for a soft phrase; `fts` when the question asks for full-text or a single indexed word) → `project` | language, description, fuzzy name |
+| **BP:5C** | C | **TOP_N** | broad `find`/`search` → `order` `by:"field:X"` `asc:false` `limit:N` → `project` (no `limit`) | highest / top / ranked |
+| **BP:5D** | D | **HOP** | seed `find`/`search` → `traverse` `walk_path` `from.src_keys` `@step.doc_keys` when the related type is on WALK_PATHS (inverse `find` only when that chain is absent) → `project` | related-to, multi-entity |
+| **BP:5E** | E | **HYDRATE** | `@step.node_ids` → `get` `include:["body"]` | need full node after a node-id bag. `get` does not take doc keys. |
+| **BP:5F** | F | **COMPOSE** | two bags of the same kind → `set` (`id_kind` `node_ids` or `doc_keys`) → `project` | “in A and B”, close/similar sets |
 | **BP:5G** | G | **STATS** | use SCOPE BRIEF; optional cheap `find` limit 1 | “how many / what types” when brief answers |
 | **BP:5H** | H | **STOP** | terminating `pipeline` or `return` | always after evidence |
 
@@ -164,7 +166,7 @@ Most product turns collapse to a few pipelines. Teach these in CORE; mode overla
 {
   "steps": [
     {"as": "cands", "verb": "find", "entity_type": "Beer", "where": {"brewery_id": "…"}, "return": "ids", "limit": 50},
-    {"as": "out", "verb": "project", "ids": "@cands.ids", "fields": ["name", "abv"], "limit": 20}
+    {"as": "out", "verb": "project", "ids": "@cands.node_ids", "fields": ["name", "abv"]}
   ]
 }
 ```
@@ -175,7 +177,7 @@ Most product turns collapse to a few pipelines. Teach these in CORE; mode overla
 {
   "steps": [
     {"as": "hits", "verb": "search", "entity_type": "Beer", "strategy": "fts", "query_text": "fruit", "limit": 30, "timeout_ms": 5000},
-    {"as": "out", "verb": "project", "ids": "@hits.ids", "fields": ["name", "description"], "limit": 10}
+    {"as": "out", "verb": "project", "ids": "@hits.doc_keys", "fields": ["name", "description"]}
   ]
 }
 ```
@@ -186,8 +188,8 @@ Most product turns collapse to a few pipelines. Teach these in CORE; mode overla
 {
   "steps": [
     {"as": "cands", "verb": "find", "entity_type": "Beer", "return": "ids", "limit": 100},
-    {"as": "ord", "verb": "order", "ids": "@cands.ids", "by": "field:abv", "asc": false},
-    {"as": "out", "verb": "project", "ids": "@ord.ids", "fields": ["name", "abv"], "limit": 5}
+    {"as": "ord", "verb": "order", "ids": "@cands.node_ids", "by": "field:abv", "asc": false, "limit": 5},
+    {"as": "out", "verb": "project", "ids": "@ord.node_ids", "fields": ["name", "abv"]}
   ]
 }
 ```
@@ -205,10 +207,10 @@ Or `traverse` / `walk_path` when ## WALK_PATHS / real edges support it.
 **COMPOSE (close / similar / both)**
 
 ```text
-1) search or find → bag A (@a.ids)
-2) search or find → bag B (@b.ids)
-3) set op:intersect|union inputs:[[@a.ids],[@b.ids]]
-4) project
+1) search or find → bag A. Find and hybrid publish node ids. FTS publishes doc_keys.
+2) search or find → bag B, the same kind as bag A.
+3) set id_kind node_ids or doc_keys, inputs that one list. Do not mix the two kinds.
+4) project that list. project has no limit.
 ```
 
 ---
@@ -266,7 +268,7 @@ Paragraph
 | **Join across types** | “breweries in X and their beers” | HOP / inverse FK / walk_path — not one flat `where` across types |
 | **Rank after filter** | “top 5 of those” | candidate bag → TOP_N recipe |
 | **Compare** | “A vs B” | two lookups → project both → summary compares; optional `set` only if shared-id logic needed |
-| **Mixed count + list** | “how many … and show examples” | BRIEF for count when possible; else `find return:count` + limited `project` — do not double full scans |
+| **Mixed count + list** | “how many … and show examples” | BRIEF for count when possible; else `find` `return:count`, plus a `project` of rows already capped by `find` or `order`. `project` has no `limit`. |
 | **Follow-up on prior Zeus set** | “out of those cities…”, “which of the ones you listed…” | Reuse prior rows/ids/fields in context (**BP:4**); new predicate ∩ prior set — not unconstrained rediscovery |
 | **Under-specified paragraph** | many goals, no entities | `policy_action: clarify` or answer partial + `wish_i_knew` — do not invent schema |
 
@@ -291,10 +293,9 @@ Plan:
 
 ```text
 parts:
-  P1 TEXT fruit  → search Beer fts "fruit" → @fruit.ids
-  P2 LOOKUP high abv → find Beer (if abv GSI) or order field:abv → @strong.ids
-       (if only rank available: broad find → order field:abv asc:false limit …)
-  P3 COMPOSE → set union @fruit @strong → @pool.ids
+  P1 TEXT fruit  → search Beer fts "fruit" → @fruit.doc_keys (FTS leaves node_ids empty)
+  P2 high abv → find Beer on a stored equality, or order that find's node_ids with limit on order → @strong.node_ids
+  P3 do not set-union P1 and P2. Those bags are different id kinds. Project each, or resolve the FTS keys to node ids before set. set requires id_kind.
   P4 resolve Pliny → find/search name → brewery_id
   P5 HOP/inverse → find Beer where brewery_id = that (or filter @pool)
   project names + abv + brewery_id; terminate with parts in query_decomposition
@@ -306,7 +307,7 @@ Summary states what was found vs what failed (e.g. Pliny not in scope) — no in
 
 ## BP:7 — Mode bias (playbook stays shared)
 
-Modes change **join noise, hop appetite, confidence honesty** — not the existence of recipes A–H.
+Modes change **tone**: join noise, hop appetite, how the summary sounds. They do not pick the fast path or the probe, and they do not change recipes A–H.
 
 | Mode | Playbook bias |
 | --- | --- |

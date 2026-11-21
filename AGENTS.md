@@ -1,12 +1,15 @@
 # Agent notes — zeus_chat_request
 
+> **Call law** · [docs/CONSTITUION_DESIGN.md](docs/CONSTITUION_DESIGN.md). Catalog candidate **base-8.0** (numbered name of **base-8-prototype-1**, parent **base-7.4**). The earlier folders **base-8-prototype** and **base-8-prototype-1** stay. `CURRENT.json` stays **base-1**. Zeus embed stays **base-6.1** and **base-7.1**. Suite not run.
+
 **Last reviewed:** 2026-07-26  
 **This repo owns chat_request BASE packs and BASE design.** Zeus engine and zeus_client must stay aligned with the BASE you target.
 
 | | |
 | --- | --- |
 | **Production pin** | **base-1** — `CURRENT.json` · `v2/min/` |
-| **Candidate snapshots** | **`v2/base/base-5/`** wire freeze · **`base-5.1/`** modes · **`base-5.2/`** dual gaps — each folder is a **full pullable build** |
+| **Catalog candidate** | **base-8.0** (`v2/base/base-8.0/`). Numbered name of **base-8-prototype-1**. Parent **base-7.4**. The earlier prototype folders stay. |
+| **Earlier snapshots** | base-5 wire freeze and later hops in [docs/migration/README.md](docs/migration/README.md). Each folder is a full pullable build. |
 | **Trains = folders** | Never apply a train only via `content_train` on a parent pack. New train → **new** `v2/base/base-<id>/` · Diff parent vs child |
 | **Modes / gaps docs** | [MODE.md](docs/MODE.md) · [WISH_I_KNEW_DUAL.md](docs/WISH_I_KNEW_DUAL.md) · **CR-25** snapshot layout |
 | **Prior candidate** | **base-4** — `v2/base/base-4/` (Diff / history) |
@@ -40,7 +43,9 @@
 | **zeus_client backlog** | [docs/ZEUS_CLIENT_WISHLIST_FOR_CHAT_REQUEST.md](docs/ZEUS_CLIENT_WISHLIST_FOR_CHAT_REQUEST.md) (ZC-WISH · base-5 floor) |
 | **Modes (engine vs catalog)** | [docs/MODE.md](docs/MODE.md) · restore plan [work/RECREATE_MODE.md](work/RECREATE_MODE.md) |
 | **Scaffold a new pack on disk** | [docs/CREATE_BASE.md](docs/CREATE_BASE.md) · `scripts/new_base.py` |
-| **Normative Layer A / ownership** | [docs/BIBLE.md](docs/BIBLE.md) |
+| **A/B baseline report** | [baseline/AGENT.md](baseline/AGENT.md) — run the suite and keep the HTML shape |
+| **Sentence about how to call Zeus** | [docs/CONSTITUION_DESIGN.md](docs/CONSTITUION_DESIGN.md) — pass this before placement |
+| **Ownership matrix (base-4 / base-5 wire)** | [docs/BIBLE.md](docs/BIBLE.md) — not the call law |
 | **What is planned next** | [docs/ROADMAP.md](docs/ROADMAP.md) |
 
 ### Migration path formula (always)
@@ -89,8 +94,9 @@ python3 scripts/scan_catalogs.py
 2. COMPAT.md
 3. docs/BASE_AGENT_PLAYBOOK.md   ← your task section only
 4. docs/migration/base-X_to_base-Y/ if upgrading
-5. BIBLE / ROADMAP / RULES / SETTINGS as linked
-6. v2/base/base-N/ pack files
+5. docs/CONSTITUION_DESIGN.md before any sentence about how to call Zeus
+6. BIBLE / ROADMAP / RULES / SETTINGS as linked, each for its own job
+7. v2/base/base-N/ pack files
 ```
 
 ---

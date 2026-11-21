@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "base_id": "base-8.0",
+  "kind": "base",
+  "status": "constitution",
+  "note": "base-8.0 is the numbered name of the base-8-prototype-1 constitution morph. Parent is base-7.4. The plan states the access rule once, including that narrow_to takes node ids only. query_decomposition records fast path or one probe. A shared value is probed once. Two intents that share a world are two chains in one pipeline. project has no limit; order takes limit. Catalog candidate. The earlier folder base-8-prototype stays. base-7.4 stays. CURRENT.json stays base-1. Zeus embed stays base-6.1 and base-7.1. Do not invent production contract hashes. Suite not run.",
+  "paths": {
+    "min": "v2/base/base-8.0/min",
+    "text": "v2/base/base-8.0/text",
+    "bible": "docs/BIBLE.md",
+    "roadmap": "docs/ROADMAP.md",
+    "create_base": "docs/CREATE_BASE.md",
+    "response_output_schema": "v2/base/base-8.0/response_output_schema.json",
+    "response_output_example": "v2/base/base-8.0/response_output_example.json"
+  },
+  "parent_source": "v2/base/base-8-prototype-1",
+  "updated_at": "2026-11-21T08:28:23Z",
+  "generator": "scripts/new_base.py",
+  "catalogs": [
+    {
+      "file": "v2/base/base-8.0/min/chat_request_analytics_base-8.0.json",
+      "mode": "analytics",
+      "base_id": "base-8.0",
+      "prototype": false,
+      "bytes": 47278
+    },
+    {
+      "file": "v2/base/base-8.0/min/chat_request_auto_base-8.0.json",
+      "mode": "auto",
+      "base_id": "base-8.0",
+      "prototype": false,
+      "bytes": 47117
+    },
+    {
+      "file": "v2/base/base-8.0/min/chat_request_code_base-8.0.json",
+      "mode": "code",
+      "base_id": "base-8.0",
+      "prototype": false,
+      "bytes": 47379
+    },
+    {
+      "file": "v2/base/base-8.0/min/chat_request_custom_base-8.0.json",
+      "mode": "custom",
+      "base_id": "base-8.0",
+      "prototype": false,
+      "bytes": 46670
+    },
+    {
+      "file": "v2/base/base-8.0/min/chat_request_fraud_base-8.0.json",
+      "mode": "fraud",
+      "base_id": "base-8.0",
+      "prototype": false,
+      "bytes": 47627
+    },
+    {
+      "file": "v2/base/base-8.0/min/chat_request_open_base-8.0.json",
+      "mode": "open",
+      "base_id": "base-8.0",
+      "prototype": false,
+      "bytes": 46747
+    },
+    {
+      "file": "v2/base/base-8.0/min/chat_request_private_base-8.0.json",
+      "mode": "private",
+      "base_id": "base-8.0",
+      "prototype": false,
+      "bytes": 46804
+    },
+    {
+      "file": "v2/base/base-8.0/min/chat_request_regulated_base-8.0.json",
+      "mode": "regulated",
+      "base_id": "base-8.0",
+      "prototype": false,
+      "bytes": 47350
+    },
+    {
+      "file": "v2/base/base-8.0/min/chat_request_research_base-8.0.json",
+      "mode": "research",
+      "base_id": "base-8.0",
+      "prototype": false,
+      "bytes": 47459
+    },
+    {
+      "file": "v2/base/base-8.0/min/chat_request_tenant_base-8.0.json",
+      "mode": "tenant",
+      "base_id": "base-8.0",
+      "prototype": false,
+      "bytes": 46801
+    }
+  ]
+}

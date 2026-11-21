@@ -1,5 +1,7 @@
 # Modes — engine projection vs chat_request catalog
 
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file owns engine mode hooks and catalog tone. A catalog mode sets noise, hop flavor, and how the summary sounds. It does not pick the fast path or the probe. That suggestion is recorded inside `query_decomposition` after the question is read. Catalog candidate is **base-8.0**. `CURRENT.json` stays **base-1**.
+>
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · candidate pack **base-5** · next content train **base-5.1** (mode overlays) · version matrix: [COMPAT.md](../COMPAT.md)
 
 **Audience:** catalog authors, Zeus engine, zeus_client, Workbench  
@@ -17,7 +19,7 @@ This doc explains **what a mode is**, **why catalogs look identical today**, and
 
 ## 0. One-sentence definition
 
-A **mode** is a **per-scope** product profile that decides how Zeus **builds and queries the graph** (ingest, edges, confidence, tenancy, enrichment) and how the **chat_request catalog** teaches the model to **ask, traverse, and terminate** under that profile.
+A **mode** is a **per-scope** product profile. On the engine it decides how Zeus **builds and queries the graph** (ingest, edges, confidence, tenancy, enrichment). On the catalog it sets **tone**: noise, hop flavor, how the summary sounds. It does not pick the fast path or the probe.
 
 ```text
 Scope (bucket/scope)  →  bound to one mode (or auto → proposes, then commits)
