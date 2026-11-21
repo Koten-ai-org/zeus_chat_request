@@ -1,6 +1,6 @@
 # Documentation
 
-> **Doc status** · last reviewed **2026-11-21** · `CURRENT.json` **base-1** · catalog candidate **base-8.0** (numbered name of **base-8-prototype-1**, parent **base-7.4**) · earlier folders **base-8-prototype** and **base-8-prototype-1** stay · Zeus 5.5TH built-ins still **base-6.1** and **base-7.1** (served pin **base-7.1**, local tree) · suite not run · version matrix: [COMPAT.md](../COMPAT.md)
+> **Doc status** · last reviewed **2026-11-21** · `CURRENT.json` **base-1** · released catalog **base-8.0** (2026-11-21) (numbered name of **base-8-prototype-1**, parent **base-7.4**) · earlier folders **base-8-prototype** and **base-8-prototype-1** stay · Zeus 5.5TH built-ins still **base-6.1** and **base-7.1** (served pin **base-7.1**, local tree) · suite not run · version matrix: [COMPAT.md](../COMPAT.md)
 
 
 Educational and design docs for **zeus_chat_request**.  
@@ -69,7 +69,7 @@ COMPAT.md                      ← Zeus × BASE × zeus_client
 | [PROMPT_RULE_PLACEMENT.md](PROMPT_RULE_PLACEMENT.md) | Which surface, after the sentence passes |
 | [PROMPT_SETTINGS.md](PROMPT_SETTINGS.md) | Settings bag · rule merge · Client policy · security |
 | [RULES_OBJECT_AND_OUTPUT_REQUEST.md](RULES_OBJECT_AND_OUTPUT_REQUEST.md) | Named rules + `output_request` (type + description) |
-| [ROADMAP.md](ROADMAP.md) | Living plan. Candidate is base-8.0. |
+| [ROADMAP.md](ROADMAP.md) | Living plan. Released catalog is base-8.0 (2026-11-21). |
 | [CREATE_BASE.md](CREATE_BASE.md) | Scaffold a new `base-N` pack. Exam before a suite. |
 | [migration/README.md](migration/README.md) | All BASE upgrade hops |
 | [migration/RELEASE_CHECKLIST_TEMPLATE.md](migration/RELEASE_CHECKLIST_TEMPLATE.md) | **BASE bump release checklist** (copy per hop) |
@@ -105,7 +105,7 @@ The index is [migration/README.md](migration/README.md). Each folder is an archi
 
 | Path | Topic |
 | --- | --- |
-| [../v2/base/base-8.0/](../v2/base/base-8.0/) | Catalog candidate. Numbered name of base-8-prototype-1. Parent base-7.4. |
+| [../v2/base/base-8.0/](../v2/base/base-8.0/) | Released catalog, 2026-11-21. Numbered name of base-8-prototype-1. Parent base-7.4. Not the pin. |
 | [../v2/base/base-7.4/](../v2/base/base-7.4/) | Call-align parent of base-8.0. |
 | [../v2/base/base-8-prototype-1/](../v2/base/base-8-prototype-1/) | Working folder this candidate was named from. Stays on disk. |
 | [../v2/base/base-8-prototype/](../v2/base/base-8-prototype/) | Earlier constitution morph. Not the candidate. Not the pin. |

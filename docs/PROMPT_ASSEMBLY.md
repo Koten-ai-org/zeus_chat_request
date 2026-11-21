@@ -1,6 +1,6 @@
 # Assembled prompt shape (base-4 design)
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file owns byte order: what the model reads, in what order. [PROMPT_RULE_PLACEMENT.md](PROMPT_RULE_PLACEMENT.md) owns which surface a sentence uses after it passes. [BIBLE.md](BIBLE.md) owns the base-4 and base-5 key matrix. None of those is a second call law. Catalog candidate is **base-8.0**. `CURRENT.json` stays **base-1**. The filenames below are the base-4 wire illustration.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file owns byte order: what the model reads, in what order. [PROMPT_RULE_PLACEMENT.md](PROMPT_RULE_PLACEMENT.md) owns which surface a sentence uses after it passes. [BIBLE.md](BIBLE.md) owns the base-4 and base-5 key matrix. None of those is a second call law. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**. The filenames below are the base-4 wire illustration.
 >
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · design line **base-4** (base-5 = design only) · version matrix: [COMPAT.md](../COMPAT.md)
 

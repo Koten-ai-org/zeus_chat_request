@@ -1,6 +1,6 @@
 # Multi-round data model (zeus_client) — base-4
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file owns the client append model. `multi_round_example.json` is a captured session. It is not a new recipe. Do not copy an `@*.ids` bind or a `project` `limit` out of it. Catalog candidate is **base-8.0**. `CURRENT.json` stays **base-1**.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file owns the client append model. `multi_round_example.json` is a captured session. It is not a new recipe. Do not copy an `@*.ids` bind or a `project` `limit` out of it. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
 >
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · design line **base-4** (base-5 = design only) · version matrix: [COMPAT.md](../COMPAT.md)
 

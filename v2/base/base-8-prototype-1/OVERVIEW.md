@@ -6,7 +6,7 @@
 | **Parent** | `base-7.4` |
 | **JSON** | `min/chat_request_<mode>_base-8-prototype-1.json` |
 | **Text** | `text/chat_request_<mode>_base-8-prototype-1.txt` |
-| **Status** | Working folder named as base-8.0. This folder stays. `CURRENT.json` stays base-1. Embed stays base-6.1 and base-7.1. The earlier folder `base-8-prototype` stays. |
+| **Status** | Working folder named as base-8.0. That numbered folder was released 2026-11-21. This folder stays. `CURRENT.json` stays base-1. Embed stays base-6.1 and base-7.1. The earlier folder `base-8-prototype` stays. |
 
 ## What changed
 

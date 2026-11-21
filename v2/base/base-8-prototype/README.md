@@ -1,6 +1,6 @@
 # base-8-prototype
 
-Constitution morph of the base-7.4 pack. A new folder. The later cut is numbered **base-8.0**, and that folder is the catalog candidate. This folder stays. It is not a pin, not an embed, and not a suite.
+Constitution morph of the base-7.4 pack. A new folder. The later cut is numbered **base-8.0**, and that folder is the released catalog (2026-11-21). This folder stays. It is not a pin, not an embed, and not a suite.
 
 | | |
 | --- | --- |

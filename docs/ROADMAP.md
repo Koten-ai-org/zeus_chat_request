@@ -1,6 +1,6 @@
 # BASE + Helios roadmap
 
-> **Doc status** · last reviewed **2026-11-21** · production pin **base-1** · **catalog candidate base-8.0** (`v2/base/base-8.0/` · numbered name of base-8-prototype-1 · parent **base-7.4** · suite not run · Zeus 5.5TH served pin stays **base-7.1**) · call align `v2/base/base-7.4/` · binding fix `v2/base/base-7.1/` · [CR-40](https://kotenai.atlassian.net/browse/CR-40) · parent **base-7.0** · Plan-then-call ship `v2/base/base-7.0/` · working train `v2/base/base-7.x/` · [CR-35](https://kotenai.atlassian.net/browse/CR-35) · [CR-37](https://kotenai.atlassian.net/browse/CR-37) · parent chain **base-7.x ← base-6.1** · **base-6.2** size cut regressed ([CR-34](https://kotenai.atlassian.net/browse/CR-34)) · prior **base-6.1** · last wire break **base-5** · Zeus 0.6 vendor **base-5.3** · Client residual **ZC-WISH-035/044/040** · multi-turn reuse in **BEST_PRACTICES / OPTIMIZATION** · version matrix: [COMPAT.md](../COMPAT.md)
+> **Doc status** · last reviewed **2026-11-21** · production pin **base-1** · **released catalog base-8.0** (2026-11-21, `v2/base/base-8.0/` · numbered name of base-8-prototype-1 · parent **base-7.4** · suite not run · not the pin · Zeus 5.5TH served pin stays **base-7.1**) · call align `v2/base/base-7.4/` · binding fix `v2/base/base-7.1/` · [CR-40](https://kotenai.atlassian.net/browse/CR-40) · parent **base-7.0** · Plan-then-call ship `v2/base/base-7.0/` · working train `v2/base/base-7.x/` · [CR-35](https://kotenai.atlassian.net/browse/CR-35) · [CR-37](https://kotenai.atlassian.net/browse/CR-37) · parent chain **base-7.x ← base-6.1** · **base-6.2** size cut regressed ([CR-34](https://kotenai.atlassian.net/browse/CR-34)) · prior **base-6.1** · last wire break **base-5** · Zeus 0.6 vendor **base-5.3** · Client residual **ZC-WISH-035/044/040** · multi-turn reuse in **BEST_PRACTICES / OPTIMIZATION** · version matrix: [COMPAT.md](../COMPAT.md)
 
 
 **Status:** living plan after base-1 → base-4 → **base-5 wire freeze** → **5.1 / 5.2 / 5.3 content** (5.3 pack on main)  
@@ -20,7 +20,7 @@
 **base-7.2 slot rule:** [`v2/base/base-7.2/`](../v2/base/base-7.2/) — copy `@step.node_ids` into a node-id slot · `@step.doc_keys` into `walk_path` `src_keys` · `project`, `order`, and `enrich` accept either · FTS leaves `node_ids` empty · parent **base-7.1** · one 21-question pass scored 20/21 vs 16/21, net −4 · Zeus embed still base-7.1 · no new ticket · `CURRENT.json` stays base-1  
 **base-7.3 walk close:** [`v2/base/base-7.3/`](../v2/base/base-7.3/) — a known stored value stays `find` unless it is the other end of a WALK_PATHS chain · the `walk_path` close still runs when the seed row already shows that field · parent **base-7.2** · Zeus embed still base-7.1 · no new ticket · suite not run · `CURRENT.json` stays base-1  
 **base-7.4 call align:** [`v2/base/base-7.4/`](../v2/base/base-7.4/) — the plan, the tool text, and the mode examples describe the same call · `narrow_to` follows node ids · `project` has no `limit` · do not bind `@step.ids` · `set` requires `id_kind` · parent **base-7.3** · parent of base-8.0 · Zeus embed still base-7.1 · no new ticket · suite not run · `CURRENT.json` stays base-1  
-**base-8.0 constitution morph:** [`v2/base/base-8.0/`](../v2/base/base-8.0/) — numbered name of base-8-prototype-1 · the plan states the access rule once · `narrow_to` takes node ids only · `query_decomposition` records fast path or one probe · parent **base-7.4** · catalog candidate · Zeus embed still base-7.1 · no new ticket · suite not run · `CURRENT.json` stays base-1 · the earlier folders base-8-prototype and base-8-prototype-1 stay  
+**base-8.0 constitution morph:** [`v2/base/base-8.0/`](../v2/base/base-8.0/) — numbered name of base-8-prototype-1 · the plan states the access rule once · `narrow_to` takes node ids only · `query_decomposition` records fast path or one probe · parent **base-7.4** · released catalog 2026-11-21 · Zeus embed still base-7.1 · no new ticket · suite not run · not the pin · `CURRENT.json` stays base-1 · the earlier folders base-8-prototype and base-8-prototype-1 stay  
 **End-goal optimization:** [OPTIMIZATION.md](OPTIMIZATION.md) — Pachinko funnel · Hot Path mine · **multi-turn CORE (Option A)** · **`named_query` rails** · Helios Funnel · **[ZE-267](https://kotenai.atlassian.net/browse/ZE-267)**  
 **WIP optimization theory:** [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md) — staples **`fast_pass` · `scout` · `thorough`** (`OPT:36`). Class `known_goal` / `open_ended` picks a default staple. Not a pack change. Not CORE.  
 
@@ -305,7 +305,7 @@ No production traffic on the **base-4/5 line** yet. Use that:
 | **base-7.2** | **ADDITIVE sentence diet** on base-7.1 — **not** a wire break. Measured slot-rule pack. Not the Zeus pin. | Copy the list the next slot requires. Node-id slots take `@step.node_ids`. `walk_path` `src_keys` takes `@step.doc_keys`. `project`, `order`, and `enrich` accept either. Pack [`v2/base/base-7.2/`](../v2/base/base-7.2/) |
 | **base-7.3** | **ADDITIVE sentence diet** on base-7.2 — **not** a wire break. Walk-close pack. Not the Zeus pin. | A known stored value stays `find` unless it is the other end of a WALK_PATHS chain. The `walk_path` close still runs when the seed row already shows that field. Pack [`v2/base/base-7.3/`](../v2/base/base-7.3/) |
 | **base-7.4** | **ADDITIVE sentence align** on base-7.3 — **not** a wire break. Call-align parent of base-8.0. Not the Zeus pin. | The plan, the tool text, and the mode examples describe the same call. `project` has no `limit`. `set` requires `id_kind`. Pack [`v2/base/base-7.4/`](../v2/base/base-7.4/) |
-| **base-8.0** | **ADDITIVE constitution morph** on base-7.4 — **not** a wire break. Catalog candidate. Numbered name of base-8-prototype-1. Not the Zeus pin. Suite not run. | The plan states the access rule once. `narrow_to` takes node ids only. `query_decomposition` records fast path or one probe. Pack [`v2/base/base-8.0/`](../v2/base/base-8.0/) |
+| **base-8.0** | **ADDITIVE constitution morph** on base-7.4 — **not** a wire break. Released catalog 2026-11-21. Numbered name of base-8-prototype-1. Not the Zeus pin. Suite not run. | The plan states the access rule once. `narrow_to` takes node ids only. `query_decomposition` records fast path or one probe. Pack [`v2/base/base-8.0/`](../v2/base/base-8.0/) |
 | **base-6.3+ / base-7 product** | **ADDITIVE / OPTIONAL only** | Further soft inject productization · Workbench UX (**CR-5**) · pin when green |
 | **Helios wishlist** | **Nice-to-have** (cheap provider first) | Pri-1 report scalars in [HELIOS_WISHLIST…](HELIOS_WISHLIST_FOR_CHAT_REQUEST.md) — **not** Client wishlist bulk |
 
@@ -379,7 +379,7 @@ base-8.0  = CONSTITUTION MORPH. Numbered name of base-8-prototype-1.
             Parent base-7.4. The plan states the access rule once.
             narrow_to takes node ids only. query_decomposition
             records fast path or one probe. Not a wire break.
-            Catalog candidate. Suite not run.
+            Released catalog 2026-11-21. Suite not run.
             Zeus embed stays base-7.1.
             CURRENT stays base-1. Do not edit base-7.4 in place.
             The earlier folders base-8-prototype and
@@ -478,10 +478,10 @@ Full plan: **§ Getting skinny**.
 | **base-7.2 pack** — copy the list the next slot requires | Measured slot-rule pack. One 21-question pass scored 20/21 vs 16/21, net −4. Zeus embed still base-7.1. | `v2/base/base-7.2/` · hop [base-7.1 → base-7.2](migration/base-7.1_to_base-7.2/) |
 | **base-7.3 pack** — a stored field on the seed does not replace `walk_path` | Walk-close pack. Suite not run. Zeus embed still base-7.1. | `v2/base/base-7.3/` · hop [base-7.2 → base-7.3](migration/base-7.2_to_base-7.3/) |
 | **base-7.4 pack** — plan, tool text, and mode examples describe the same call | Call-align parent of base-8.0. Suite not run. Zeus embed still base-7.1. | `v2/base/base-7.4/` · hop [base-7.3 → base-7.4](migration/base-7.3_to_base-7.4/) |
-| **base-8.0 pack** — numbered name of the base-8-prototype-1 constitution morph | Catalog candidate. Suite not run. Zeus embed still base-7.1. The earlier prototype folders stay. | `v2/base/base-8.0/` · hop [base-7.4 → base-8.0](migration/base-7.4_to_base-8.0/) |
+| **base-8.0 pack** — numbered name of the base-8-prototype-1 constitution morph | Released catalog 2026-11-21. Suite not run. Not the pin. Zeus embed still base-7.1. The earlier prototype folders stay. | `v2/base/base-8.0/` · hop [base-7.4 → base-8.0](migration/base-7.4_to_base-8.0/) |
 | base-7 Workbench / stamp product | Later, orthogonal to CR-35 | **CR-5** |
 
-**Pack SoT for new work:** **base-5 wire** · **catalog candidate base-8.0** (`v2/base/base-8.0/`, numbered name of base-8-prototype-1, parent **base-7.4**, suite not run) · call align `v2/base/base-7.4/` · Zeus 5.5TH served pin **base-7.1** · Plan-then-call ship `v2/base/base-7.0/` · working train `v2/base/base-7.x/` · parent chain **base-7.x ← base-6.1** · **base-6.2** is the size-cut regression · prior **base-6.1** · **base-6** · **base-5.3**.  
+**Pack SoT for new work:** **base-5 wire** · **released catalog base-8.0** (2026-11-21, `v2/base/base-8.0/`, numbered name of base-8-prototype-1, parent **base-7.4**, suite not run, not the pin) · call align `v2/base/base-7.4/` · Zeus 5.5TH served pin **base-7.1** · Plan-then-call ship `v2/base/base-7.0/` · working train `v2/base/base-7.x/` · parent chain **base-7.x ← base-6.1** · **base-6.2** is the size-cut regression · prior **base-6.1** · **base-6** · **base-5.3**.  
 **Production pin:** **base-1**.  
 **Zeus 0.6 vendor:** **base-5.3** as of **ZE-273** / `0.6.15` (base-6 / 6.1 / 6.2 / 7.0 / 7.1 / 7.2 / 7.3 / 7.4 / 8.0 packs available; not required pin).  
 **Hop:** [migration/base-7.4_to_base-8.0/](migration/base-7.4_to_base-8.0/) · [migration/base-7.3_to_base-7.4/](migration/base-7.3_to_base-7.4/) · [migration/base-7.2_to_base-7.3/](migration/base-7.2_to_base-7.3/) · [migration/base-7.1_to_base-7.2/](migration/base-7.1_to_base-7.2/) · [migration/base-7.0_to_base-7.1/](migration/base-7.0_to_base-7.1/) · [migration/base-6.1_to_base-7.0/](migration/base-6.1_to_base-7.0/) · working train [base-6.1_to_base-7.x/](migration/base-6.1_to_base-7.x/) · prior [base-6.1_to_base-6.2/](migration/base-6.1_to_base-6.2/) · [base-6_to_base-6.1/](migration/base-6_to_base-6.1/) · [HINTS.md](HINTS.md).  
@@ -1934,7 +1934,7 @@ base-8.0  CONSTITUTION MORPH. Numbered name of base-8-prototype-1
           the plan states the access rule once
           narrow_to takes node ids only
           query_decomposition records fast path or one probe
-          catalog candidate; suite not run
+          released catalog 2026-11-21; suite not run; not the pin
           Zeus embed stays base-7.1
           not a wire break; do not edit base-7.4 in place
           earlier folders base-8-prototype and base-8-prototype-1 stay

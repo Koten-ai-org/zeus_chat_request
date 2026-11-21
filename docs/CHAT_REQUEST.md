@@ -1,6 +1,6 @@
 # Understanding `chat_request*.json`
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file owns file anatomy: the three parts of a turn, the hash policy, messages, verbs, what guidance excludes, and the contract stamp. Behavior laws are the constitution. This page does not restate them. Catalog candidate is **base-8.0**. `CURRENT.json` stays **base-1**.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file owns file anatomy: the three parts of a turn, the hash policy, messages, verbs, what guidance excludes, and the contract stamp. Behavior laws are the constitution. This page does not restate them. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
 >
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · design line **base-4** (base-5 = design only) · version matrix: [COMPAT.md](../COMPAT.md)
 

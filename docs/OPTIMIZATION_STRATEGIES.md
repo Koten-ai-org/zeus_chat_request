@@ -11,7 +11,7 @@
 > | `open_ended` | The evidence size is unknown, or a basic value may not be stored. That is the probe. |
 > | out of corpus | A gap (`wish_i_knew`). Not a bigger search. |
 >
-> The diagrams below still use the old names. Read them through the table. `named_query` in those drawings is the executor behind catalog verb `rail`, not another verb and not a `/rail` route. Catalog candidate is **base-8.0**. `CURRENT.json` stays **base-1**.
+> The diagrams below still use the old names. Read them through the table. `named_query` in those drawings is the executor behind catalog verb `rail`, not another verb and not a `/rail` route. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
 >
 > **Doc status** · **WORK IN PROGRESS** · drafted **2026-09-01** · updated **2026-09-02** · **not** a BASE pack change · **not** hashed CORE · production pin **base-1** · candidate line **base-6.2** · version matrix: [COMPAT.md](../COMPAT.md)
 >

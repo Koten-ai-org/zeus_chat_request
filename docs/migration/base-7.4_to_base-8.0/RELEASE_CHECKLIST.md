@@ -18,9 +18,9 @@ Parent: `base-8.0` ← `base-7.4`. The bytes were first cut as `base-8-prototype
 ## Docs
 
 - [x] Hop README + GUIDE + lessons
-- [x] ROADMAP content train points at `v2/base/base-8.0/` as the catalog candidate
+- [x] ROADMAP content train points at `v2/base/base-8.0/` as the released catalog (2026-11-21). `CURRENT.json` stays base-1. Suite not run.
 - [x] COMPAT candidate row (Zeus served pin stays base-7.1)
-- [x] RELEASE_NOTES unreleased highlight
+- [x] RELEASE_NOTES section `base-8.0 — 2026-11-21` (not an unreleased highlight)
 - [x] Playbook jump row
 - [x] Pack OVERVIEW / README
 

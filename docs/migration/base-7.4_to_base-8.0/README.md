@@ -7,7 +7,7 @@
 | **Wire** | Additive. Not a wire break. |
 | **Date** | 2026-11-21 |
 
-base-7.4 stays the call-align pack. base-8.0 is a new folder. It is the numbered name of the constitution morph that was `base-8-prototype-1`. The sentences that already matched a constitution statement stayed. Copies came out in that same edit.
+base-7.4 stays the call-align pack. base-8.0 is a new folder. It is the numbered name of the constitution morph that was `base-8-prototype-1`. The catalog was released on 2026-11-21. That release is not the `CURRENT.json` pin. The sentences that already matched a constitution statement stayed. Copies came out in that same edit.
 
 `CURRENT.json` stays **base-1**. The Zeus embed stays **base-6.1** and **base-7.1**. The earlier folders `base-8-prototype` and `base-8-prototype-1` stay on disk.
 

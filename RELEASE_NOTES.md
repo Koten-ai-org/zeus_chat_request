@@ -4,11 +4,11 @@ Published **Zeus V2 chat_request** catalogs for Zeus Client, Developer Helper MC
 
 | | |
 | --- | --- |
-| **Repo** | https://github.com/koten-ai/zeus_chat_request |
+| **Repo** | https://github.com/Koten-ai-org/zeus_chat_request |
 | **Format** | `zeus.chat_request.v2` |
 | **Production pin** | **base-1** — `CURRENT.json` · `v2/min/` |
 | **Candidate pack** | **base-5** wire line — `v2/base/base-5/` (last breaking freeze; not pin) |
-| **Content train** | **base-8.0** — constitution morph, numbered name of base-8-prototype-1 ([v2/base/base-8.0/](v2/base/base-8.0/)). Parent **base-7.4**. The earlier folders base-8-prototype and base-8-prototype-1 stay. The local Zeus 5.5TH tree still serves **base-7.1** and also embeds base-6.1. `CURRENT.json` stays base-1. Suite not run. |
+| **Released catalog** | **base-8.0** — 2026-11-21. Constitution morph, numbered name of base-8-prototype-1 ([v2/base/base-8.0/](v2/base/base-8.0/)). Parent **base-7.4**. The earlier folders base-8-prototype and base-8-prototype-1 stay. The local Zeus 5.5TH tree still serves **base-7.1** and also embeds base-6.1. `CURRENT.json` stays base-1. Suite not run. Not the pin. |
 | **Prior content** | base-6.1 report stamps · base-6 soft `hints.*` · base-5.3 skinny/world-model · base-5.2 dual gaps · base-5.1 modes |
 | **Prior candidate** | **base-4** — `v2/base/base-4/` |
 | **Roadmap** | [ROADMAP.md](docs/ROADMAP.md) |
@@ -17,15 +17,22 @@ Published **Zeus V2 chat_request** catalogs for Zeus Client, Developer Helper MC
 
 ---
 
-## Unreleased (toward next tag)
+## base-8.0 — 2026-11-21
+
+Catalog release. Not a `CURRENT.json` pin flip. Not a Zeus embed change. The 21-question suite has not been run.
 
 ### Highlights
 
-- **base-8.0 constitution morph:** [`v2/base/base-8.0/`](v2/base/base-8.0/) — numbered name of [`v2/base/base-8-prototype-1/`](v2/base/base-8-prototype-1/), parent **base-7.4**, **additive** (not a wire break). `CURRENT.json` stays **base-1**. The local Zeus embed is still **base-6.1** and **base-7.1**. The earlier folders `base-8-prototype` and `base-8-prototype-1` stay. The 21-question suite has not been run. The lab image may still list `base-8-prototype-1` until it is rebuilt. An unpicked chat on that image still serves base-7.0.
+- **base-8.0 constitution morph:** [`v2/base/base-8.0/`](v2/base/base-8.0/) — numbered name of [`v2/base/base-8-prototype-1/`](v2/base/base-8-prototype-1/), parent **base-7.4**, **additive** (not a wire break). `CURRENT.json` stays **base-1**. The local Zeus embed is still **base-6.1** and **base-7.1**. The earlier folders `base-8-prototype` and `base-8-prototype-1` stay. The lab image may still list `base-8-prototype-1` until it is rebuilt. An unpicked chat on that image still serves base-7.0.
   - The plan states the access rule once. `narrow_to` takes node ids only. `query_decomposition` records fast path or one probe. Two intents that share a world are two chains in one pipeline. A shared value is probed once. `project` has no `limit`; `order` takes `limit`.
   - Each mode keeps the contract hash copied from its base-7.4 file. The hash was not invented. `assemble_mode_prompts.py` was not run. `_base_meta.base_id` is still the inherited `base-6.1`. `contract.parent_base_id` is still the inherited `base-5.1` stamp.
   - `verify_base_pack.py --base 8.0` and `diff_modes.py --fail-if-clone` passed. `scan_catalogs.py` count is **200**. Open exam issues on base-8.0 are 0. That count is the gate, not accuracy.
   - Hop: [docs/migration/base-7.4_to_base-8.0/](docs/migration/base-7.4_to_base-8.0/)
+
+## Unreleased (toward next tag)
+
+### Highlights
+
 - **base-7.4 call align:** [`v2/base/base-7.4/`](v2/base/base-7.4/) — cut from base-7.3, **additive** (not a wire break). `CURRENT.json` stays **base-1**. The local Zeus embed is still **base-6.1** and **base-7.1**. The 21-question suite has not been run on this pack.
   - The plan, the tool text, and the mode examples describe the same call. `narrow_to` follows node ids. The typical chain is `search` → `project` `@step.doc_keys`. `project` has no `limit`; the ranked example caps `order`.
   - Do not bind `@step.ids`; that name is node ids only. `set` requires `id_kind`. Search examples are unchanged. The contract hash was copied. `assemble_mode_prompts.py` was not run.

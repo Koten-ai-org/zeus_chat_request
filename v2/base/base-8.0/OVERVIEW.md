@@ -6,7 +6,7 @@
 | **Parent** | `base-7.4` |
 | **JSON** | `min/chat_request_<mode>_base-8.0.json` |
 | **Text** | `text/chat_request_<mode>_base-8.0.txt` |
-| **Status** | Catalog candidate. Numbered name of `base-8-prototype-1`. `CURRENT.json` stays base-1. Embed stays base-6.1 and base-7.1. The earlier folder `base-8-prototype` stays. |
+| **Status** | Released catalog, 2026-11-21. Numbered name of `base-8-prototype-1`. `CURRENT.json` stays base-1. Embed stays base-6.1 and base-7.1. The earlier folder `base-8-prototype` stays. Suite not run. |
 
 ## What changed
 

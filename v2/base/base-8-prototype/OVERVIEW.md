@@ -6,7 +6,7 @@
 | **Parent** | `base-7.4` |
 | **JSON** | `min/chat_request_<mode>_base-8-prototype.json` |
 | **Text** | `text/chat_request_<mode>_base-8-prototype.txt` |
-| **Status** | Earlier prototype. The catalog candidate is base-8.0. `CURRENT.json` stays base-1. Embed stays base-6.1 and base-7.1. |
+| **Status** | Earlier prototype. The released catalog is base-8.0 (2026-11-21). `CURRENT.json` stays base-1. Embed stays base-6.1 and base-7.1. |
 
 ## What changed
 

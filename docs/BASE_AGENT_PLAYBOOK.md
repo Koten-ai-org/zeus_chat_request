@@ -1,6 +1,6 @@
 # BASE agent playbook — comply & upgrade
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test a sentence about how to call Zeus must pass before a checklist places it. This file is procedures. Catalog candidate is **base-8.0**. `CURRENT.json` stays **base-1**. Zeus embed stays **base-6.1** and **base-7.1**.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test a sentence about how to call Zeus must pass before a checklist places it. This file is procedures. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**. Zeus embed stays **base-6.1** and **base-7.1**.
 >
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · candidate pack **base-5** · prior candidate **base-4** · version matrix: [COMPAT.md](../COMPAT.md)
 
@@ -150,7 +150,7 @@ Execute in order. Skip only if the hop folder says “design only” and you are
 | base-7.1 → base-7.2 | [migration/base-7.1_to_base-7.2/](migration/base-7.1_to_base-7.2/) | **Slot rule.** Zeus embed still base-7.1. `CURRENT.json` stays base-1. | No wire rename/remove |
 | base-7.2 → base-7.3 | [migration/base-7.2_to_base-7.3/](migration/base-7.2_to_base-7.3/) | **Walk close.** Zeus embed still base-7.1. `CURRENT.json` stays base-1. | No wire rename/remove |
 | base-7.3 → base-7.4 | [migration/base-7.3_to_base-7.4/](migration/base-7.3_to_base-7.4/) | **Call align.** Zeus embed still base-7.1. `CURRENT.json` stays base-1. | No wire rename/remove |
-| base-7.4 → base-8.0 | [migration/base-7.4_to_base-8.0/](migration/base-7.4_to_base-8.0/) | **Constitution morph.** Numbered name of base-8-prototype-1. Catalog candidate. Suite not run. Zeus embed still base-7.1. `CURRENT.json` stays base-1. | No wire rename/remove |
+| base-7.4 → base-8.0 | [migration/base-7.4_to_base-8.0/](migration/base-7.4_to_base-8.0/) | **Constitution morph.** Numbered name of base-8-prototype-1. Released catalog 2026-11-21. Suite not run. Zeus embed still base-7.1. `CURRENT.json` stays base-1. | No wire rename/remove |
 
 ### 4.1 base-1 → base-4 (summary)
 

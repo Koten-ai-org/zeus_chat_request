@@ -1,6 +1,6 @@
 # base-8-prototype-1
 
-A second constitution morph of the base-7.4 pack. A new folder, cut again after [CONSTITUION_DESIGN.md](../../../docs/CONSTITUION_DESIGN.md) was updated. The numbered name of this cut is [base-8.0](../base-8.0/), and that folder is the catalog candidate. The earlier folder [base-8-prototype](../base-8-prototype/) stays on disk. This folder stays. It is not a pin, not an embed, and not a suite.
+A second constitution morph of the base-7.4 pack. A new folder, cut again after [CONSTITUION_DESIGN.md](../../../docs/CONSTITUION_DESIGN.md) was updated. The numbered name of this cut is [base-8.0](../base-8.0/), and that folder is the released catalog (2026-11-21). The earlier folder [base-8-prototype](../base-8-prototype/) stays on disk. This folder stays. It is not a pin, not an embed, and not a suite.
 
 | | |
 | --- | --- |

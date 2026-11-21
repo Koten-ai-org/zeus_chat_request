@@ -1,6 +1,6 @@
 # Agent notes — zeus_chat_request
 
-> **Call law** · [docs/CONSTITUION_DESIGN.md](docs/CONSTITUION_DESIGN.md). Catalog candidate **base-8.0** (numbered name of **base-8-prototype-1**, parent **base-7.4**). The earlier folders **base-8-prototype** and **base-8-prototype-1** stay. `CURRENT.json` stays **base-1**. Zeus embed stays **base-6.1** and **base-7.1**. Suite not run.
+> **Call law** · [docs/CONSTITUION_DESIGN.md](docs/CONSTITUION_DESIGN.md). Released catalog **base-8.0** (2026-11-21, numbered name of **base-8-prototype-1**, parent **base-7.4**). The earlier folders **base-8-prototype** and **base-8-prototype-1** stay. `CURRENT.json` stays **base-1**. Zeus embed stays **base-6.1** and **base-7.1**. Suite not run.
 
 **Last reviewed:** 2026-07-26  
 **This repo owns chat_request BASE packs and BASE design.** Zeus engine and zeus_client must stay aligned with the BASE you target.
@@ -8,7 +8,7 @@
 | | |
 | --- | --- |
 | **Production pin** | **base-1** — `CURRENT.json` · `v2/min/` |
-| **Catalog candidate** | **base-8.0** (`v2/base/base-8.0/`). Numbered name of **base-8-prototype-1**. Parent **base-7.4**. The earlier prototype folders stay. |
+| **Released catalog** | **base-8.0** (2026-11-21, `v2/base/base-8.0/`). Numbered name of **base-8-prototype-1**. Parent **base-7.4**. The earlier prototype folders stay. Not the `CURRENT.json` pin. |
 | **Earlier snapshots** | base-5 wire freeze and later hops in [docs/migration/README.md](docs/migration/README.md). Each folder is a full pullable build. |
 | **Trains = folders** | Never apply a train only via `content_train` on a parent pack. New train → **new** `v2/base/base-<id>/` · Diff parent vs child |
 | **Modes / gaps docs** | [MODE.md](docs/MODE.md) · [WISH_I_KNEW_DUAL.md](docs/WISH_I_KNEW_DUAL.md) · **CR-25** snapshot layout |

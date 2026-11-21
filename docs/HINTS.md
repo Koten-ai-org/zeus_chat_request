@@ -1,6 +1,6 @@
 # Soft HINTS inject contract (base-6+)
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file is the hash-excluded `hints.*` contract. A hint never replaces the jailbreak law, the mini-schema, or the required four. `hints.*` is still not injected on the live client (ZC-WISH-040). Catalog candidate is **base-8.0**. `CURRENT.json` stays **base-1**.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file is the hash-excluded `hints.*` contract. A hint never replaces the jailbreak law, the mini-schema, or the required four. `hints.*` is still not injected on the live client (ZC-WISH-040). Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
 >
 > **Doc status** · last reviewed **2026-07-27** · production pin **base-1** · candidate pack **base-6** · version matrix: [COMPAT.md](../COMPAT.md)
 

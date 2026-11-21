@@ -1,6 +1,6 @@
 # base-8.0
 
-Numbered name of the constitution morph that was `base-8-prototype-1`. Cut from base-7.4. **This folder is the catalog candidate.** It is not the Zeus pin and not a suite result.
+Numbered name of the constitution morph that was `base-8-prototype-1`. Cut from base-7.4. **This folder is the released catalog (2026-11-21).** It is not the Zeus pin and not a suite result.
 
 | | |
 | --- | --- |
