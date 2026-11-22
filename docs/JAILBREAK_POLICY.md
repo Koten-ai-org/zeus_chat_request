@@ -1,6 +1,6 @@
 # Jailbreak policy — score, rules, enforcement, best practices
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) law 5: hints never replace the jailbreak law. This file owns the score and the hooks. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) law 5: hints never replace the jailbreak law. This file owns the score and the hooks. Released catalog is **base-9.0** (2026-11-22). `CURRENT.json` stays **base-1**.
 >
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · design line **base-4** (base-5 = design only) · version matrix: [COMPAT.md](../COMPAT.md)
 

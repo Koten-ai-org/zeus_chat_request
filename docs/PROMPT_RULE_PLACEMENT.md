@@ -1,6 +1,6 @@
 # Prompt rule placement methodology
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test a sentence must pass **before** this page places it. This file says which surface. It does not replace the constitution. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test a sentence must pass **before** this page places it. This file says which surface. It does not replace the constitution. Released catalog is **base-9.0** (2026-11-22). `CURRENT.json` stays **base-1**.
 >
 > **Doc status** · last reviewed **2026-07-28** · production pin **base-1** · candidate pack **base-6** · version matrix: [COMPAT.md](../COMPAT.md)  
 > **Citation:** use this doc when adding or moving any instruction (CORE, mode overlay, `BP:N`, `OPT:N`, `hints.*`, Client law)  

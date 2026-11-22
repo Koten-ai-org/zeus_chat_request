@@ -1,6 +1,6 @@
 # Fine-tuning & end-goal optimization (Pachinko → named rails)
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file is the after-traffic essay. A traffic card is not a second law. Where this essay says `named_query`, the catalog name is `rail`, and the executor is still the named-query execute route. There is no `/rail` route. The staple names `fast_pass`, `scout`, and `thorough` are retired: fast path, probe, and a richer fast path. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file is the after-traffic essay. A traffic card is not a second law. Where this essay says `named_query`, the catalog name is `rail`, and the executor is still the named-query execute route. There is no `/rail` route. The staple names `fast_pass`, `scout`, and `thorough` are retired: fast path, probe, and a richer fast path. Released catalog is **base-9.0** (2026-11-22). `CURRENT.json` stays **base-1**.
 >
 > **Doc status** · last reviewed **2026-07-27** · production pin **base-1** · candidate pack **base-6** (content; wire still base-5) · version matrix: [COMPAT.md](../COMPAT.md)  
 > **Citation prefix:** `OPT:N` (stable IDs for Prompt Helper / chat_request refs — e.g. `see OPT:4`, `see OPT:14`)  

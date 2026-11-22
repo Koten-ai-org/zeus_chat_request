@@ -1,6 +1,6 @@
 # base-4 Bible
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test a sentence about how to call Zeus must pass. This file is the ownership matrix for the base-4 and base-5 wire: which key is set, unset, or changed, and by whom. It is not the current call law. A "13 verbs" section below is what that wire shipped. The catalog the model sees now has 14, including `rail`. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test a sentence about how to call Zeus must pass. This file is the ownership matrix for the base-4 and base-5 wire: which key is set, unset, or changed, and by whom. It is not the current call law. A "13 verbs" section below is what that wire shipped. The catalog the model sees now has 14, including `rail`. Released catalog is **base-9.0** (2026-11-22). `CURRENT.json` stays **base-1**.
 >
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · design line **base-4** (base-5 = design only) · version matrix: [COMPAT.md](../COMPAT.md)
 

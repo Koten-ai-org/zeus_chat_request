@@ -1,6 +1,6 @@
 # Constitution for a chat_request
 
-> **Doc status** · drafted **2026-11-20** · named **2026-11-21** · design page, not a pack · released catalog is **base-8.0** (2026-11-21), the numbered name of **base-8-prototype-1** (parent **base-7.4**) · the earlier folders **base-8-prototype** and **base-8-prototype-1** stay on disk · `CURRENT.json` stays **base-1** · Zeus embed stays **base-6.1** and **base-7.1** · suite not run
+> **Doc status** · drafted **2026-11-20** · named **2026-11-21** · design page, not a pack · this page still gates **base-8.0**, the numbered name of **base-8-prototype-1** (parent **base-7.4**) · released catalog is **base-9.0** (2026-11-22), the numbered name of **base-9-prototype-7** (parent **base-8.0**) · the earlier folders stay on disk · `CURRENT.json` stays **base-1** · Zeus embed stays **base-6.1** and **base-7.1**
 >
 > This page is the test a new or edited sentence must pass for base-8.0. It does not edit a pack, flip a pin, or raise the live 8-round ceiling. The standalone successor is [CONSTITUION_DESIGN_v2.md](CONSTITUION_DESIGN_v2.md). This page still gates base-8.0. Placement of a sentence that passes the test is still [PROMPT_RULE_PLACEMENT.md](PROMPT_RULE_PLACEMENT.md). Wire order is still [PROMPT_ASSEMBLY.md](PROMPT_ASSEMBLY.md). The older speed theory is [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md). The current pack's fights and copies are [CONTRIDICTION_FIGHTS.md](CONTRIDICTION_FIGHTS.md). That file is a snapshot. It is not another law.
 >
@@ -94,7 +94,7 @@ A hint may name a usual suggestion for one scope. It may not change the access r
 
 base-8.x is this page applied to base-7.4. It is a new folder. It keeps a 7.4 sentence that already matches a statement. It does not start from an empty prompt. A sentence that serves no statement comes out in that same edit.
 
-The numbered pack is [v2/base/base-8.0](../v2/base/base-8.0/). It is the same cut as [v2/base/base-8-prototype-1](../v2/base/base-8-prototype-1/), named base-8.0. Parent is base-7.4. The earlier folder [v2/base/base-8-prototype](../v2/base/base-8-prototype/) stays on disk. It is not this page. base-8.0 is the released catalog (2026-11-21). It is not the `CURRENT.json` pin. `CURRENT.json` stays base-1. The Zeus embed stays base-6.1 and base-7.1. The suite has not been run.
+The numbered pack this page gates is [v2/base/base-8.0](../v2/base/base-8.0/). It is the same cut as [v2/base/base-8-prototype-1](../v2/base/base-8-prototype-1/), named base-8.0. Parent is base-7.4. The earlier folder [v2/base/base-8-prototype](../v2/base/base-8-prototype/) stays on disk. It is not this page. base-8.0 is the catalog release of 2026-11-21. The released catalog as of 2026-11-22 is [v2/base/base-9.0](../v2/base/base-9.0/), the numbered name of base-9-prototype-7. Neither pack is the `CURRENT.json` pin. `CURRENT.json` stays base-1. The Zeus embed stays base-6.1 and base-7.1. The suite has not been run on base-8.0.
 
 A miss against ground truth has one cause. SQL++ on the small set is the ground truth. A shorter page from `limit` and `offset` is not by itself a miss. A SQL++ count on the order of 200 and a Zeus result of zero is a miss.
 

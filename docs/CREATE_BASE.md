@@ -1,6 +1,6 @@
 # Creating a new BASE pack (`base-N`)
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the sentence test. Run `python3 scripts/constitution_exam.py` after the size page and before a suite. A falling issue count is not accuracy. A sentence that fails the review on that page does not go into a suite. Released catalog is **base-8.0** (2026-11-21), the numbered name of `v2/base/base-8-prototype-1`. Parent is base-7.4. The earlier folders `base-8-prototype` and `base-8-prototype-1` stay. `CURRENT.json` stays **base-1**. Zeus embed stays **base-6.1** and **base-7.1**. Suite not run.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the sentence test. Run `python3 scripts/constitution_exam.py` after the size page and before a suite. A falling issue count is not accuracy. A sentence that fails the review on that page does not go into a suite. Released catalog is **base-9.0** (2026-11-22), the numbered name of `v2/base/base-9-prototype-7`. Parent is base-8.0. The earlier base-9-prototype folders stay. `CURRENT.json` stays **base-1**. Zeus embed stays **base-6.1** and **base-7.1**. The 2026-11-22 suite measured these bytes as base-9-prototype-7. The current question lock has not been run.
 >
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · candidate pack **base-5** · prior candidate **base-4** · version matrix: [COMPAT.md](../COMPAT.md)
 
