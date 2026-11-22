@@ -2,7 +2,7 @@
 
 > **Doc status** · drafted **2026-11-20** · named **2026-11-21** · design page, not a pack · released catalog is **base-8.0** (2026-11-21), the numbered name of **base-8-prototype-1** (parent **base-7.4**) · the earlier folders **base-8-prototype** and **base-8-prototype-1** stay on disk · `CURRENT.json` stays **base-1** · Zeus embed stays **base-6.1** and **base-7.1** · suite not run
 >
-> This page is the test a new or edited sentence must pass. It does not edit a pack, flip a pin, or raise the live 8-round ceiling. Placement of a sentence that passes the test is still [PROMPT_RULE_PLACEMENT.md](PROMPT_RULE_PLACEMENT.md). Wire order is still [PROMPT_ASSEMBLY.md](PROMPT_ASSEMBLY.md). The older speed theory is [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md). The current pack's fights and copies are [CONTRIDICTION_FIGHTS.md](CONTRIDICTION_FIGHTS.md). That file is a snapshot. It is not another law.
+> This page is the test a new or edited sentence must pass for base-8.0. It does not edit a pack, flip a pin, or raise the live 8-round ceiling. The standalone successor is [CONSTITUION_DESIGN_v2.md](CONSTITUION_DESIGN_v2.md). This page still gates base-8.0. Placement of a sentence that passes the test is still [PROMPT_RULE_PLACEMENT.md](PROMPT_RULE_PLACEMENT.md). Wire order is still [PROMPT_ASSEMBLY.md](PROMPT_ASSEMBLY.md). The older speed theory is [OPTIMIZATION_STRATEGIES.md](OPTIMIZATION_STRATEGIES.md). The current pack's fights and copies are [CONTRIDICTION_FIGHTS.md](CONTRIDICTION_FIGHTS.md). That file is a snapshot. It is not another law.
 >
 > Each core idea is stated once. A specific dataset story belongs in a hint or in the fights snapshot, not in a law.
 

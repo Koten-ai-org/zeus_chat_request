@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "base_id": "base-9-prototype-2",
+  "kind": "base",
+  "status": "prototype",
+  "note": "base-9-prototype-2 is the constitution v2 amendment cut from base-9-prototype-1 on 2026-11-21. query_decomposition rides the call that creates the queries. summary, decomposition, and confidence stay on the answer return. Not the catalog pin. CURRENT.json stays base-1. Zeus embed stays base-6.1 and base-7.1. Contract hashes are the copied base-9-prototype-1 stamps. Suite not run.",
+  "paths": {
+    "min": "v2/base/base-9-prototype-2/min",
+    "text": "v2/base/base-9-prototype-2/text",
+    "bible": "docs/BIBLE.md",
+    "roadmap": "docs/ROADMAP.md",
+    "create_base": "docs/CREATE_BASE.md",
+    "response_output_schema": "v2/base/base-9-prototype-2/response_output_schema.json",
+    "response_output_example": "v2/base/base-9-prototype-2/response_output_example.json"
+  },
+  "parent_source": "v2/base/base-9-prototype-1",
+  "updated_at": "2026-11-21T20:39:02Z",
+  "generator": "scripts/new_base.py",
+  "catalogs": [
+    {
+      "file": "v2/base/base-9-prototype-2/min/chat_request_analytics_base-9-prototype-2.json",
+      "mode": "analytics",
+      "base_id": "base-9-prototype-2",
+      "prototype": true,
+      "bytes": 45602
+    },
+    {
+      "file": "v2/base/base-9-prototype-2/min/chat_request_auto_base-9-prototype-2.json",
+      "mode": "auto",
+      "base_id": "base-9-prototype-2",
+      "prototype": true,
+      "bytes": 45829
+    },
+    {
+      "file": "v2/base/base-9-prototype-2/min/chat_request_code_base-9-prototype-2.json",
+      "mode": "code",
+      "base_id": "base-9-prototype-2",
+      "prototype": true,
+      "bytes": 46091
+    },
+    {
+      "file": "v2/base/base-9-prototype-2/min/chat_request_custom_base-9-prototype-2.json",
+      "mode": "custom",
+      "base_id": "base-9-prototype-2",
+      "prototype": true,
+      "bytes": 45382
+    },
+    {
+      "file": "v2/base/base-9-prototype-2/min/chat_request_fraud_base-9-prototype-2.json",
+      "mode": "fraud",
+      "base_id": "base-9-prototype-2",
+      "prototype": true,
+      "bytes": 46339
+    },
+    {
+      "file": "v2/base/base-9-prototype-2/min/chat_request_open_base-9-prototype-2.json",
+      "mode": "open",
+      "base_id": "base-9-prototype-2",
+      "prototype": true,
+      "bytes": 45459
+    },
+    {
+      "file": "v2/base/base-9-prototype-2/min/chat_request_private_base-9-prototype-2.json",
+      "mode": "private",
+      "base_id": "base-9-prototype-2",
+      "prototype": true,
+      "bytes": 45516
+    },
+    {
+      "file": "v2/base/base-9-prototype-2/min/chat_request_regulated_base-9-prototype-2.json",
+      "mode": "regulated",
+      "base_id": "base-9-prototype-2",
+      "prototype": true,
+      "bytes": 46062
+    },
+    {
+      "file": "v2/base/base-9-prototype-2/min/chat_request_research_base-9-prototype-2.json",
+      "mode": "research",
+      "base_id": "base-9-prototype-2",
+      "prototype": true,
+      "bytes": 46171
+    },
+    {
+      "file": "v2/base/base-9-prototype-2/min/chat_request_tenant_base-9-prototype-2.json",
+      "mode": "tenant",
+      "base_id": "base-9-prototype-2",
+      "prototype": true,
+      "bytes": 45513
+    }
+  ]
+}

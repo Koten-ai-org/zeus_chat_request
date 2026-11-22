@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "base_id": "base-9-prototype-6",
+  "kind": "base",
+  "status": "prototype",
+  "note": "base-9-prototype-6 is the constitution v2 empty-seed cut from base-9-prototype-5 on 2026-11-22. A parent find that returns nothing is not a seed. Its doc_keys stay off src_keys. An empty list is not a selector. With no spelling in the question, a scalar_ent child is a find of the child, and the parent walk waits until that find returns keys. Not the catalog pin. CURRENT.json stays base-1. Zeus embed stays base-6.1 and base-7.1. Contract hashes are the copied stamps. Suite not run.",
+  "paths": {
+    "min": "v2/base/base-9-prototype-6/min",
+    "text": "v2/base/base-9-prototype-6/text",
+    "bible": "docs/BIBLE.md",
+    "roadmap": "docs/ROADMAP.md",
+    "create_base": "docs/CREATE_BASE.md",
+    "response_output_schema": "v2/base/base-9-prototype-6/response_output_schema.json",
+    "response_output_example": "v2/base/base-9-prototype-6/response_output_example.json"
+  },
+  "parent_source": "v2/base/base-9-prototype-5",
+  "updated_at": "2026-11-22T04:10:02Z",
+  "generator": "scripts/new_base.py",
+  "catalogs": [
+    {
+      "file": "v2/base/base-9-prototype-6/min/chat_request_analytics_base-9-prototype-6.json",
+      "mode": "analytics",
+      "base_id": "base-9-prototype-6",
+      "prototype": true,
+      "bytes": 50851
+    },
+    {
+      "file": "v2/base/base-9-prototype-6/min/chat_request_auto_base-9-prototype-6.json",
+      "mode": "auto",
+      "base_id": "base-9-prototype-6",
+      "prototype": true,
+      "bytes": 51078
+    },
+    {
+      "file": "v2/base/base-9-prototype-6/min/chat_request_code_base-9-prototype-6.json",
+      "mode": "code",
+      "base_id": "base-9-prototype-6",
+      "prototype": true,
+      "bytes": 51340
+    },
+    {
+      "file": "v2/base/base-9-prototype-6/min/chat_request_custom_base-9-prototype-6.json",
+      "mode": "custom",
+      "base_id": "base-9-prototype-6",
+      "prototype": true,
+      "bytes": 50631
+    },
+    {
+      "file": "v2/base/base-9-prototype-6/min/chat_request_fraud_base-9-prototype-6.json",
+      "mode": "fraud",
+      "base_id": "base-9-prototype-6",
+      "prototype": true,
+      "bytes": 51588
+    },
+    {
+      "file": "v2/base/base-9-prototype-6/min/chat_request_open_base-9-prototype-6.json",
+      "mode": "open",
+      "base_id": "base-9-prototype-6",
+      "prototype": true,
+      "bytes": 50708
+    },
+    {
+      "file": "v2/base/base-9-prototype-6/min/chat_request_private_base-9-prototype-6.json",
+      "mode": "private",
+      "base_id": "base-9-prototype-6",
+      "prototype": true,
+      "bytes": 50765
+    },
+    {
+      "file": "v2/base/base-9-prototype-6/min/chat_request_regulated_base-9-prototype-6.json",
+      "mode": "regulated",
+      "base_id": "base-9-prototype-6",
+      "prototype": true,
+      "bytes": 51311
+    },
+    {
+      "file": "v2/base/base-9-prototype-6/min/chat_request_research_base-9-prototype-6.json",
+      "mode": "research",
+      "base_id": "base-9-prototype-6",
+      "prototype": true,
+      "bytes": 51420
+    },
+    {
+      "file": "v2/base/base-9-prototype-6/min/chat_request_tenant_base-9-prototype-6.json",
+      "mode": "tenant",
+      "base_id": "base-9-prototype-6",
+      "prototype": true,
+      "bytes": 50762
+    }
+  ]
+}

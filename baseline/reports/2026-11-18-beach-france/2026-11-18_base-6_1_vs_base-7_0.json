@@ -1,0 +1,794 @@
+{
+  "title": "base-6.1 vs base-7.0",
+  "date": "2026-11-18",
+  "status": "ran",
+  "label_a": "base-6.1",
+  "label_b": "base-7.0",
+  "base_id_a": "base-6.1",
+  "base_id_b": "base-7.0",
+  "zeus_version": "1.0.0-beta.3",
+  "provider": "xai",
+  "provider_base": "https://api.x.ai/v1",
+  "model": "grok-4.7",
+  "client": "zeus_client.run_turn",
+  "client_version": "2.4.0",
+  "verdict_rule": "better means the new pack called the target API and the previous pack did not. worse means the previous pack called the target API and the new pack did not. Rows from a different verb do not count. On Find hoppy citrus beers the target is search hybrid. That row is worse when the previous pack calls search hybrid and the new pack calls search fts, find, or set, even when both sides are HTTP 200 and both returned beers. same means both called the target, or neither did. not run means a model call is missing. When the question says rows are required, an empty Zeus result is not met.",
+  "tallies": {
+    "better": 0,
+    "worse": 0,
+    "same": 1,
+    "retest": 0,
+    "not run": 0,
+    "total": 1
+  },
+  "scopes": [
+    {
+      "name": "travel-sample",
+      "scopes": [
+        "travel-sample/inventory"
+      ],
+      "rows": [
+        {
+          "id": "travel-beach-itinerary",
+          "text": "Plan a beach trip in France. Suggest hotels and landmarks.",
+          "scope": "travel-sample/inventory",
+          "target_api": "search hybrid Hotel + search hybrid Landmark (rows required)",
+          "notes": "Scoped like beer-colorado-itinerary. The country is already in the question, so the target is one hybrid search for Hotel and one for Landmark. Rows are required. SQL++ on 2026-11-18: country = France and the whole word beach in name, city, description, or title is 0 hotels. FTS description/name/city beach in France is also 0. Coastal French hotels still exist without that word: Nice 7, Saint-Florent 2, Cannes 1, Saint-Raphaël 1, Bonifacio 1. Landmarks in France with beach in name, city, content, or activity: 2 (Dramont beach in Saint-Raphaël, and Normandy American Cemetery because the content says Omaha Beach).",
+          "a": {
+            "called": "search fts Hotel, search fts Landmark, find Hotel, find Landmark, search hybrid Hotel, search hybrid Landmark, get, project",
+            "hit": true,
+            "rows": true,
+            "row_count": 30,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "05a8157a-e209-44ec-b847-87316a59774e",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "beach France",
+                  "limit": 15
+                },
+                "sample": {
+                  "row_count": 15,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_32176"
+                    },
+                    {
+                      "doc_key": "hotel_5097"
+                    },
+                    {
+                      "doc_key": "hotel_19324"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "8882fa53-5448-4ccb-a07e-d2b470441a80",
+                "rows": true,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "fts",
+                  "query_text": "beach France",
+                  "limit": 15
+                },
+                "sample": {
+                  "row_count": 15,
+                  "preview": [
+                    {
+                      "doc_key": "landmark_24681"
+                    },
+                    {
+                      "doc_key": "landmark_40050"
+                    },
+                    {
+                      "doc_key": "landmark_25719"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "3fdf325e-6782-4458-9591-f4a4ba89a73a",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 20,
+                  "where": {
+                    "country": "France"
+                  }
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_35857",
+                      "id": "n_82b4363ece9426",
+                      "name": "Hostellerie du Beffroi"
+                    },
+                    {
+                      "doc_key": "hotel_8962",
+                      "id": "n_b2bf69e8f9912f",
+                      "name": "Chateau Les Aulnois"
+                    },
+                    {
+                      "doc_key": "hotel_3430",
+                      "id": "n_10bfbbbaa6cd5a",
+                      "name": "Balcon en Foret"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "4449ca7a-d954-4bd7-9ce2-c241669ac3d7",
+                "rows": true,
+                "args": {
+                  "entity_type": "Landmark",
+                  "limit": 20,
+                  "where": {
+                    "country": "France"
+                  }
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "landmark_1353",
+                      "id": "n_9ebec3c15ac429",
+                      "name": "L'Epicerie"
+                    },
+                    {
+                      "doc_key": "landmark_21808",
+                      "id": "n_12adadd43ada36",
+                      "name": "Rue Cler"
+                    },
+                    {
+                      "doc_key": "landmark_20408",
+                      "id": "n_fad2e3f53d686e",
+                      "name": "Musée Chagall"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "885a674a-a396-4e50-b3e8-2b2b3842208c",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "beach",
+                  "limit": 15,
+                  "where": {
+                    "country": "France"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "f8134ff7-613a-4aef-8362-d1ccec5f7d4f",
+                "rows": false,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "hybrid",
+                  "query_text": "beach",
+                  "limit": 15,
+                  "where": {
+                    "country": "France"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "453e3ffe-c400-4bd5-b704-5875b41ee52b",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "99c6327e-4d29-4dd7-a25c-d32a708df2d5",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    "n_82b4363ece9426",
+                    "n_b2bf69e8f9912f",
+                    "n_10bfbbbaa6cd5a"
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "8b2949c7-b4f8-4878-a0b2-965dad60cdb9",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    "n_9ebec3c15ac429",
+                    "n_12adadd43ada36",
+                    "n_fad2e3f53d686e"
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "0cb1827e-3160-4283-ab7f-13d3783ef160",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Nice",
+                  "limit": 10
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_20421"
+                    },
+                    {
+                      "doc_key": "hotel_20419"
+                    },
+                    {
+                      "doc_key": "hotel_20424"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "32ad8d13-d562-417f-a8d6-341fed5a802b",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Cannes",
+                  "limit": 10
+                },
+                "sample": {
+                  "row_count": 1,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_5031"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "a16e1e10-54e2-4843-93d7-e3eb373a1ece",
+                "rows": true,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "fts",
+                  "query_text": "beach",
+                  "limit": 10
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    {
+                      "doc_key": "landmark_40050"
+                    },
+                    {
+                      "doc_key": "landmark_25719"
+                    },
+                    {
+                      "doc_key": "landmark_40013"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "8b496735-891f-4b00-938e-127791270ca5",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 12,
+                  "preview": [
+                    "n_e94a1d75fb11a5",
+                    "n_e0c2a4c53025a6",
+                    "n_31ac2af4b3d5b3"
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "e3dfda61-b6ae-442e-924e-16b34bbbe989",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 11,
+                  "preview": [
+                    "n_6e430286a6634c",
+                    "n_31cbb4dc637f10",
+                    "n_1edf4f5d2436cc"
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "17a5ffa0-b87f-40af-be47-95b8261e1a2b",
+                "rows": true,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "fts",
+                  "query_text": "Nice",
+                  "limit": 10
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    {
+                      "doc_key": "landmark_20410"
+                    },
+                    {
+                      "doc_key": "landmark_20405"
+                    },
+                    {
+                      "doc_key": "landmark_20411"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "9c549787-c60d-4b7d-9f7f-52a9145d0db5",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 30,
+                  "where": {
+                    "state": "Provence-Alpes-Côte d'Azur"
+                  }
+                },
+                "sample": {
+                  "row_count": 30,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_35857",
+                      "id": "n_82b4363ece9426",
+                      "name": "Hostellerie du Beffroi"
+                    },
+                    {
+                      "doc_key": "hotel_1363",
+                      "id": "n_911bdae62e9541",
+                      "name": "Hotel d 'Europe"
+                    },
+                    {
+                      "doc_key": "hotel_40383",
+                      "id": "n_974e48c26ee0f1",
+                      "name": "Hôtel Saint Louis"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "05a8157a-e209-44ec-b847-87316a59774e",
+              "8882fa53-5448-4ccb-a07e-d2b470441a80",
+              "3fdf325e-6782-4458-9591-f4a4ba89a73a",
+              "4449ca7a-d954-4bd7-9ce2-c241669ac3d7",
+              "885a674a-a396-4e50-b3e8-2b2b3842208c",
+              "f8134ff7-613a-4aef-8362-d1ccec5f7d4f",
+              "453e3ffe-c400-4bd5-b704-5875b41ee52b",
+              "99c6327e-4d29-4dd7-a25c-d32a708df2d5",
+              "8b2949c7-b4f8-4878-a0b2-965dad60cdb9",
+              "0cb1827e-3160-4283-ab7f-13d3783ef160",
+              "32ad8d13-d562-417f-a8d6-341fed5a802b",
+              "a16e1e10-54e2-4843-93d7-e3eb373a1ece",
+              "8b496735-891f-4b00-938e-127791270ca5",
+              "e3dfda61-b6ae-442e-924e-16b34bbbe989",
+              "17a5ffa0-b87f-40af-be47-95b8261e1a2b",
+              "9c549787-c60d-4b7d-9f7f-52a9145d0db5"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-travel-beach-itinerary",
+            "turn_id": "8e5821af-a078-40e1-96f6-e1a613dadaee",
+            "session_id": "sess_20261119T03424654621661d697da",
+            "met": true
+          },
+          "b": {
+            "called": "search hybrid Hotel, search hybrid Landmark, search fts Hotel, search fts Landmark, get, traverse walk_path",
+            "hit": true,
+            "rows": true,
+            "row_count": 20,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "19ecfbad-2b6d-4156-9d48-f4c06de665a7",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "beach",
+                  "limit": 20,
+                  "where": {
+                    "country": "France"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "2531df11-679c-46ae-8ae1-c33c6b73a68d",
+                "rows": false,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "hybrid",
+                  "query_text": "beach",
+                  "limit": 20,
+                  "where": {
+                    "country": "France"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "a731a41d-290f-4c6d-bddd-819ec058e27f",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "beach France",
+                  "limit": 20
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_32176"
+                    },
+                    {
+                      "doc_key": "hotel_5097"
+                    },
+                    {
+                      "doc_key": "hotel_19324"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "f7f989db-dc7f-41f1-93b3-abfde18ff80e",
+                "rows": true,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "fts",
+                  "query_text": "beach France",
+                  "limit": 20
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "landmark_24681"
+                    },
+                    {
+                      "doc_key": "landmark_40050"
+                    },
+                    {
+                      "doc_key": "landmark_25719"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 400,
+                "req_id": "6bead4fd-a372-4b69-8895-3a0a54a212c4",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "error": "bad_request",
+                  "message": "get: `ids` must be node_ids. 10 values are a doc_key"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 400,
+                "req_id": "ce06c8ff-1970-4394-b853-0b35b571af69",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "error": "bad_request",
+                  "message": "get: `ids` must be node_ids. 10 values are a doc_key"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "9936e8a7-92eb-47d1-93af-4d136fc97975",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_32176",
+                        "hotel_5097",
+                        "hotel_19324",
+                        "hotel_32173",
+                        "hotel_8966",
+                        "hotel_32175",
+                        "hotel_25326",
+                        "hotel_32174",
+                        "hotel_25960",
+                        "hotel_17313"
+                      ]
+                    },
+                    "path": [
+                      "country"
+                    ],
+                    "return": [
+                      "name",
+                      "city",
+                      "country",
+                      "description",
+                      "address"
+                    ]
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "b40e9ede-8190-43ae-bc1b-a2d7e9901025",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Landmark",
+                      "src_keys": [
+                        "landmark_24681",
+                        "landmark_40050",
+                        "landmark_25719",
+                        "landmark_40013",
+                        "landmark_40055",
+                        "landmark_40059",
+                        "landmark_40074",
+                        "landmark_25220",
+                        "landmark_40070",
+                        "landmark_40071"
+                      ]
+                    },
+                    "path": [
+                      "country"
+                    ],
+                    "return": [
+                      "name",
+                      "city",
+                      "country",
+                      "content",
+                      "activity",
+                      "title"
+                    ]
+                  }
+                },
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "19ecfbad-2b6d-4156-9d48-f4c06de665a7",
+              "2531df11-679c-46ae-8ae1-c33c6b73a68d",
+              "a731a41d-290f-4c6d-bddd-819ec058e27f",
+              "f7f989db-dc7f-41f1-93b3-abfde18ff80e",
+              "6bead4fd-a372-4b69-8895-3a0a54a212c4",
+              "ce06c8ff-1970-4394-b853-0b35b571af69",
+              "9936e8a7-92eb-47d1-93af-4d136fc97975",
+              "b40e9ede-8190-43ae-bc1b-a2d7e9901025"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-travel-beach-itinerary",
+            "turn_id": "b5da952e-863d-4607-b51a-df55d6a828c6",
+            "session_id": "sess_20261119T034424831542b55374e0",
+            "met": true
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        }
+      ],
+      "tallies": {
+        "better": 0,
+        "worse": 0,
+        "same": 1,
+        "retest": 0,
+        "not run": 0,
+        "total": 1
+      },
+      "score": {
+        "total": 1,
+        "met_a": 1,
+        "met_b": 1,
+        "ratio_a": "1/1",
+        "ratio_b": "1/1",
+        "better": 0,
+        "worse": 0,
+        "same": 1,
+        "retest": 0,
+        "net": 0,
+        "better_to_worse": "0:0",
+        "label_a": "base-6.1",
+        "label_b": "base-7.0"
+      }
+    }
+  ],
+  "justification": "Every scored question is the same (1). This suite does not show a reason to switch to base-7.0.",
+  "score": {
+    "total": 1,
+    "met_a": 1,
+    "met_b": 1,
+    "ratio_a": "1/1",
+    "ratio_b": "1/1",
+    "better": 0,
+    "worse": 0,
+    "same": 1,
+    "retest": 0,
+    "net": 0,
+    "better_to_worse": "0:0",
+    "label_a": "base-6.1",
+    "label_b": "base-7.0"
+  },
+  "stem": "2026-11-18_base-6_1_vs_base-7_0",
+  "scope_briefs": [
+    {
+      "scope": "travel-sample/inventory",
+      "has_scope_brief": true,
+      "has_mini_schema": true,
+      "has_walk_paths": true,
+      "chars": 8272,
+      "client_version": "2.4.0",
+      "brief_sha12": "72952f25d726",
+      "route": "/v1/ai/chat_request.json",
+      "mode": "analytics",
+      "injection_source": "turn",
+      "scope_brief_chars": 873,
+      "scope_brief_bytes": 881,
+      "scope_brief_tk": 221,
+      "mini_schema_chars": 7361,
+      "mini_schema_bytes": 7391,
+      "mini_schema_tk": 1848,
+      "mini_schema_sha12": "1cbe7f04d13e",
+      "walk_paths_chars": 3077,
+      "walk_paths_bytes": 3127,
+      "walk_paths_tk": 782,
+      "walk_paths_sha12": "d19ab1a799eb",
+      "full_chars": 13403,
+      "full_bytes": 13491,
+      "full_tk": 3373,
+      "full_sha12": "7980217eae8e"
+    }
+  ]
+}

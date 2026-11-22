@@ -12,7 +12,9 @@ Catalog **JSON packs** live under `v2/base/base-N/` (not here). Production pin i
 
 | Doc | Job |
 | --- | --- |
-| [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) | The test. Goal, suggestion, seven laws. |
+| [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) | The test for base-8.0. Goal, suggestion, seven laws. |
+| [CONSTITUION_DESIGN_v2.md](CONSTITUION_DESIGN_v2.md) | Closed spec. Common rail, exact call, vague chain. Not the base-8.0 gate. Empty-seed cut is base-9-prototype-6, parent base-9-prototype-5. Not the pin. |
+| [QUERY_DECOMPOSITION.md](QUERY_DECOMPOSITION.md) | The first reading of the submitted string. Intent, entity, shape, suggestion, and why, written once beside the queries. |
 | [CHAT_REQUEST.md](CHAT_REQUEST.md) | File anatomy and the hash. |
 | [BIBLE.md](BIBLE.md) | Ownership matrix for the base-4 and base-5 wire. |
 | [PROMPT_ASSEMBLY.md](PROMPT_ASSEMBLY.md) | Byte order. |

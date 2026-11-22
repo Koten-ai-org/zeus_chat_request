@@ -1,0 +1,4573 @@
+{
+  "title": "zeus-0.9.33 vs base-7.x",
+  "date": "2026-10-24",
+  "status": "ran",
+  "label_a": "zeus-0.9.33",
+  "label_b": "base-7.x",
+  "base_id_a": "base-6.1",
+  "base_id_b": "base-7.x",
+  "zeus_version": "0.9.33",
+  "provider": "xai",
+  "provider_base": "https://api.x.ai/v1",
+  "model": "grok-4.7",
+  "client": "zeus_client.run_turn",
+  "client_version": "2.4.0",
+  "verdict_rule": "better means the new pack called the target API and the previous pack did not. worse means the previous pack called the target API and the new pack did not. Rows from a different verb do not count. On Find hoppy citrus beers the target is search hybrid. That row is worse when the previous pack calls search hybrid and the new pack calls search fts, find, or set, even when both sides are HTTP 200 and both returned beers. same means both called the target, or neither did. not run means a model call is missing. When the question says rows are required, an empty Zeus result is not met.",
+  "tallies": {
+    "better": 1,
+    "worse": 2,
+    "same": 11,
+    "not run": 0,
+    "total": 14
+  },
+  "scopes": [
+    {
+      "name": "beer-sample",
+      "scopes": [
+        "beer-sample/_default"
+      ],
+      "rows": [
+        {
+          "id": "beer-traverse-brewery",
+          "text": "Beers whose style is exactly American-Style India Pale Ale: walk each one to its brewery and return the brewery names.",
+          "scope": "beer-sample/_default",
+          "target_api": "find Beer + traverse walk_path",
+          "notes": "Walk path in the brief is Beer to Brewery via brewery_id. A pipeline that contains both steps satisfies this. A single-beer walk of that path is probed on beer-walk-21a-ipa. This multi-beer style walk is not that fixture, so evidence is not required.",
+          "a": {
+            "called": "traverse walk_path, return",
+            "hit": false,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 2,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "fded2fdf-e4dd-4296-86ac-2295bb2d3f94",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Beer",
+                      "where": {
+                        "style": "American-Style India Pale Ale"
+                      }
+                    },
+                    "path": [
+                      "brewery_id"
+                    ],
+                    "limit": 200,
+                    "return": [
+                      "name"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "name": "Brooklyn Brewery"
+                    },
+                    {
+                      "name": "Tallgrass Brewing Co."
+                    },
+                    {
+                      "name": "Asheville Pizza and Brewing Co."
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "fded2fdf-e4dd-4296-86ac-2295bb2d3f94"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-beer-traverse-brewery",
+            "turn_id": "ccb6d683-660c-4208-918b-5dc32b3ca561",
+            "session_id": "sess_20261024T062518710421",
+            "met": false
+          },
+          "b": {
+            "called": "pipeline, find Beer, traverse walk_path, project, return",
+            "hit": true,
+            "rows": false,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 2,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "cfb5afc1-8590-4e89-b3dc-4cf576134d67",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "limit": 200,
+                      "where": {
+                        "style": "American-Style India Pale Ale"
+                      },
+                      "verb": "find",
+                      "as": "beers"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Beer",
+                          "src_keys": "@beers.doc_keys"
+                        },
+                        "path": [
+                          "brewery_id"
+                        ],
+                        "return": [
+                          "name"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "breweries"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "cards"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok",
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "doc_key": "crabby_larry_s_brewpub_steak_crab_house-dead_man_walkin_ipa",
+                      "id": "n_a6d859038219e9",
+                      "name": "Dead Man Walkin' IPA"
+                    },
+                    {
+                      "doc_key": "elliott_bay_brewery_and_pub-dry_hopped_ipa",
+                      "id": "n_1065821cce6f7d",
+                      "name": "Dry Hopped IPA"
+                    },
+                    {
+                      "doc_key": "sierra_nevada_brewing_co-celebration_ale",
+                      "id": "n_2ee05941dd4a1e",
+                      "name": "Celebration Ale"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "cfb5afc1-8590-4e89-b3dc-4cf576134d67"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-beer-traverse-brewery",
+            "turn_id": "8df1513d-81ab-4ba8-bd70-4b2a65793f3c",
+            "session_id": "sess_20261024T063714192309",
+            "met": true
+          },
+          "verdict": "better",
+          "why": "The new pack hit the target API. The previous pack did not."
+        },
+        {
+          "id": "beer-walk-21a-ipa",
+          "text": "Where (city and state) is 21A IPA brewed?",
+          "scope": "beer-sample/_default",
+          "target_api": "traverse walk_path (rows required)",
+          "notes": "Supported on 0.9.19. Once the beer key is known, one walk: from Beer doc_key 21st_amendment_brewery_cafe-21a_ipa, path [brewery_id], return name, city, state. HTTP 200, one row: 21st Amendment Brewery Cafe, San Francisco, California. The utterance has no doc_key, so a seed search may come first. Hybrid 21A IPA's top hit was that key. The scorer does not require the path array.",
+          "a": {
+            "called": "pipeline, find Beer, search hybrid Beer, set, project, traverse walk_path, search fts Beer, find Brewery, return",
+            "hit": true,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "c8761272-905a-4dca-9110-05706781c31d",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "limit": 10,
+                      "where": {
+                        "name": "21A IPA"
+                      },
+                      "verb": "find",
+                      "as": "exact"
+                    },
+                    {
+                      "entity_type": "Beer",
+                      "strategy": "hybrid",
+                      "query_text": "21A IPA",
+                      "limit": 10,
+                      "verb": "search",
+                      "as": "text"
+                    },
+                    {
+                      "verb": "set",
+                      "as": "keys"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "beers"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Beer",
+                          "src_keys": "@keys.doc_keys"
+                        },
+                        "path": [
+                          "brewery_id"
+                        ],
+                        "return": [
+                          "name",
+                          "city",
+                          "state"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "loc"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "d655478f-c847-4797-b5b9-a83adfa44c5d",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "strategy": "fts",
+                      "query_text": "21A",
+                      "limit": 20,
+                      "verb": "search",
+                      "as": "by_desc"
+                    },
+                    {
+                      "entity_type": "Brewery",
+                      "limit": 5,
+                      "where": {
+                        "name": "21st Amendment Brewery Cafe"
+                      },
+                      "verb": "find",
+                      "as": "brewery"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "src_keys": "@brewery.doc_keys"
+                        },
+                        "path": [
+                          {
+                            "inverse": "Beer.brewery_id"
+                          }
+                        ],
+                        "return": [
+                          "name",
+                          "style",
+                          "description"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "beers"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "brew_place"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "56884431-28e8-4be3-8cbb-0eb5063585d2",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "limit": 50,
+                      "where": {
+                        "brewery_id": "21st_amendment_brewery_cafe"
+                      },
+                      "verb": "find",
+                      "as": "beers"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "c8761272-905a-4dca-9110-05706781c31d",
+              "d655478f-c847-4797-b5b9-a83adfa44c5d",
+              "56884431-28e8-4be3-8cbb-0eb5063585d2"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-beer-walk-21a-ipa",
+            "turn_id": "a253b469-cd74-4c88-bb04-eb990faa338a",
+            "session_id": "sess_20261024T062644390285",
+            "met": false
+          },
+          "b": {
+            "called": "pipeline, search hybrid Beer, project, return",
+            "hit": false,
+            "rows": false,
+            "row_count": 20,
+            "http": 200,
+            "rounds": 2,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "a6402c25-e1a5-4b72-8988-46626c6ce613",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "strategy": "hybrid",
+                      "query_text": "21A IPA",
+                      "limit": 20,
+                      "verb": "search",
+                      "as": "beers"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "cards"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok",
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "21st_amendment_brewery_cafe-21a_ipa",
+                      "id": "n_255de77127fc97",
+                      "name": "21A IPA"
+                    },
+                    {
+                      "doc_key": "21st_amendment_brewery_cafe-amendment_pale_ale",
+                      "id": "n_4db6e3f93037df",
+                      "name": "Amendment Pale Ale"
+                    },
+                    {
+                      "doc_key": "21st_amendment_brewery_cafe-double_trouble_ipa",
+                      "id": "n_85e85893fee53f",
+                      "name": "Double Trouble IPA"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "a6402c25-e1a5-4b72-8988-46626c6ce613"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-beer-walk-21a-ipa",
+            "turn_id": "36781669-5430-419b-98ff-657d2aeba484",
+            "session_id": "sess_20261024T063833481528",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "beer-walk-stone-beers",
+          "text": "List every beer made by Stone Brewing.",
+          "scope": "beer-sample/_default",
+          "target_api": "traverse walk_path (rows required)",
+          "notes": "Supported when the brewery key is stone_brewing_co (name Stone Brewing Co.). stone_brewing is not the live key. Inverse path [{\"inverse\":\"Beer.brewery_id\"}], return name, abv, style, limit 8, HTTP 200. Rows included Stone IPA, abv 6.9, style American-Style India Pale Ale. A seed search may precede the walk. The scorer does not require the path array.",
+          "a": {
+            "called": "pipeline, search hybrid Brewery, traverse walk_path, project, return",
+            "hit": true,
+            "rows": true,
+            "row_count": 1,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "ce4d1118-0289-445b-a68c-8ae193bd39a1",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Brewery",
+                      "strategy": "hybrid",
+                      "query_text": "Stone Brewing",
+                      "limit": 10,
+                      "verb": "search",
+                      "as": "stone"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "src_keys": "@stone.doc_keys"
+                        },
+                        "path": [
+                          {
+                            "inverse": "Beer.brewery_id"
+                          }
+                        ],
+                        "limit": 200,
+                        "return": [
+                          "name",
+                          "style",
+                          "category",
+                          "abv",
+                          "ibu"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "beers"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "dfe44f45-0d0a-4abe-8013-0833ad183018",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Beer",
+                          "doc_key": "stone_brewing_co-stone_ipa"
+                        },
+                        "path": [
+                          "brewery_id"
+                        ],
+                        "limit": 5,
+                        "return": [
+                          "name",
+                          "city",
+                          "state",
+                          "country"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "brewery"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "doc_key": "stone_brewing_co"
+                        },
+                        "path": [
+                          {
+                            "inverse": "Beer.brewery_id"
+                          }
+                        ],
+                        "limit": 200,
+                        "return": [
+                          "name",
+                          "style",
+                          "category",
+                          "abv",
+                          "ibu"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "beers"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "8d399783-baec-4b3b-a6c9-a013015edc6c",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 1,
+                  "preview": [
+                    "n_4528975de5a5b9"
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "ce4d1118-0289-445b-a68c-8ae193bd39a1",
+              "dfe44f45-0d0a-4abe-8013-0833ad183018",
+              "8d399783-baec-4b3b-a6c9-a013015edc6c"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-beer-walk-stone-beers",
+            "turn_id": "3b2e181b-f193-4224-801c-8b8ae178101d",
+            "session_id": "sess_20261024T062825097966",
+            "met": true
+          },
+          "b": {
+            "called": "find Brewery, search fts Brewery, find Beer, get, project",
+            "hit": false,
+            "rows": true,
+            "row_count": 32,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "dc7cd75f-9826-4fb5-9683-562d8d6d442e",
+                "rows": false,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 20,
+                  "where": {
+                    "name": "Stone Brewing"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "79fcad3f-5481-4c55-8a1b-9910f384c963",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "strategy": "fts",
+                  "query_text": "Stone Brewing",
+                  "limit": 20
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "standing_stone_brewing_company"
+                    },
+                    {
+                      "doc_key": "stone_city_brewing"
+                    },
+                    {
+                      "doc_key": "stone_brewing_co"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "8355db38-b37c-4e45-aa1c-f9c0f0a74331",
+                "rows": true,
+                "args": {
+                  "entity_type": "Beer",
+                  "limit": 200,
+                  "where": {
+                    "brewery_id": "stone_brewing_co"
+                  }
+                },
+                "sample": {
+                  "row_count": 32,
+                  "preview": [
+                    {
+                      "doc_key": "stone_brewing_co-vertical_epic_06_06_06",
+                      "id": "n_14c6634bce0ef2",
+                      "name": "Vertical Epic 06.06.06"
+                    },
+                    {
+                      "doc_key": "stone_brewing_co-13th_anniversary_ale",
+                      "id": "n_fc312a35fb4672",
+                      "name": "13th Anniversary Ale"
+                    },
+                    {
+                      "doc_key": "stone_brewing_co-stone_pale_ale",
+                      "id": "n_2cefae31605926",
+                      "name": "Stone Pale Ale"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 400,
+                "req_id": "8a9f7f52-c45e-41a8-8caa-467924c53426",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "error": "bad_request",
+                  "message": "get: `ids` must be node_ids. 1 value is a doc_key"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "ba176c9a-00b9-48cd-815f-2f340e33e998",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 1,
+                  "preview": [
+                    "n_14c6634bce0ef2"
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "dc7cd75f-9826-4fb5-9683-562d8d6d442e",
+              "79fcad3f-5481-4c55-8a1b-9910f384c963",
+              "8355db38-b37c-4e45-aa1c-f9c0f0a74331",
+              "8a9f7f52-c45e-41a8-8caa-467924c53426",
+              "ba176c9a-00b9-48cd-815f-2f340e33e998"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-beer-walk-stone-beers",
+            "turn_id": "3aa3c950-c929-43c9-bf98-38c139034b0f",
+            "session_id": "sess_20261024T063910902041",
+            "met": false
+          },
+          "verdict": "worse",
+          "why": "The previous pack hit the target API. The new pack did not."
+        },
+        {
+          "id": "beer-walk-belgian",
+          "text": "What beers come from Belgian breweries?",
+          "scope": "beer-sample/_default",
+          "target_api": "traverse walk_path",
+          "notes": "The forward body from Beer with where {} , path [brewery_id, country], where country=belgium is HTTP 400 on 0.9.19: an empty where is not a selector. The engine doc marks that forward terminal projection as not yet. The selective side worked: from Brewery where country=belgium, inverse Beer.brewery_id, limit 5, HTTP 200, truncated. Rows included Oude Geuze, Drie Fonteinen Kriek, and Leffe Blonde. Country where name=Belgium inverse to Brewery returned 0 rows. Evidence is not required because the textbook forward body does not return rows.",
+          "a": {
+            "called": "pipeline, find Brewery, project, traverse walk_path, return",
+            "hit": true,
+            "rows": true,
+            "row_count": 60,
+            "http": 200,
+            "rounds": 3,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "79d402c7-9da1-4529-ac39-6798a4e040f2",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Brewery",
+                      "limit": 100,
+                      "where": {
+                        "country": "Belgium"
+                      },
+                      "verb": "find",
+                      "as": "belgian_breweries"
+                    },
+                    {
+                      "format": "row",
+                      "verb": "project",
+                      "as": "brewery_rows"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "src_keys": "@belgian_breweries.doc_keys"
+                        },
+                        "path": [
+                          {
+                            "inverse": "Beer.brewery_id"
+                          }
+                        ],
+                        "limit": 200,
+                        "return": [
+                          "name",
+                          "style",
+                          "category",
+                          "abv",
+                          "ibu",
+                          "brewery_id"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "beers"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "ad2ed155-ea40-4145-bc4d-bda8d8bf4ead",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 60,
+                  "preview": [
+                    "n_234ce781ac41d7",
+                    "n_758f055abb08dc",
+                    "n_1770e816b17250"
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "79d402c7-9da1-4529-ac39-6798a4e040f2",
+              "ad2ed155-ea40-4145-bc4d-bda8d8bf4ead"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-beer-walk-belgian",
+            "turn_id": "f15c27a0-4c97-42f8-8a77-c7c10e0dd824",
+            "session_id": "sess_20261024T063007949982",
+            "met": true
+          },
+          "b": {
+            "called": "find Country, find Brewery, find Beer, pipeline, traverse walk_path, order, project",
+            "hit": true,
+            "rows": true,
+            "row_count": 99,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Country",
+                "shape": null,
+                "http": 200,
+                "req_id": "b6f67676-d205-4d6d-9394-b0cff8de8fc5",
+                "rows": false,
+                "args": {
+                  "entity_type": "Country",
+                  "limit": 100
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "65397d69-e34f-415b-8ded-180bbe3dc6ed",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 100,
+                  "where": {
+                    "country": "Belgium"
+                  }
+                },
+                "sample": {
+                  "row_count": 99,
+                  "preview": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat",
+                      "id": "n_2675cc3951e16b",
+                      "name": "Brouwerij Duvel Moortgat"
+                    },
+                    {
+                      "doc_key": "brasserie_brouwerij_cantillon",
+                      "id": "n_00265d811adfd9",
+                      "name": "Brasserie-Brouwerij Cantillon"
+                    },
+                    {
+                      "doc_key": "brouwerij_lindemans",
+                      "id": "n_c264883b222e10",
+                      "name": "Brouwerij Lindemans"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "6608d81a-3f0e-4875-bb7a-f6bf13672184",
+                "rows": true,
+                "args": {
+                  "entity_type": "Beer",
+                  "limit": 5
+                },
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    {
+                      "doc_key": "central_waters_brewing_company-satin_solstice_imperial_stout",
+                      "id": "n_7d1c432d4cd4ee",
+                      "name": "Satin Solstice Imperial Stout"
+                    },
+                    {
+                      "doc_key": "long_trail_brewing_co-blackbeary_wheat",
+                      "id": "n_4afa79135c0f99",
+                      "name": "Blackbeary Wheat"
+                    },
+                    {
+                      "doc_key": "white_winter_winery-dry_mead",
+                      "id": "n_70bddeca186490",
+                      "name": "Dry Mead"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "3db63cc9-22ce-4f31-bdb7-c968ea21d8a6",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 5
+                },
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat",
+                      "id": "n_2675cc3951e16b",
+                      "name": "Brouwerij Duvel Moortgat"
+                    },
+                    {
+                      "doc_key": "brooklyn_brewery",
+                      "id": "n_280e046d05df7e",
+                      "name": "Brooklyn Brewery"
+                    },
+                    {
+                      "doc_key": "brasserie_brouwerij_cantillon",
+                      "id": "n_00265d811adfd9",
+                      "name": "Brasserie-Brouwerij Cantillon"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "b96470d6-d48b-4c99-98cc-b5068e101726",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "src_keys": [
+                            "brouwerij_duvel_moortgat",
+                            "brasserie_brouwerij_cantillon",
+                            "brouwerij_lindemans",
+                            "duvel_moortgat",
+                            "brasserie_de_brunehaut",
+                            "brouwerij_the_musketiers",
+                            "kleinbrouwerij_de_glazen_toren",
+                            "brouwerij_van_steenberge",
+                            "brouwerij_kerkom",
+                            "brouwerij_oud_beersel",
+                            "brouwerij_huyghe",
+                            "brouwerij_de_ranke",
+                            "brasserie_du_bocq",
+                            "brouwerij_abdij_der_trappisten_van_westmalle",
+                            "timmermans",
+                            "brouwerij_het_anker",
+                            "tongerlo",
+                            "abbaye_de_maredsous",
+                            "affligem_brouwerij",
+                            "brouwerij_alken_maes",
+                            "brasserie_dupont",
+                            "brewery_belle_vue",
+                            "brouwerij_liefmans",
+                            "brouwerij_de_regenboog",
+                            "brewery_corsendonk",
+                            "brasserie_d_orval",
+                            "brasserie_de_silenrieux",
+                            "brouwerij_bavik_de_brabandere",
+                            "brouwerij_strubbe",
+                            "microbrouwerij_achilles",
+                            "brasserie_de_blaugies",
+                            "abbaye_notre_dame_du_st_remy",
+                            "brasserie_de_silly",
+                            "brouwerij_slaghmuylder",
+                            "brasserie_des_gants",
+                            "brouwerij_abdij_saint_sixtus",
+                            "brouwerij_de_keersmaeker",
+                            "john_martin_sa",
+                            "brasserie_la_caracole",
+                            "folx_les_caves",
+                            "brasserie_fantme",
+                            "brouwerij_de_block",
+                            "de_leyerth_brouwerijen",
+                            "brouwerij_van_eecke",
+                            "brennerei_distillerie_radermacher",
+                            "brouwerij_van_honsebrouck",
+                            "brouwerij_boon",
+                            "van_honsebrouch",
+                            "daas",
+                            "brouwerij_de_dolle_brouwers",
+                            "brasserie_la_binchoise",
+                            "chimay_abbaye_notre_dame_de_scourmont",
+                            "liefmans_breweries",
+                            "ronald_mengerink",
+                            "de_struise_brouwers",
+                            "brasserie_val_de_sambre",
+                            "brouwerij_sint_jozef",
+                            "icobes_b_v_b_a",
+                            "brouwerij_van_den_bossche",
+                            "inbev",
+                            "brasserie_de_l_abbaye_des_rocs",
+                            "brouwerij_st_feuillien",
+                            "brasserie_dubuisson",
+                            "abbaye_de_leffe",
+                            "brouwerij_verhaeghe",
+                            "palm_breweries",
+                            "brouwerij_duysters",
+                            "brasserie_clarysse",
+                            "brouwerij_de_achelse_kluis",
+                            "brouwerij_de_landtsheer",
+                            "brouwerij_sterkens",
+                            "de_dochter_van_de_korenaar",
+                            "brasserie_d_achouffe",
+                            "brouwerij_bockor",
+                            "brouwerij_bosteels",
+                            "brewery_de_troch",
+                            "3_fonteinen_brouwerij_ambachtelijke_geuzestekerij",
+                            "brouwerij_der_sint_benedictusabdij_de_achelse_kluis",
+                            "hanssens_artisanal",
+                            "brouwerij_de_gouden_boom",
+                            "brouwerij_rodenbach",
+                            "brasserie_de_cazeau",
+                            "brasserie_de_la_senne",
+                            "brouwerij_st_bernardus",
+                            "brouwerij_roman",
+                            "de_proef_brouwerij",
+                            "alvinne_picobrouwerij",
+                            "brouwerij_girardin",
+                            "brouwerij_de_smedt",
+                            "brasserie_lefebvre",
+                            "brasserie_de_l_abbaye_val_dieu",
+                            "brasserie_de_l_abbaye_de_scourmont_trappistes",
+                            "brasserie_de_vervifontaine",
+                            "de_halve_maan",
+                            "brouwerij_van_hoegaarden",
+                            "brasserie_artisanale_de_rulles",
+                            "brasserie_d_ecaussinnes",
+                            "brasserie_ellezelloise",
+                            "brouwerij_artois"
+                          ]
+                        },
+                        "path": [
+                          {
+                            "inverse": "Beer.brewery_id"
+                          }
+                        ],
+                        "return": [
+                          "name",
+                          "abv",
+                          "style",
+                          "category",
+                          "brewery_id"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "beers"
+                    },
+                    {
+                      "limit": 20,
+                      "verb": "order",
+                      "as": "page"
+                    },
+                    {
+                      "format": "card",
+                      "verb": "project",
+                      "as": "cards"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "bf5511e4-2bc1-40d3-9230-e22f92aab0d4",
+                "rows": true,
+                "args": {
+                  "entity_type": "Beer",
+                  "limit": 20,
+                  "where": {
+                    "brewery_id": "brouwerij_duvel_moortgat"
+                  }
+                },
+                "sample": {
+                  "row_count": 1,
+                  "preview": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat-maredsous_10_tripple",
+                      "id": "n_682a8c1fe81a80",
+                      "name": "Maredsous 10 Tripple"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "0cf64a99-cb1e-4262-b029-9c7a84dc8c2c",
+                "rows": true,
+                "args": {
+                  "entity_type": "Beer",
+                  "limit": 20,
+                  "where": {
+                    "brewery_id": "chimay_abbaye_notre_dame_de_scourmont"
+                  }
+                },
+                "sample": {
+                  "row_count": 4,
+                  "preview": [
+                    {
+                      "doc_key": "chimay_abbaye_notre_dame_de_scourmont-chimay_grand_reserve_chimay_blue",
+                      "id": "n_791c3aa9b1c018",
+                      "name": "Chimay Grand Reserve(Chimay Blue)"
+                    },
+                    {
+                      "doc_key": "chimay_abbaye_notre_dame_de_scourmont-chimay_premiere_chimay_red",
+                      "id": "n_90a0dcbb835340",
+                      "name": "Chimay Première (Chimay Red)"
+                    },
+                    {
+                      "doc_key": "chimay_abbaye_notre_dame_de_scourmont-chimay_triple_chimay_white",
+                      "id": "n_7e1675d76ce47d",
+                      "name": "Chimay Triple (Chimay White)"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "de7b8fa9-3dee-44df-b45b-ab7ecbbca860",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "src_keys": [
+                        "brouwerij_duvel_moortgat",
+                        "brasserie_brouwerij_cantillon",
+                        "chimay_abbaye_notre_dame_de_scourmont"
+                      ]
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "return": [
+                      "name",
+                      "abv",
+                      "style",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 15,
+                  "preview": [
+                    {
+                      "name": "Bruocsella 1900 Grand Cru"
+                    },
+                    {
+                      "name": "Iris 1996"
+                    },
+                    {
+                      "name": "Classic Gueuze"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "b6f67676-d205-4d6d-9394-b0cff8de8fc5",
+              "65397d69-e34f-415b-8ded-180bbe3dc6ed",
+              "6608d81a-3f0e-4875-bb7a-f6bf13672184",
+              "3db63cc9-22ce-4f31-bdb7-c968ea21d8a6",
+              "b96470d6-d48b-4c99-98cc-b5068e101726",
+              "bf5511e4-2bc1-40d3-9230-e22f92aab0d4",
+              "0cf64a99-cb1e-4262-b029-9c7a84dc8c2c",
+              "de7b8fa9-3dee-44df-b45b-ab7ecbbca860"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-beer-walk-belgian",
+            "turn_id": "b1d09659-a787-405b-b1f1-6e1cc2379935",
+            "session_id": "sess_20261024T064000479890",
+            "met": true
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        },
+        {
+          "id": "beer-walk-colorado-counts",
+          "text": "How many beers does each Colorado brewery produce?",
+          "scope": "beer-sample/_default",
+          "target_api": "traverse walk_path",
+          "notes": "The state value that matched is lowercase colorado. group_by as an array is HTTP 400 (expected a string). group_by brewery.name is HTTP 400 because v1 group_by is terminal-local. group_by name on the beer side returned beer-name counts (Pale Ale 3), not a count per brewery. The row form, inverse Beer.brewery_id with return name, abv, style, returns beers and does not attach the brewery name. Evidence is not required.",
+          "a": {
+            "called": "find State, find Brewery, pipeline, traverse walk_path, find Beer",
+            "hit": true,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "State",
+                "shape": null,
+                "http": 200,
+                "req_id": "15d2a089-953d-45bc-ae13-371e2028354b",
+                "rows": false,
+                "args": {
+                  "entity_type": "State",
+                  "limit": 100
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "cee33fcc-0237-4982-bf62-65038f78292b",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 50,
+                  "where": {
+                    "state": "Colorado"
+                  }
+                },
+                "sample": {
+                  "row_count": 50,
+                  "preview": [
+                    {
+                      "doc_key": "new_belgium_brewing",
+                      "id": "n_803e8205aeba2f",
+                      "name": "New Belgium Brewing"
+                    },
+                    {
+                      "doc_key": "ska_brewing_company",
+                      "id": "n_6d1c558cd79490",
+                      "name": "Ska Brewing Company"
+                    },
+                    {
+                      "doc_key": "crabtree_brewery",
+                      "id": "n_cd089d29199268",
+                      "name": "Crabtree Brewery"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "0193eee3-c1f5-4e05-ac26-c295d29ba96e",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Brewery",
+                      "limit": 500,
+                      "where": {
+                        "state": "Colorado"
+                      },
+                      "verb": "find",
+                      "as": "breweries"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "src_keys": "@breweries.doc_keys"
+                        },
+                        "path": [
+                          {
+                            "inverse": "Beer.brewery_id"
+                          }
+                        ],
+                        "limit": 5000,
+                        "return": [
+                          "name",
+                          "brewery_id"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "beers"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "c8d03bcb-20d9-4bb5-8587-aeccf5bde19c",
+                "rows": false,
+                "args": {
+                  "entity_type": "Brewery",
+                  "where": {
+                    "state": "Colorado"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "58d50e87-cf51-442f-8fcc-f0fa150622fc",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 200,
+                  "where": {
+                    "state": "Colorado"
+                  }
+                },
+                "sample": {
+                  "row_count": 60,
+                  "preview": [
+                    {
+                      "doc_key": "new_belgium_brewing",
+                      "id": "n_803e8205aeba2f",
+                      "name": "New Belgium Brewing"
+                    },
+                    {
+                      "doc_key": "ska_brewing_company",
+                      "id": "n_6d1c558cd79490",
+                      "name": "Ska Brewing Company"
+                    },
+                    {
+                      "doc_key": "crabtree_brewery",
+                      "id": "n_cd089d29199268",
+                      "name": "Crabtree Brewery"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "4f2b6755-a49e-4a93-8a4f-f58198e1b6d8",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "where": {
+                        "state": "Colorado"
+                      }
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "limit": 200,
+                    "return": [
+                      "name",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "name": "Loyal Duke Scotch Ale"
+                    },
+                    {
+                      "name": "Conundrum Red Ale"
+                    },
+                    {
+                      "name": "Old Jubilation Ale"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "efe66eea-5e11-41f9-9d45-5c5fa18779ac",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer",
+                  "where": {
+                    "brewery_id": "odell_brewing"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "905967a9-10cf-42d0-bd07-f8cc9be2b596",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer",
+                  "where": {
+                    "brewery_id": "oskar_blues_grill_and_brew"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "59e4a3fb-ed70-4d3c-bbd5-025469aed9f2",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer",
+                  "where": {
+                    "brewery_id": "pint_s_pub_brewery_and_freehouse"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "2e1d6edf-1cc4-4d7f-b3ad-dda6053a0554",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer",
+                  "where": {
+                    "brewery_id": "pug_ryan_s_steakhouse_and_brewery"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "53c53b01-4b45-4b61-91aa-01c4dc413cd9",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer",
+                  "where": {
+                    "brewery_id": "pumphouse_brewery_restaurant"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "1292ff60-86c0-46c6-a490-96f89275d7a9",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer",
+                  "where": {
+                    "brewery_id": "redfish_new_orleans_brewhouse"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "5ee10ab5-0cd5-4046-be82-a03e2fdccca3",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer",
+                  "where": {
+                    "brewery_id": "rock_bottom_restaurant_brewery_denver"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "46da9c8a-a828-4ed0-8c46-adfb36fd9f8a",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer",
+                  "where": {
+                    "brewery_id": "rock_bottom_restaurant_brewery_south_denver"
+                  }
+                },
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "15d2a089-953d-45bc-ae13-371e2028354b",
+              "cee33fcc-0237-4982-bf62-65038f78292b",
+              "0193eee3-c1f5-4e05-ac26-c295d29ba96e",
+              "c8d03bcb-20d9-4bb5-8587-aeccf5bde19c",
+              "58d50e87-cf51-442f-8fcc-f0fa150622fc",
+              "4f2b6755-a49e-4a93-8a4f-f58198e1b6d8",
+              "efe66eea-5e11-41f9-9d45-5c5fa18779ac",
+              "905967a9-10cf-42d0-bd07-f8cc9be2b596",
+              "59e4a3fb-ed70-4d3c-bbd5-025469aed9f2",
+              "2e1d6edf-1cc4-4d7f-b3ad-dda6053a0554",
+              "53c53b01-4b45-4b61-91aa-01c4dc413cd9",
+              "1292ff60-86c0-46c6-a490-96f89275d7a9",
+              "5ee10ab5-0cd5-4046-be82-a03e2fdccca3",
+              "46da9c8a-a828-4ed0-8c46-adfb36fd9f8a"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-beer-walk-colorado-counts",
+            "turn_id": "dcfa4245-7c33-4859-9fea-44eacce76e1b",
+            "session_id": "sess_20261024T063155620802",
+            "met": true
+          },
+          "b": {
+            "called": "find Brewery, find State, traverse walk_path, return",
+            "hit": true,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "06d600fa-ccff-46e4-9079-e1a981eeff0a",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 100,
+                  "where": {
+                    "state": "Colorado"
+                  }
+                },
+                "sample": {
+                  "row_count": 60,
+                  "preview": [
+                    {
+                      "doc_key": "new_belgium_brewing",
+                      "id": "n_803e8205aeba2f",
+                      "name": "New Belgium Brewing"
+                    },
+                    {
+                      "doc_key": "ska_brewing_company",
+                      "id": "n_6d1c558cd79490",
+                      "name": "Ska Brewing Company"
+                    },
+                    {
+                      "doc_key": "crabtree_brewery",
+                      "id": "n_cd089d29199268",
+                      "name": "Crabtree Brewery"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "State",
+                "shape": null,
+                "http": 200,
+                "req_id": "cbe09d32-4f9a-4a89-b30d-1aec7b2f8be2",
+                "rows": false,
+                "args": {
+                  "entity_type": "State",
+                  "limit": 50
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "adc8be95-8a43-4974-9966-e4f9a5cd8e48",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "where": {
+                        "state": "Colorado"
+                      }
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "return": [
+                      "name",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "name": "Loyal Duke Scotch Ale"
+                    },
+                    {
+                      "name": "Conundrum Red Ale"
+                    },
+                    {
+                      "name": "Old Jubilation Ale"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "f03d4d0a-4746-403e-894f-cc5270ed0108",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "where": {
+                        "state": "Colorado"
+                      }
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "limit": 500,
+                    "return": [
+                      "name",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 67,
+                  "preview": [
+                    {
+                      "name": "Bobby"
+                    },
+                    {
+                      "name": "Odell Red Ale"
+                    },
+                    {
+                      "name": "Easy Street Wheat"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "06d600fa-ccff-46e4-9079-e1a981eeff0a",
+              "cbe09d32-4f9a-4a89-b30d-1aec7b2f8be2",
+              "adc8be95-8a43-4974-9966-e4f9a5cd8e48",
+              "f03d4d0a-4746-403e-894f-cc5270ed0108"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-beer-walk-colorado-counts",
+            "turn_id": "c9f13b89-f7f3-44a0-9be5-d388e8e98d4f",
+            "session_id": "sess_20261024T064155258579",
+            "met": true
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        },
+        {
+          "id": "beer-walk-beers-by-country",
+          "text": "Count beers by country.",
+          "scope": "beer-sample/_default",
+          "target_api": "traverse walk_path",
+          "notes": "Engine label is partial: terminal-local group_by only. The demo body from Beer where {} with group_by as an array did not execute on 0.9.19 (empty where is not a selector, and group_by must be a string). This is not a successful country rollup. Evidence is not required.",
+          "a": {
+            "called": "pipeline, find Beer, project, find Country, find Brewery",
+            "hit": false,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 400,
+                "req_id": "61b6fcb3-8899-4234-8051-e055c27f7737",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "limit": 10000,
+                      "verb": "find",
+                      "as": "beers"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "rejected",
+                  "error": "{'at_step': None, 'at_step_index': 0, 'at_step_verb': 'find', 'pipeline_check': 'binding_limit', 'category': 'validation', 'code': 'PIPELINE_BINDING_TOO_LARGE', 'message': 'step \"beers\" limit=10000 ex"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "dee58527-b015-415d-8d07-eb174d8a9037",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "verb": "find",
+                      "as": "beer_count"
+                    },
+                    {
+                      "entity_type": "Beer",
+                      "limit": 5000,
+                      "verb": "find",
+                      "as": "beers"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "cc6797dd-300e-40e7-a691-a444eff745ae",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer"
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Country",
+                "shape": null,
+                "http": 200,
+                "req_id": "ddcdf952-1f1d-4d97-96e8-d7f00952c8ad",
+                "rows": false,
+                "args": {
+                  "entity_type": "Country",
+                  "limit": 200
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "76b6cdc3-9d70-479e-ba02-9d0bcc7a74d6",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 2000
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat",
+                      "id": "n_2675cc3951e16b"
+                    },
+                    {
+                      "doc_key": "brooklyn_brewery",
+                      "id": "n_280e046d05df7e"
+                    },
+                    {
+                      "doc_key": "brasserie_brouwerij_cantillon",
+                      "id": "n_00265d811adfd9"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "ae4fc82b-89ff-490a-b732-dc6dcf47c590",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "limit": 100,
+                      "verb": "find",
+                      "as": "beers"
+                    },
+                    {
+                      "limit": 100,
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              }
+            ],
+            "req_ids": [
+              "61b6fcb3-8899-4234-8051-e055c27f7737",
+              "dee58527-b015-415d-8d07-eb174d8a9037",
+              "cc6797dd-300e-40e7-a691-a444eff745ae",
+              "ddcdf952-1f1d-4d97-96e8-d7f00952c8ad",
+              "76b6cdc3-9d70-479e-ba02-9d0bcc7a74d6",
+              "ae4fc82b-89ff-490a-b732-dc6dcf47c590"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-beer-walk-beers-by-country",
+            "turn_id": "2fad78a1-4d74-47cd-a2c8-8242e4b19d96",
+            "session_id": "sess_20261024T063348455273",
+            "met": false
+          },
+          "b": {
+            "called": "find Beer, find Brewery, find Country, pipeline, project, get",
+            "hit": false,
+            "rows": true,
+            "row_count": 30,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 429,
+                "req_id": "87f98637-8292-408c-af34-81992157ba1b",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer"
+                },
+                "sample": {
+                  "error": "session_force_closed",
+                  "message": "session exceeded per-session round budget; re-authenticate to continue"
+                }
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "64c1c738-27c6-4aa4-96c1-f14984d19227",
+                "rows": false,
+                "args": {
+                  "entity_type": "Brewery"
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Country",
+                "shape": null,
+                "http": 200,
+                "req_id": "0731f84b-2bd0-4b3f-9329-4feef2f08571",
+                "rows": false,
+                "args": {
+                  "entity_type": "Country",
+                  "limit": 200
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "fd9c7e01-3f54-4f2b-824f-14ac464ebc3a",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Brewery",
+                      "limit": 50,
+                      "verb": "find",
+                      "as": "breweries"
+                    },
+                    {
+                      "entity_type": "Beer",
+                      "verb": "find",
+                      "as": "beer_count"
+                    },
+                    {
+                      "entity_type": "Beer",
+                      "limit": 200,
+                      "verb": "find",
+                      "as": "beers"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "f0b57fc0-6810-49dc-ad1a-ce8ad034d70e",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Brewery",
+                      "limit": 50,
+                      "verb": "find",
+                      "as": "brew_ids"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "breweries"
+                    },
+                    {
+                      "entity_type": "Beer",
+                      "verb": "find",
+                      "as": "beer_n"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "46f3eee5-b37e-41e5-87d8-e36bcf7b1aa8",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 30
+                },
+                "sample": {
+                  "row_count": 30,
+                  "preview": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat",
+                      "id": "n_2675cc3951e16b",
+                      "name": "Brouwerij Duvel Moortgat"
+                    },
+                    {
+                      "doc_key": "brooklyn_brewery",
+                      "id": "n_280e046d05df7e",
+                      "name": "Brooklyn Brewery"
+                    },
+                    {
+                      "doc_key": "brasserie_brouwerij_cantillon",
+                      "id": "n_00265d811adfd9",
+                      "name": "Brasserie-Brouwerij Cantillon"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "7014ef8f-ba76-4e57-b559-158fe8d036b9",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 1,
+                  "preview": [
+                    {
+                      "doc_key": "central_waters_brewing_company-satin_solstice_imperial_stout",
+                      "id": "n_7d1c432d4cd4ee",
+                      "name": "Satin Solstice Imperial Stout",
+                      "entity_type": "Beer"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "87f98637-8292-408c-af34-81992157ba1b",
+              "64c1c738-27c6-4aa4-96c1-f14984d19227",
+              "0731f84b-2bd0-4b3f-9329-4feef2f08571",
+              "fd9c7e01-3f54-4f2b-824f-14ac464ebc3a",
+              "f0b57fc0-6810-49dc-ad1a-ce8ad034d70e",
+              "46f3eee5-b37e-41e5-87d8-e36bcf7b1aa8",
+              "7014ef8f-ba76-4e57-b559-158fe8d036b9"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-beer-walk-beers-by-country",
+            "turn_id": "0ac98591-6aee-48ca-944a-c6189f2cd0b8",
+            "session_id": "sess_20261024T064401502705",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "beer-colorado-itinerary",
+          "text": "If I wanted to plan a trip in Colorado and I wanted to visit breweries, which beers and breweries would you suggest I go to? Can you create a general itinerary for me?",
+          "scope": "beer-sample/_default",
+          "target_api": "traverse walk_path",
+          "notes": "Open plan, not one pure hop. find Brewery where state=colorado returned 40 names and was truncated. An inverse walk to Beer returns the beers. path [city] on New Belgium was closure_validated and returned 0 rows. City strings are on get metadata (Fort Collins, Boulder, Denver, and others on that page). The per-brewery count aggregate is not the fixture. Evidence is not required because an aggregate-shaped walk returns HTTP 400.",
+          "a": {
+            "called": "pipeline, find Brewery, project, traverse walk_path",
+            "hit": true,
+            "rows": true,
+            "row_count": 78,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "1d2d2e55-b189-4f3c-8b4d-12bd452a2e54",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Brewery",
+                      "limit": 40,
+                      "where": {
+                        "state": "Colorado"
+                      },
+                      "verb": "find",
+                      "as": "breweries"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "brew_rows"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "src_keys": "@breweries.doc_keys"
+                        },
+                        "path": [
+                          {
+                            "inverse": "Beer.brewery_id"
+                          }
+                        ],
+                        "limit": 100,
+                        "return": [
+                          "name",
+                          "style",
+                          "abv",
+                          "ibu",
+                          "category",
+                          "brewery_id"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "beers"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "35e4fabf-0bbf-483b-bde0-cebf08c05dc5",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 50,
+                  "where": {
+                    "state": "Colorado"
+                  }
+                },
+                "sample": {
+                  "row_count": 50,
+                  "preview": [
+                    {
+                      "doc_key": "new_belgium_brewing",
+                      "id": "n_803e8205aeba2f",
+                      "name": "New Belgium Brewing"
+                    },
+                    {
+                      "doc_key": "ska_brewing_company",
+                      "id": "n_6d1c558cd79490",
+                      "name": "Ska Brewing Company"
+                    },
+                    {
+                      "doc_key": "crabtree_brewery",
+                      "id": "n_cd089d29199268",
+                      "name": "Crabtree Brewery"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "55fa28ba-55c0-484a-b37a-e2f8016f4840",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "src_keys": [
+                            "new_belgium_brewing",
+                            "ska_brewing_company",
+                            "boulder_beer_company",
+                            "great_divide_brewing",
+                            "avery_brewing_company",
+                            "oskar_blues_grill_and_brew",
+                            "wynkoop_brewing",
+                            "aspen_brewing_company",
+                            "denver_chophouse_and_brewery",
+                            "fort_collins_brewery",
+                            "coors_brewing_golden_brewery",
+                            "estes_park_brewery",
+                            "crested_butte_brewery_pub",
+                            "dillon_dam_brewery",
+                            "bristol_brewing",
+                            "flying_dog_brewery",
+                            "glenwood_canyon_brewing_company",
+                            "mountain_sun_pub_brewery",
+                            "trinity_brewing_company",
+                            "tommyknocker_brewery_and_pub",
+                            "backcountry_brewery",
+                            "carver_brewing_co",
+                            "golden_city_brewery",
+                            "gore_range_brewery",
+                            "heavenly_daze_brewery_and_grill",
+                            "amicas_pizza_microbrews_and_more",
+                            "union_colony_brewery",
+                            "twisted_pine_brewing_company",
+                            "walnut_brewery",
+                            "sandlot_brewery_at_coors_field",
+                            "rock_bottom_restaurant_brewery_denver",
+                            "grand_lake_brewing",
+                            "rockyard_brewing",
+                            "pug_ryan_s_steakhouse_and_brewery",
+                            "pumphouse_brewery_restaurant",
+                            "hc_berger_brewing",
+                            "cheshire_cat_brewery",
+                            "blicks_brewing",
+                            "bull_bush_pub_brewery",
+                            "dostal_alley"
+                          ]
+                        },
+                        "path": [
+                          "city"
+                        ],
+                        "limit": 50,
+                        "return": [
+                          "name"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "cities"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "details"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "20c5e225-b6d1-4086-9ecb-3529e66940e9",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "src_keys": [
+                        "new_belgium_brewing",
+                        "ska_brewing_company",
+                        "oskar_blues_grill_and_brew",
+                        "wynkoop_brewing",
+                        "flying_dog_brewery",
+                        "mountain_sun_pub_brewery",
+                        "trinity_brewing_company",
+                        "estes_park_brewery",
+                        "coors_brewing_golden_brewery",
+                        "golden_city_brewery",
+                        "fort_collins_brewery",
+                        "bristol_brewing",
+                        "aspen_brewing_company"
+                      ]
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "limit": 80,
+                    "return": [
+                      "name",
+                      "style",
+                      "abv",
+                      "category"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 78,
+                  "preview": [
+                    {
+                      "name": "Conundrum Red Ale"
+                    },
+                    {
+                      "name": "Winter Warlock Oatmeal Stout"
+                    },
+                    {
+                      "name": "Coors Light"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "1d2d2e55-b189-4f3c-8b4d-12bd452a2e54",
+              "35e4fabf-0bbf-483b-bde0-cebf08c05dc5",
+              "55fa28ba-55c0-484a-b37a-e2f8016f4840",
+              "20c5e225-b6d1-4086-9ecb-3529e66940e9"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-beer-colorado-itinerary",
+            "turn_id": "d224a422-12c9-4fb1-8694-666f8749c20a",
+            "session_id": "sess_20261024T063613328860",
+            "met": true
+          },
+          "b": {
+            "called": "search fts Brewery, find Brewery, pipeline, project, traverse walk_path",
+            "hit": true,
+            "rows": true,
+            "row_count": 40,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "18622313-5a4d-42fb-b3d4-e2eaeb878f51",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "strategy": "fts",
+                  "query_text": "Colorado",
+                  "limit": 40
+                },
+                "sample": {
+                  "row_count": 2,
+                  "preview": [
+                    {
+                      "doc_key": "twisted_pine_brewing_company"
+                    },
+                    {
+                      "doc_key": "carver_brewing_co"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "80b7fb55-e99a-451d-99d2-ceaacc439909",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 40,
+                  "where": {
+                    "state": "Colorado"
+                  }
+                },
+                "sample": {
+                  "row_count": 40,
+                  "preview": [
+                    {
+                      "doc_key": "new_belgium_brewing",
+                      "id": "n_803e8205aeba2f",
+                      "name": "New Belgium Brewing"
+                    },
+                    {
+                      "doc_key": "ska_brewing_company",
+                      "id": "n_6d1c558cd79490",
+                      "name": "Ska Brewing Company"
+                    },
+                    {
+                      "doc_key": "crabtree_brewery",
+                      "id": "n_cd089d29199268",
+                      "name": "Crabtree Brewery"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "2835d36a-8d32-4fa8-84b2-d6ca05f5455a",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Brewery",
+                      "limit": 200,
+                      "where": {
+                        "state": "Colorado"
+                      },
+                      "verb": "find",
+                      "as": "co"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "src_keys": "@co.doc_keys"
+                        },
+                        "path": [
+                          {
+                            "inverse": "Beer.brewery_id"
+                          }
+                        ],
+                        "return": [
+                          "name",
+                          "style",
+                          "abv",
+                          "ibu",
+                          "category",
+                          "brewery_id"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "beers"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "9d60ec89-308d-447c-bb9d-080eaab75f48",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 40,
+                  "preview": [
+                    "n_803e8205aeba2f",
+                    "n_6d1c558cd79490",
+                    "n_cd089d29199268"
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "ce3af453-4f14-4b9e-894e-f4d4cefce852",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 5,
+                  "where": {
+                    "name": "Breckenridge Brewery"
+                  }
+                },
+                "sample": {
+                  "row_count": 1,
+                  "preview": [
+                    {
+                      "doc_key": "breckenridge_brewery",
+                      "id": "n_d46c3c35cd9a19",
+                      "name": "Breckenridge Brewery"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "465c5cba-71fb-4480-a04c-47b652245e01",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Beer",
+                      "src_keys": [
+                        "left_hand_brewing_company-left_hand_milk_stout",
+                        "coors_brewing_golden_brewery-blue_moon_belgian_white",
+                        "estes_park_brewery-renegade_ipa",
+                        "flying_dog_brewery-snake_dog_ipa",
+                        "breckenridge_brewery-avalanche_amber",
+                        "oskar_blues_grill_and_brew"
+                      ]
+                    },
+                    "path": [
+                      "brewery_id"
+                    ],
+                    "return": [
+                      "name",
+                      "city",
+                      "state"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    {
+                      "name": "Flying Dog Brewery"
+                    },
+                    {
+                      "name": "Estes Park Brewery"
+                    },
+                    {
+                      "name": "Coors Brewing - Golden Brewery"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "18622313-5a4d-42fb-b3d4-e2eaeb878f51",
+              "80b7fb55-e99a-451d-99d2-ceaacc439909",
+              "2835d36a-8d32-4fa8-84b2-d6ca05f5455a",
+              "9d60ec89-308d-447c-bb9d-080eaab75f48",
+              "ce3af453-4f14-4b9e-894e-f4d4cefce852",
+              "465c5cba-71fb-4480-a04c-47b652245e01"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-beer-colorado-itinerary",
+            "turn_id": "ea63a296-8aa7-4173-9a2c-2f5c5b8070bf",
+            "session_id": "sess_20261024T064544027135",
+            "met": true
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        }
+      ],
+      "tallies": {
+        "better": 1,
+        "worse": 1,
+        "same": 5,
+        "not run": 0,
+        "total": 7
+      },
+      "score": {
+        "total": 7,
+        "met_a": 4,
+        "met_b": 4,
+        "ratio_a": "4/7",
+        "ratio_b": "4/7",
+        "better": 1,
+        "worse": 1,
+        "same": 5,
+        "net": 0,
+        "better_to_worse": "1:1",
+        "label_a": "zeus-0.9.33",
+        "label_b": "base-7.x"
+      }
+    },
+    {
+      "name": "travel-sample",
+      "scopes": [
+        "travel-sample/inventory"
+      ],
+      "rows": [
+        {
+          "id": "travel-traverse-country",
+          "text": "Find beach destination hotels of type hotel, then walk those hotels to their country.",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path + or search hybrid hotel or search hybrid Hotel",
+          "notes": "Brief path is Hotel to Country via country. On type hotel that path is HTTP 400: country is not a declared FK. from.entity_type is required. Evidence is not required.",
+          "a": {
+            "called": "pipeline, search fts Hotel, project, traverse walk_path, search hybrid Hotel, find Hotel, search semantic Hotel",
+            "hit": true,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "b82d5e13-9df7-4bbe-b9f9-ed08a8adc5d0",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "fts",
+                      "query_text": "beach",
+                      "limit": 25,
+                      "verb": "search",
+                      "as": "beach"
+                    },
+                    {
+                      "limit": 25,
+                      "verb": "project",
+                      "as": "hotels"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Hotel",
+                          "src_keys": "@beach.doc_keys"
+                        },
+                        "path": [
+                          "country"
+                        ],
+                        "limit": 25
+                      },
+                      "verb": "traverse",
+                      "as": "countries"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "failed",
+                  "error": "{'at_step': 'beach', 'at_step_index': 0, 'at_step_verb': 'search', 'category': 'internal', 'code': 'STEP_FAILED', 'message': 'tool request failed'}"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "24e7ec2f-7507-46cc-8086-6abb9d3cd3b6",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "beach",
+                      "limit": 15,
+                      "verb": "search",
+                      "as": "beach"
+                    },
+                    {
+                      "limit": 15,
+                      "verb": "project",
+                      "as": "hotels"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Hotel",
+                          "src_keys": "@beach.doc_keys"
+                        },
+                        "path": [
+                          "country"
+                        ],
+                        "limit": 15
+                      },
+                      "verb": "traverse",
+                      "as": "countries"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "failed",
+                  "error": "{'at_step': 'countries', 'at_step_index': 2, 'at_step_verb': 'traverse', 'category': 'validation', 'code': 'STEP_FAILED', 'message': 'walk_path: from requires exactly one of doc_key, src_keys, where'}"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "fdc8678d-c1e5-45cb-8d59-db2030879ae2",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "beach",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "bd723950-dffd-4045-b8d6-fee577d4771b",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel"
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "search",
+                "strategy": "semantic",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "36bec84e-0119-4e55-aed2-1e9eae2e799c",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "semantic",
+                  "query_text": "beach destination",
+                  "limit": 15
+                },
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "b82d5e13-9df7-4bbe-b9f9-ed08a8adc5d0",
+              "24e7ec2f-7507-46cc-8086-6abb9d3cd3b6",
+              "fdc8678d-c1e5-45cb-8d59-db2030879ae2",
+              "bd723950-dffd-4045-b8d6-fee577d4771b",
+              "36bec84e-0119-4e55-aed2-1e9eae2e799c"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-travel-traverse-country",
+            "turn_id": "c9f0469c-7e0a-43fc-affb-b24cf152c495",
+            "session_id": "sess_20261024T062518714971",
+            "met": true
+          },
+          "b": {
+            "called": "describe, search fts hotel, find hotel, get",
+            "hit": false,
+            "rows": true,
+            "row_count": 5,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "describe",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "a402ca28-c9d9-49e8-b404-2384fca67432",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "401fa2bb-b0e9-4e00-901d-93762cf12021",
+                "rows": false,
+                "args": {
+                  "entity_type": "hotel",
+                  "strategy": "fts",
+                  "query_text": "beach destination",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "1284f504-2ebf-49c9-a120-634c03cd63ae",
+                "rows": true,
+                "args": {
+                  "entity_type": "hotel",
+                  "limit": 5
+                },
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "Redbrook"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "id": "n_4f629f17a9d2ae",
+                      "name": "Darwin"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "a9ca0e0c-b21e-4475-befa-d07014af07f9",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "a402ca28-c9d9-49e8-b404-2384fca67432",
+              "401fa2bb-b0e9-4e00-901d-93762cf12021",
+              "1284f504-2ebf-49c9-a120-634c03cd63ae",
+              "a9ca0e0c-b21e-4475-befa-d07014af07f9"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-travel-traverse-country",
+            "turn_id": "89e5c66e-ee3b-4edd-ab85-f5db392600bc",
+            "session_id": "sess_20261024T063714180115",
+            "met": false
+          },
+          "verdict": "worse",
+          "why": "The previous pack hit the target API. The new pack did not."
+        },
+        {
+          "id": "travel-walk-redbrook-country",
+          "text": "What country is the Redbrook hotel in?",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-walk-21a-ipa. Live key hotel_21052, name Redbrook, type hotel. Walk path country from that key is HTTP 400 because country is not a declared FK on type hotel. A seed find may come first. Evidence is not required.",
+          "a": {
+            "called": "find Hotel, search fts Hotel, search hybrid Hotel, return",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "44d7afbe-7f8e-48e7-8568-ac30b236da70",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 10,
+                  "where": {
+                    "name": "Redbrook"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "e51332f1-0941-43dd-aad2-19691fe159ae",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 10
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "ee665bcc-2dca-42ad-ac47-e4dc99d880c1",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "Redbrook",
+                  "limit": 15
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "cc7e8648-ba62-4b9f-a7c0-9360404790b8",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "5e1defeb-1f95-45d9-918d-8215d8acfa92",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 3
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "44d7afbe-7f8e-48e7-8568-ac30b236da70",
+              "e51332f1-0941-43dd-aad2-19691fe159ae",
+              "ee665bcc-2dca-42ad-ac47-e4dc99d880c1",
+              "cc7e8648-ba62-4b9f-a7c0-9360404790b8",
+              "5e1defeb-1f95-45d9-918d-8215d8acfa92"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-travel-walk-redbrook-country",
+            "turn_id": "09fac5fb-a564-4e4b-a2b2-d02e1f9fc95d",
+            "session_id": "sess_20261024T062744577244",
+            "met": false
+          },
+          "b": {
+            "called": "pipeline, search hybrid Hotel, project, find Hotel, search fts Hotel, find Landmark, search semantic Hotel",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "c64498bf-56f7-42ee-9fc0-cd1c7a537023",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "Redbrook",
+                      "limit": 20,
+                      "verb": "search",
+                      "as": "hits"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "cards"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "45cea268-74b0-4a7c-81ed-cf3b70451832",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "7a548571-8f1c-4aba-8cca-2dc05f9ad0ae",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook Hotel"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "0cb70acb-56d8-4980-aa86-c320adcaa5ff",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "The Redbrook Hotel"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "73af008f-e989-4f5d-9bcd-8a41ddd4f30a",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "52cc1199-0ac3-4e07-a9c1-d65294ad84e0",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 20,
+                      "where": {
+                        "city": "Redbrook"
+                      },
+                      "verb": "find",
+                      "as": "by_city"
+                    },
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 5,
+                      "where": {
+                        "name": "The Redbrook"
+                      },
+                      "verb": "find",
+                      "as": "by_name_the"
+                    },
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 5,
+                      "where": {
+                        "name": "Redbrook Lodge"
+                      },
+                      "verb": "find",
+                      "as": "by_name_lodge"
+                    },
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 5,
+                      "where": {
+                        "name": "Red Brook Hotel"
+                      },
+                      "verb": "find",
+                      "as": "by_name_brook"
+                    },
+                    {
+                      "entity_type": "Landmark",
+                      "limit": 5,
+                      "where": {
+                        "name": "Redbrook"
+                      },
+                      "verb": "find",
+                      "as": "lm_name"
+                    },
+                    {
+                      "entity_type": "Landmark",
+                      "limit": 10,
+                      "where": {
+                        "city": "Redbrook"
+                      },
+                      "verb": "find",
+                      "as": "lm_city"
+                    },
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "fts",
+                      "query_text": "Redbrook",
+                      "limit": 20,
+                      "verb": "search",
+                      "as": "fts_retry"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "failed",
+                  "error": "{'at_step': 'fts_retry', 'at_step_index': 6, 'at_step_verb': 'search', 'category': 'internal', 'code': 'STEP_FAILED', 'message': 'tool request failed'}"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "search",
+                "strategy": "semantic",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "ed99c27c-0908-4e97-8b4b-4fd3d30779ee",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "semantic",
+                  "query_text": "Redbrook hotel",
+                  "limit": 20
+                },
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "c64498bf-56f7-42ee-9fc0-cd1c7a537023",
+              "45cea268-74b0-4a7c-81ed-cf3b70451832",
+              "7a548571-8f1c-4aba-8cca-2dc05f9ad0ae",
+              "0cb70acb-56d8-4980-aa86-c320adcaa5ff",
+              "73af008f-e989-4f5d-9bcd-8a41ddd4f30a",
+              "52cc1199-0ac3-4e07-a9c1-d65294ad84e0",
+              "ed99c27c-0908-4e97-8b4b-4fd3d30779ee"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-travel-walk-redbrook-country",
+            "turn_id": "f6b4215c-1488-49a1-8b2d-f36e578d6a55",
+            "session_id": "sess_20261024T063817144467",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "travel-walk-city-hotels",
+          "text": "List hotels in the same city as the Redbrook hotel.",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-walk-stone-beers. Brief inverse is Hotel.city. A walk that puts path city on type hotel is HTTP 400 and the error hints at the inverse. Evidence is not required.",
+          "a": {
+            "called": "search fts Hotel, find Hotel, search hybrid Hotel, find Landmark, find Airport, find hotel",
+            "hit": false,
+            "rows": true,
+            "row_count": 10,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "54ff7990-70ae-470f-957e-fc9a52b5d40f",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "b2758e02-fca8-49bf-9415-f933a7f70ce0",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook Hotel"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "5cb12402-5c53-4871-bf89-f63f59b4a9d9",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "The Redbrook Hotel"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "38199d91-a4da-441a-b248-4308cb286961",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "51afd466-86e4-4e29-ada7-975c7d805aa7",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "redbrook hotel",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "8c5190e7-f177-4bc7-9751-92b209ce24f9",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 30
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "3196a524-5d14-4b64-b4d7-727c19bfac41",
+                "rows": false,
+                "args": {
+                  "entity_type": "Landmark",
+                  "limit": 5
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Airport",
+                "shape": null,
+                "http": 200,
+                "req_id": "0b1738b9-9a24-4722-a5f0-526ce03af74c",
+                "rows": false,
+                "args": {
+                  "entity_type": "Airport",
+                  "limit": 5
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "05080983-8e21-45c5-9fd5-8e6206b55e91",
+                "rows": true,
+                "args": {
+                  "entity_type": "hotel",
+                  "limit": 10
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "Redbrook"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "id": "n_4f629f17a9d2ae",
+                      "name": "Darwin"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "c71140c0-736a-48d7-9c26-b90f68422c56",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel"
+                },
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "54ff7990-70ae-470f-957e-fc9a52b5d40f",
+              "b2758e02-fca8-49bf-9415-f933a7f70ce0",
+              "5cb12402-5c53-4871-bf89-f63f59b4a9d9",
+              "38199d91-a4da-441a-b248-4308cb286961",
+              "51afd466-86e4-4e29-ada7-975c7d805aa7",
+              "8c5190e7-f177-4bc7-9751-92b209ce24f9",
+              "3196a524-5d14-4b64-b4d7-727c19bfac41",
+              "0b1738b9-9a24-4722-a5f0-526ce03af74c",
+              "05080983-8e21-45c5-9fd5-8e6206b55e91",
+              "c71140c0-736a-48d7-9c26-b90f68422c56"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-travel-walk-city-hotels",
+            "turn_id": "83a8f9b8-39ec-4a61-b46d-e28598bb5b77",
+            "session_id": "sess_20261024T063020429081",
+            "met": false
+          },
+          "b": {
+            "called": "search hybrid Hotel, search fts Hotel, find Hotel",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "7d299890-a568-494d-a742-1d2efd7cba7e",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "c82f4a3c-526f-4ca8-93d0-fd5dbf11db17",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "2bdd7acc-437f-448a-8c01-cba3e5148d60",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 10,
+                  "where": {
+                    "name": "Redbrook Hotel"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "b8c17667-fabe-445c-9646-dd67f535d01f",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "98caa2cb-dddb-4b87-a13c-da9371d676e1",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "The Redbrook Hotel"
+                  }
+                },
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "7d299890-a568-494d-a742-1d2efd7cba7e",
+              "c82f4a3c-526f-4ca8-93d0-fd5dbf11db17",
+              "2bdd7acc-437f-448a-8c01-cba3e5148d60",
+              "b8c17667-fabe-445c-9646-dd67f535d01f",
+              "98caa2cb-dddb-4b87-a13c-da9371d676e1"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-travel-walk-city-hotels",
+            "turn_id": "5bfcc993-378e-49e8-8625-ac1bf6e7c1c3",
+            "session_id": "sess_20261024T064049033761",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "travel-walk-country-hotels",
+          "text": "What hotels are in the United Kingdom?",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-walk-belgian. Brief path is Country to Hotel via the inverse of Hotel.country. find entity_type country returned 0 on 2026-10-21. Evidence is not required.",
+          "a": {
+            "called": "find Hotel, find Country, search fts Hotel, describe, return",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "92374d1a-8b9b-4085-9c5f-90bb32511c0d",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 100,
+                  "where": {
+                    "country": "United Kingdom"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Country",
+                "shape": null,
+                "http": 200,
+                "req_id": "d83b02c1-766a-441b-bd62-710d22111998",
+                "rows": false,
+                "args": {
+                  "entity_type": "Country",
+                  "limit": 50
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "28c5513e-2c65-4b0d-8878-f273149395b9",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "United Kingdom",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "ceffaab7-dbce-4bdc-be48-9570b381a675",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "describe",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "3a3d770c-8760-46a6-8bc3-f62b2c284429",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "92374d1a-8b9b-4085-9c5f-90bb32511c0d",
+              "d83b02c1-766a-441b-bd62-710d22111998",
+              "28c5513e-2c65-4b0d-8878-f273149395b9",
+              "ceffaab7-dbce-4bdc-be48-9570b381a675",
+              "3a3d770c-8760-46a6-8bc3-f62b2c284429"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-travel-walk-country-hotels",
+            "turn_id": "851a13f2-4975-447d-bfc2-debaf3e8e81e",
+            "session_id": "sess_20261024T063240050165",
+            "met": false
+          },
+          "b": {
+            "called": "find Hotel, find Country, search fts Hotel, search hybrid Hotel, find Airport",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "35296d2f-30a1-45c9-9ad7-6eff66db26da",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 20,
+                  "where": {
+                    "country": "United Kingdom"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Country",
+                "shape": null,
+                "http": 200,
+                "req_id": "2d289170-c01c-4b3a-8da6-1149aebbf56c",
+                "rows": false,
+                "args": {
+                  "entity_type": "Country",
+                  "limit": 50
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "b1686507-1a29-48ec-b2b3-3eefa1484a45",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "United Kingdom",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "9238a596-e222-442b-bc97-d68bea17a936",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 20
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "d04899fe-25c7-4479-a9a6-335c67aaa4f2",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "United Kingdom",
+                  "limit": 20
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "88772c8e-b63f-45ac-b043-c0b8fb70fa75",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "United Kingdom",
+                  "limit": 20
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Airport",
+                "shape": null,
+                "http": 200,
+                "req_id": "99e92070-b3a9-4693-92db-1fa7528bf9fc",
+                "rows": false,
+                "args": {
+                  "entity_type": "Airport",
+                  "limit": 5
+                },
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "35296d2f-30a1-45c9-9ad7-6eff66db26da",
+              "2d289170-c01c-4b3a-8da6-1149aebbf56c",
+              "b1686507-1a29-48ec-b2b3-3eefa1484a45",
+              "9238a596-e222-442b-bc97-d68bea17a936",
+              "d04899fe-25c7-4479-a9a6-335c67aaa4f2",
+              "88772c8e-b63f-45ac-b043-c0b8fb70fa75",
+              "99e92070-b3a9-4693-92db-1fa7528bf9fc"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-travel-walk-country-hotels",
+            "turn_id": "ba0a5323-c454-4615-b5bd-70185fce5144",
+            "session_id": "sess_20261024T064219918337",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "travel-walk-state-counts",
+          "text": "How many hotels are in each state?",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-walk-colorado-counts. Brief path is State to Hotel via the inverse of Hotel.state. group_by must be a terminal-local string. Evidence is not required.",
+          "a": {
+            "called": "pipeline, find Hotel, project, return",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 2,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "c9a1fe98-f3f6-47d7-8363-be6cdef60f3e",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 500,
+                      "verb": "find",
+                      "as": "hotels"
+                    },
+                    {
+                      "limit": 500,
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "c9a1fe98-f3f6-47d7-8363-be6cdef60f3e"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-travel-walk-state-counts",
+            "turn_id": "e340c96c-1ace-47f3-8c40-217870cb4f59",
+            "session_id": "sess_20261024T063418694840",
+            "met": false
+          },
+          "b": {
+            "called": "find Hotel, find State, describe, return",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 3,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "ef074643-cc19-439e-85fa-053c25f6269f",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel"
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "State",
+                "shape": null,
+                "http": 200,
+                "req_id": "488790d1-fefe-4f52-bc2a-5851068f7517",
+                "rows": false,
+                "args": {
+                  "entity_type": "State",
+                  "limit": 50
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "2d954937-f303-496f-ac39-60f6ce654b3d",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "describe",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "c2fdbbcd-6f60-4cba-ad2c-7b78dd8b9848",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "ef074643-cc19-439e-85fa-053c25f6269f",
+              "488790d1-fefe-4f52-bc2a-5851068f7517",
+              "2d954937-f303-496f-ac39-60f6ce654b3d",
+              "c2fdbbcd-6f60-4cba-ad2c-7b78dd8b9848"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-travel-walk-state-counts",
+            "turn_id": "a9047c1c-bcbb-4e47-80e2-c1b24640e209",
+            "session_id": "sess_20261024T064357968501",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "travel-walk-hotels-by-country",
+          "text": "Count hotels by country.",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-walk-beers-by-country. Terminal-local group_by only. An empty where is not a selector. Evidence is not required.",
+          "a": {
+            "called": "pipeline, find Hotel, project, return",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 2,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "1fbb2121-3ba9-4ddb-840c-32b4843049f3",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "verb": "find",
+                      "as": "total"
+                    },
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 2000,
+                      "verb": "find",
+                      "as": "hotels"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "1fbb2121-3ba9-4ddb-840c-32b4843049f3"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-travel-walk-hotels-by-country",
+            "turn_id": "fcbdea3e-5039-45c0-a912-6ba5d92e8ee2",
+            "session_id": "sess_20261024T063457641144",
+            "met": false
+          },
+          "b": {
+            "called": "pipeline, find Hotel, project, describe, return",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 3,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "ec43142f-2dd8-48c5-9a4e-f600efa4b745",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 1000,
+                      "verb": "find",
+                      "as": "hotels"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "describe",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "665d0c84-db4d-45ef-9f36-cd9300439dff",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "ec43142f-2dd8-48c5-9a4e-f600efa4b745",
+              "665d0c84-db4d-45ef-9f36-cd9300439dff"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-travel-walk-hotels-by-country",
+            "turn_id": "8f8d067b-6872-4c0f-8042-4ce2f6ab4a5b",
+            "session_id": "sess_20261024T064450671999",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "travel-beach-itinerary",
+          "text": "Plan a beach trip for me. Suggest hotels and landmarks, and say which country each one is in.",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-colorado-itinerary. Landmark find on type landmark returned Napa, West Hollywood, and Camberley. Hotel to Country is not a declared FK on type hotel, so the walk may be HTTP 400. Evidence is not required.",
+          "a": {
+            "called": "search fts Hotel, search fts Landmark, return",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 429,
+            "rounds": 2,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 500,
+                "req_id": "d9ef116a-f20b-4291-8017-8b133f94b3e3",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "beach",
+                  "limit": 15
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 429,
+                "req_id": "81d4fff7-38cb-47cf-8962-b21868b17729",
+                "rows": false,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "fts",
+                  "query_text": "beach",
+                  "limit": 15
+                },
+                "sample": {
+                  "error": "session_force_closed",
+                  "message": "session exceeded per-session round budget; re-authenticate to continue"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "d9ef116a-f20b-4291-8017-8b133f94b3e3",
+              "81d4fff7-38cb-47cf-8962-b21868b17729"
+            ],
+            "chat_id": "ab-2026-10-24-zeus-0-9-33-travel-beach-itinerary",
+            "turn_id": "84ed1097-3363-4ccc-980c-8ce41980faa1",
+            "session_id": "sess_20261024T063549342080",
+            "met": false
+          },
+          "b": {
+            "called": "pipeline, search hybrid Hotel, search hybrid Landmark, project, find Hotel, find Landmark, search fts Hotel, search fts Landmark, return",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": 500,
+            "rounds": 3,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "f2394d1b-4a72-4758-9dbc-18405a931baf",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "beach",
+                      "limit": 10,
+                      "verb": "search",
+                      "as": "hotels"
+                    },
+                    {
+                      "entity_type": "Landmark",
+                      "strategy": "hybrid",
+                      "query_text": "beach",
+                      "limit": 10,
+                      "verb": "search",
+                      "as": "landmarks"
+                    },
+                    {
+                      "format": "card",
+                      "verb": "project",
+                      "as": "hotel_cards"
+                    },
+                    {
+                      "format": "card",
+                      "verb": "project",
+                      "as": "landmark_cards"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "eb38261a-919f-4e73-a6af-021e8a8e856b",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "1f729ab2-ba3c-41ff-9f58-2e813f69c55d",
+                "rows": false,
+                "args": {
+                  "entity_type": "Landmark",
+                  "limit": 5
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 429,
+                "req_id": "e9aaf735-1dfa-49c1-af3d-295e0e00e2be",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "beach",
+                  "limit": 10
+                },
+                "sample": {
+                  "error": "session_force_closed",
+                  "message": "session exceeded per-session round budget; re-authenticate to continue"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 500,
+                "req_id": "30ba50d3-50bc-4fd7-9798-2930159dc31a",
+                "rows": false,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "fts",
+                  "query_text": "beach",
+                  "limit": 10
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "f2394d1b-4a72-4758-9dbc-18405a931baf",
+              "eb38261a-919f-4e73-a6af-021e8a8e856b",
+              "1f729ab2-ba3c-41ff-9f58-2e813f69c55d",
+              "e9aaf735-1dfa-49c1-af3d-295e0e00e2be",
+              "30ba50d3-50bc-4fd7-9798-2930159dc31a"
+            ],
+            "chat_id": "ab-2026-10-24-base-7-x-travel-beach-itinerary",
+            "turn_id": "89f47aac-8a13-4318-98ed-303cfe404cf5",
+            "session_id": "sess_20261024T064539381101",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        }
+      ],
+      "tallies": {
+        "better": 0,
+        "worse": 1,
+        "same": 6,
+        "not run": 0,
+        "total": 7
+      },
+      "score": {
+        "total": 7,
+        "met_a": 1,
+        "met_b": 0,
+        "ratio_a": "1/7",
+        "ratio_b": "0/7",
+        "better": 0,
+        "worse": 1,
+        "same": 6,
+        "net": -1,
+        "better_to_worse": "0:1",
+        "label_a": "zeus-0.9.33",
+        "label_b": "base-7.x"
+      }
+    }
+  ],
+  "justification": "base-7.x is worse on 2 question(s) and better on 1. 11 question(s) are the same. This run does not justify switching to base-7.x.",
+  "score": {
+    "total": 14,
+    "met_a": 5,
+    "met_b": 4,
+    "ratio_a": "5/14",
+    "ratio_b": "4/14",
+    "better": 1,
+    "worse": 2,
+    "same": 11,
+    "net": -1,
+    "better_to_worse": "1:2",
+    "label_a": "zeus-0.9.33",
+    "label_b": "base-7.x"
+  },
+  "stem": "2026-10-24_zeus-0_9_33_vs_base-7_x",
+  "scope_briefs": [
+    {
+      "scope": "beer-sample/_default",
+      "has_scope_brief": true,
+      "has_mini_schema": true,
+      "has_walk_paths": false,
+      "chars": 3814,
+      "client_version": "2.4.0",
+      "brief_sha12": "090e8427ceb0",
+      "route": "/v1/ai/chat_request.json",
+      "mode": "analytics"
+    },
+    {
+      "scope": "travel-sample/inventory",
+      "has_scope_brief": true,
+      "has_mini_schema": true,
+      "has_walk_paths": false,
+      "chars": 8320,
+      "client_version": "2.4.0",
+      "brief_sha12": "72952f25d726",
+      "route": "/v1/ai/chat_request.json",
+      "mode": "analytics"
+    }
+  ]
+}

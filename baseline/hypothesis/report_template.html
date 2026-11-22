@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.min.css">
+<style>
+main.container { max-width: 1280px; padding-bottom: 3rem; }
+.charts { display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin: 0.75rem 0 1.25rem; }
+@media (min-width: 1100px) {
+  .charts { grid-template-columns: 1fr 1fr 1fr; }
+}
+.chart { height: 360px; border: 1px solid #d8dde6; border-radius: 8px; }
+.chart-http { grid-column: 1 / -1; height: 280px; }
+.metrics { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0 0 0.35rem; }
+.metric { font-size: 1.35rem; font-weight: 700; line-height: 1; }
+.called { font-weight: 600; margin-bottom: 0.2rem; }
+mark.pipeline { background-color: #ffe14a; color: #3a2e04; font-weight: 700; padding: 0 0.2rem; border-radius: 3px; }
+mark.missed-strategy { background-color: #ff8a1e; color: #3a1500; font-weight: 700; padding: 0 0.2rem; border-radius: 3px; }
+.sub { color: #52606d; font-size: 0.72rem; line-height: 1.25; }
+.badges { margin: 0.2rem 0; }
+span.badge { display: inline-block; font-size: 0.72rem; font-weight: 700; line-height: 1.3; padding: 0.08rem 0.35rem; border-radius: 3px; margin: 0 0.25rem 0.15rem 0; }
+span.badge-orange { background-color: #ff8a1e; color: #3a1500; }
+span.badge-red { background-color: #ff2d2d; color: #3a0000; }
+span.tk { color: #52606d; font-size: 0.78rem; font-weight: 500; }
+p.tk-note { color: #52606d; font-size: 0.82rem; margin-top: 0.35rem; }
+.chart-hint { margin-top: 0; }
+table td.better { background-color: #21d15a; color: #04210e; font-weight: 700; }
+table td.worse { background-color: #ff2d2d; color: #3a0000; font-weight: 700; }
+table td.same, table td.both-hit, table td.both-missed { background-color: #8e99a4; color: #14181c; font-weight: 700; }
+table td.not-run { background-color: #ffe08a; color: #3a2e04; font-weight: 700; }
+table td.retest { background-color: #ff8a1e; color: #3a1500; font-weight: 700; }
+table td.why-one { background-color: #ffe14a; color: #3a2e04; }
+table td.why-neither { background-color: #ff8a1e; color: #3a1500; }
+table td.guess { background-color: #d7e6f5; color: #10233a; font-weight: 700; }
+table td.after { background-color: #fff8e8; color: #3a2e04; font-weight: 650; }
+table { font-size: 0.86rem; }
+#chart-note:empty { display: none; }
+p.prebuild { border-left: 4px solid #3d5a80; padding-left: 0.8rem; }
+</style>
+</head>
+<body>
+<!--
+Hypothesis report template. Copy of the section order in baseline/report_bundle.py render_html.
+render_html does not read this file. Do not put it in baseline/reports/.
+Measured reports stay baseline/reports/<date>_<left>_vs_<right>.html and are not hand-edited.
+
+Extra columns the measured report does not have:
+- The right pack cell is the guess until a run replaces it.
+- Versus is the guessed verdict word: better, worse, both hit, both missed, Orange, not run.
+- After is filled only after that runner report exists: held, missed, or not in the verdict.
+- Answer and plan length are insight lines. They do not change better or worse.
+  answer agree · plan N, answer miss, or answer not in sample.
+  Plan length is the model round where the anchor first showed up. It is not wall-clock speed.
+- Suggestion is an insight line. It does not change better or worse.
+  fast path, probe, analytics, both, or not recorded.
+  Scout counts as probe. Analytics is counted only when the return records it.
+
+Copy this file. Replace every {{TOKEN}}. Repeat {{ROW}} once per question in baseline/questions.json order.
+Beer questions first, then travel. Do not invent session ids.
+-->
+<main class="container">
+<h1>{{TITLE}}</h1>
+<p>Date: {{DATE}}<br>
+Zeus: {{ZEUS}}<br>
+Provider: {{PROVIDER}}<br>
+Model: {{MODEL}}<br>
+Client: {{CLIENT}}</p>
+<p class="prebuild">{{PREBUILD_NOTE}}</p>
+<h2>Summary</h2>
+<p>{{SUMMARY}}</p>
+<p>{{ANSWER_KPI}}</p>
+<p>{{SUGGESTION}}</p>
+<h3>What changed in the text</h3>
+<p>{{TEXT_CHANGE}}</p>
+<h3>What in that text shows up in the score</h3>
+<ul>
+{{MOVED_ITEMS}}
+</ul>
+<h3>Size</h3>
+<p>{{SIZE_LEAD}}</p>
+<table>
+<thead><tr><th>Piece</th><th>{{LABEL_A}}</th><th>{{LABEL_B}}</th><th>Delta</th></tr></thead>
+<tbody>
+<tr><td>Analytics file</td><td>{{FILE_A}}</td><td>{{FILE_B}}</td><td>{{FILE_DELTA}}</td></tr>
+<tr><td>System message</td><td>{{SYSTEM_A}}</td><td>{{SYSTEM_B}}</td><td>{{SYSTEM_DELTA}}</td></tr>
+<tr><td><code>search</code> tool JSON</td><td>{{SEARCH_A}}</td><td>{{SEARCH_B}}</td><td>{{SEARCH_DELTA}}</td></tr>
+<tr><td><code>pipeline</code> tool JSON</td><td>{{PIPELINE_A}}</td><td>{{PIPELINE_B}}</td><td>{{PIPELINE_DELTA}}</td></tr>
+<tr><td><code>return</code> tool JSON</td><td>{{RETURN_A}}</td><td>{{RETURN_B}}</td><td>{{RETURN_DELTA}}</td></tr>
+<tr><td><code>rail</code> tool JSON</td><td>{{RAIL_A}}</td><td>{{RAIL_B}}</td><td>{{RAIL_DELTA}}</td></tr>
+</tbody>
+</table>
+<p class="tk-note">The first line of a cell is characters. tk is UTF-8 bytes ÷ 4, rounded up.</p>
+<p>Hub Debug lists <code>session</code> after a run. A prebuild has no session and no <code>req_id</code>.</p>
+<h2>Hits, rounds, and rows</h2>
+<p>A <strong>hit</strong> of 1 means that pack called the target API. <strong>Rows</strong> are the largest Zeus result on that turn. <strong>Rounds</strong> are how many model turns it used. <strong>Plan length</strong> is the round where the answer anchor first showed up, and only when that anchor is in the sample. A missing bar means that side was not guessed or did not run.</p>
+<p id="chart-note"></p>
+<div class="charts"><div id="chart-suite-hits" class="chart"></div><div id="chart-suite-rounds" class="chart"></div><div id="chart-suite-rows" class="chart"></div><div id="chart-suite-http" class="chart chart-http"></div></div>
+<h2>Better, worse, and the score</h2>
+<p>The Versus column compares {{LABEL_B}} with {{LABEL_A}} on the Target API column.</p>
+<ul>
+<li><strong>better</strong>: {{LABEL_B}} called the target API and {{LABEL_A}} did not.</li>
+<li><strong>worse</strong>: {{LABEL_A}} called the target API and {{LABEL_B}} did not.</li>
+<li><strong>both hit</strong>: both packs met the target.</li>
+<li><strong>both missed</strong>: neither pack met the target.</li>
+<li><strong>not run</strong>: a model call is missing.</li>
+<li><strong>Orange</strong>: a pack cell ends on HTTP 400 or higher. Orange stays out of better and worse.</li>
+</ul>
+<p><strong>Score.</strong> {{SCORE}}</p>
+<p>{{JUSTIFICATION}}</p>
+<p>Answer agreement and plan length sit beside that score. A question agrees when its anchor document ids and fields showed up. A closed anchor also rejects an id outside its list. A shorter page inside a closed list still agrees. These two numbers do not change better or worse.</p>
+<p>The suggestion recorded on query_decomposition sits beside that score. Fast path and probe are the live labels. Scout counts as probe. Analytics is reserved and is counted only when the return records it. A return that only names intent and entity is not recorded. This number does not change better or worse.</p>
+<p>A Zeus call whose HTTP status is not 200 wears a badge on that pack cell. Orange means Zeus rejected the request. Red means Zeus failed the call. A badge on a turn that ended at 200 does not change better or worse.</p>
+<p>Suite tally: {{TALLY}}.</p>
+<p><strong>After the run.</strong> Held: {{HELD}}. Missed: {{MISSED}}. Not in the verdict: {{NOT_IN_VERDICT}}.</p>
+<h2>{{SCOPE_1}}</h2>
+<p>{{SCOPE_1_TALLY}}</p>
+<div class="charts"><div id="chart-scope-1-hits" class="chart"></div><div id="chart-scope-1-rounds" class="chart"></div><div id="chart-scope-1-rows" class="chart"></div><div id="chart-scope-1-http" class="chart chart-http"></div></div>
+<table>
+<thead><tr>
+<th>Question</th><th>Target API</th>
+<th>{{LABEL_A}}</th><th>{{LABEL_B}}</th>
+<th>Versus {{LABEL_A}}</th><th>Why</th><th>Notes</th><th>After</th>
+</tr></thead>
+<tbody>
+{{SCOPE_1_ROWS}}
+</tbody>
+</table>
+<h2>{{SCOPE_2}}</h2>
+<p>{{SCOPE_2_TALLY}}</p>
+<div class="charts"><div id="chart-scope-2-hits" class="chart"></div><div id="chart-scope-2-rounds" class="chart"></div><div id="chart-scope-2-rows" class="chart"></div><div id="chart-scope-2-http" class="chart chart-http"></div></div>
+<table>
+<thead><tr>
+<th>Question</th><th>Target API</th>
+<th>{{LABEL_A}}</th><th>{{LABEL_B}}</th>
+<th>Versus {{LABEL_A}}</th><th>Why</th><th>Notes</th><th>After</th>
+</tr></thead>
+<tbody>
+{{SCOPE_2_ROWS}}
+</tbody>
+</table>
+</main>
+</body>
+</html>

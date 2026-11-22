@@ -1,0 +1,939 @@
+{
+  "title": "base-7.1 vs base-7.2",
+  "date": "2026-11-20",
+  "status": "ran",
+  "label_a": "base-7.1",
+  "label_b": "base-7.2",
+  "base_id_a": "base-7.1",
+  "base_id_b": "base-7.2",
+  "zeus_version": "1.0.0-beta.3",
+  "provider": "xai",
+  "provider_base": "https://api.x.ai/v1",
+  "model": "grok-4.7",
+  "client": "zeus_client.run_turn",
+  "client_version": "2.4.0",
+  "verdict_rule": "better means the new pack called the target API and the previous pack did not. worse means the previous pack called the target API and the new pack did not. Rows from a different verb do not count. On Find hoppy citrus beers the target is search hybrid. That row is worse when the previous pack calls search hybrid and the new pack calls search fts, find, or set, even when both sides are HTTP 200 and both returned beers. same means both called the target, or neither did. not run means a model call is missing. When the question says rows are required, an empty Zeus result is not met.",
+  "tallies": {
+    "better": 1,
+    "worse": 0,
+    "same": 1,
+    "retest": 0,
+    "not run": 0,
+    "total": 2
+  },
+  "scopes": [
+    {
+      "name": "beer-sample",
+      "scopes": [
+        "beer-sample/_default"
+      ],
+      "rows": [
+        {
+          "id": "beer-traverse-brewery",
+          "text": "Beers whose style is exactly American-Style India Pale Ale: walk each one to its brewery and return the brewery names.",
+          "scope": "beer-sample/_default",
+          "target_api": "find Beer + traverse walk_path",
+          "notes": "Walk path in the brief is Beer to Brewery via brewery_id. A pipeline that contains both steps satisfies this. A single-beer walk of that path is probed on beer-walk-21a-ipa. This multi-beer style walk is not that fixture, so evidence is not required.",
+          "a": {
+            "called": "traverse walk_path, find Beer, pipeline, project, return",
+            "hit": true,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "ee0d07ca-4bce-4769-a28e-c3225858060a",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Beer",
+                      "where": {
+                        "style": "American-Style India Pale Ale"
+                      }
+                    },
+                    "path": [
+                      "brewery_id"
+                    ],
+                    "return": [
+                      "name"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "name": "Brooklyn Brewery"
+                    },
+                    {
+                      "name": "Tallgrass Brewing Co."
+                    },
+                    {
+                      "name": "Asheville Pizza and Brewing Co."
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "ee1b4898-4da9-43d7-958c-ddede7c224b2",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer",
+                  "where": {
+                    "style": "American-Style India Pale Ale"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "94ad6f7a-b75c-494a-a07a-c78b6d1b33e9",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "limit": 299,
+                      "where": {
+                        "style": "American-Style India Pale Ale"
+                      },
+                      "verb": "find",
+                      "as": "beers"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "9d469451-6f98-432a-95db-5ffedd032ea7",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "ee0d07ca-4bce-4769-a28e-c3225858060a",
+              "ee1b4898-4da9-43d7-958c-ddede7c224b2",
+              "94ad6f7a-b75c-494a-a07a-c78b6d1b33e9",
+              "9d469451-6f98-432a-95db-5ffedd032ea7"
+            ],
+            "chat_id": "ab-2026-11-20-base-7-1-beer-traverse-brewery",
+            "turn_id": "70698135-eb1a-4499-a99e-974422ddb8b4",
+            "session_id": "sess_20261120T090337897477c6346eef",
+            "met": true
+          },
+          "b": {
+            "called": "pipeline, find Beer, traverse walk_path",
+            "hit": true,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "7c970cc2-4177-4be3-8198-5d82ebcf9705",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "limit": 200,
+                      "where": {
+                        "style": "American-Style India Pale Ale"
+                      },
+                      "verb": "find",
+                      "as": "beers"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Beer",
+                          "src_keys": "@beers.doc_keys"
+                        },
+                        "path": [
+                          "brewery_id"
+                        ],
+                        "return": [
+                          "name"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "breweries"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "08934033-166d-4f00-9241-f7e2937c137a",
+                "rows": false,
+                "args": {
+                  "entity_type": "Beer",
+                  "where": {
+                    "style": "American-Style India Pale Ale"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "40114a08-e816-4805-8686-6bfba5609c5d",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Beer",
+                      "limit": 299,
+                      "where": {
+                        "style": "American-Style India Pale Ale"
+                      },
+                      "verb": "find",
+                      "as": "beers"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Beer",
+                          "src_keys": "@beers.doc_keys"
+                        },
+                        "path": [
+                          "brewery_id"
+                        ],
+                        "return": [
+                          "name"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "breweries"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Beer",
+                "shape": null,
+                "http": 200,
+                "req_id": "680782b5-4d20-42b0-8f11-1807185b9ed4",
+                "rows": true,
+                "args": {
+                  "entity_type": "Beer",
+                  "limit": 299,
+                  "where": {
+                    "style": "American-Style India Pale Ale"
+                  }
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "doc_key": "crabby_larry_s_brewpub_steak_crab_house-dead_man_walkin_ipa",
+                      "id": "n_a6d859038219e9",
+                      "name": "Dead Man Walkin' IPA"
+                    },
+                    {
+                      "doc_key": "elliott_bay_brewery_and_pub-dry_hopped_ipa",
+                      "id": "n_1065821cce6f7d",
+                      "name": "Dry Hopped IPA"
+                    },
+                    {
+                      "doc_key": "sierra_nevada_brewing_co-celebration_ale",
+                      "id": "n_2ee05941dd4a1e",
+                      "name": "Celebration Ale"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "7c970cc2-4177-4be3-8198-5d82ebcf9705",
+              "08934033-166d-4f00-9241-f7e2937c137a",
+              "40114a08-e816-4805-8686-6bfba5609c5d",
+              "680782b5-4d20-42b0-8f11-1807185b9ed4"
+            ],
+            "chat_id": "ab-2026-11-20-base-7-2-beer-traverse-brewery",
+            "turn_id": "7b08eba1-e890-42f8-b6ac-a8cdcfdd1119",
+            "session_id": "sess_20261120T090747582354326b51d1",
+            "met": true
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        }
+      ],
+      "tallies": {
+        "better": 0,
+        "worse": 0,
+        "same": 1,
+        "retest": 0,
+        "not run": 0,
+        "total": 1
+      },
+      "score": {
+        "total": 1,
+        "met_a": 1,
+        "met_b": 1,
+        "ratio_a": "1/1",
+        "ratio_b": "1/1",
+        "better": 0,
+        "worse": 0,
+        "same": 1,
+        "retest": 0,
+        "net": 0,
+        "better_to_worse": "0:0",
+        "label_a": "base-7.1",
+        "label_b": "base-7.2"
+      }
+    },
+    {
+      "name": "travel-sample",
+      "scopes": [
+        "travel-sample/inventory"
+      ],
+      "rows": [
+        {
+          "id": "travel-traverse-country",
+          "text": "Find beach destination hotels of type hotel, then walk those hotels to their country.",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path + or search hybrid hotel or search hybrid Hotel",
+          "notes": "Brief path is Hotel to Country via country. On type hotel that path is HTTP 400: country is not a declared FK. from.entity_type is required. Evidence is not required.",
+          "a": {
+            "called": "pipeline, search fts Hotel, traverse walk_path, project, find Country, get, return",
+            "hit": false,
+            "rows": true,
+            "row_count": 58,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "b2aa1f33-e7ed-449e-94d1-cac75b645e2b",
+                "rows": true,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "fts",
+                      "query_text": "beach destination",
+                      "limit": 200,
+                      "verb": "search",
+                      "as": "hotels"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Hotel",
+                          "src_keys": "@hotels.doc_keys"
+                        },
+                        "path": [
+                          "country"
+                        ],
+                        "return": []
+                      },
+                      "verb": "traverse",
+                      "as": "to_country"
+                    },
+                    {
+                      "format": "card",
+                      "verb": "project",
+                      "as": "cards"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "aborted",
+                  "reason": "abort_if_empty",
+                  "row_count": 58,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_32176"
+                    },
+                    {
+                      "doc_key": "hotel_5097"
+                    },
+                    {
+                      "doc_key": "hotel_19324"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "e884ffc6-f7c1-4c70-902a-e1dae3ea9598",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_32176",
+                        "hotel_5097",
+                        "hotel_19324",
+                        "hotel_32173",
+                        "hotel_32175",
+                        "hotel_32174",
+                        "hotel_25326",
+                        "hotel_17313",
+                        "hotel_25245",
+                        "hotel_26167",
+                        "hotel_12239",
+                        "hotel_25240",
+                        "hotel_37592",
+                        "hotel_26169",
+                        "hotel_26497",
+                        "hotel_26492",
+                        "hotel_26140",
+                        "hotel_25193",
+                        "hotel_25241",
+                        "hotel_16687",
+                        "hotel_37595",
+                        "hotel_2483",
+                        "hotel_17312",
+                        "hotel_26168",
+                        "hotel_26493",
+                        "hotel_10904",
+                        "hotel_17310",
+                        "hotel_17597",
+                        "hotel_9062",
+                        "hotel_22540",
+                        "hotel_26220",
+                        "hotel_26494",
+                        "hotel_25197",
+                        "hotel_5098",
+                        "hotel_37591",
+                        "hotel_26501",
+                        "hotel_23388",
+                        "hotel_37248",
+                        "hotel_41239",
+                        "hotel_17595",
+                        "hotel_41237",
+                        "hotel_32177",
+                        "hotel_32172",
+                        "hotel_26498",
+                        "hotel_17309",
+                        "hotel_30016",
+                        "hotel_25505",
+                        "hotel_32171",
+                        "hotel_25243",
+                        "hotel_25511",
+                        "hotel_30017",
+                        "hotel_25508",
+                        "hotel_28960",
+                        "hotel_28259",
+                        "hotel_25503",
+                        "hotel_9723",
+                        "hotel_3369",
+                        "hotel_10180"
+                      ]
+                    },
+                    "path": [
+                      "country"
+                    ],
+                    "return": [
+                      "name"
+                    ]
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "c76045dc-c3e5-4c08-b462-b49a12aa00d8",
+                "rows": true,
+                "args": {
+                  "format": "card"
+                },
+                "sample": {
+                  "row_count": 58,
+                  "preview": [
+                    "n_e7ca669dc63fb8",
+                    "n_13f85f01bc2a76",
+                    "n_bddf4f0bf22637"
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "6e487cd2-fb43-4eb7-a31c-fc5927df5873",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_32176",
+                        "hotel_5097",
+                        "hotel_19324"
+                      ]
+                    },
+                    "path": [
+                      "country"
+                    ],
+                    "return": []
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Country",
+                "shape": null,
+                "http": 200,
+                "req_id": "fae88bc0-d24a-4eef-bd96-a03dafe8210c",
+                "rows": false,
+                "args": {
+                  "entity_type": "Country",
+                  "limit": 20
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "1849088c-19c0-45e0-9a24-05ce70150c52",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "90c64d9c-6535-436f-9ae7-069f466d84e5",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "b2aa1f33-e7ed-449e-94d1-cac75b645e2b",
+              "e884ffc6-f7c1-4c70-902a-e1dae3ea9598",
+              "c76045dc-c3e5-4c08-b462-b49a12aa00d8",
+              "6e487cd2-fb43-4eb7-a31c-fc5927df5873",
+              "fae88bc0-d24a-4eef-bd96-a03dafe8210c",
+              "1849088c-19c0-45e0-9a24-05ce70150c52",
+              "90c64d9c-6535-436f-9ae7-069f466d84e5"
+            ],
+            "chat_id": "ab-2026-11-20-base-7-1-travel-traverse-country",
+            "turn_id": "ab1c7a24-58fa-47c5-b6a9-a3c035fa7488",
+            "session_id": "sess_20261120T090337901190b3e8954c",
+            "met": false
+          },
+          "b": {
+            "called": "pipeline, search hybrid Hotel, project, traverse walk_path, find Hotel, search fts Hotel",
+            "hit": true,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "474d4689-5147-458d-be99-5b4c59a96d2c",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "beach destination",
+                      "limit": 50,
+                      "verb": "search",
+                      "as": "hotels"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "hotel_rows"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Hotel",
+                          "src_keys": "@hotels.doc_keys"
+                        },
+                        "path": [
+                          "country"
+                        ],
+                        "return": []
+                      },
+                      "verb": "traverse",
+                      "as": "countries"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "4294d950-515c-42cc-860e-db9c19dc9b28",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 5,
+                      "verb": "find",
+                      "as": "any_hotels"
+                    },
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "fts",
+                      "query_text": "beach",
+                      "limit": 50,
+                      "verb": "search",
+                      "as": "beach"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "50480d58-1fab-42a2-84c1-0d5cf4c38d0b",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "fts",
+                      "query_text": "beach",
+                      "limit": 200,
+                      "verb": "search",
+                      "as": "beach"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Hotel",
+                          "src_keys": "@beach.doc_keys"
+                        },
+                        "path": [
+                          "country"
+                        ],
+                        "return": []
+                      },
+                      "verb": "traverse",
+                      "as": "countries"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "29bf0571-c78b-414d-bd43-0112de5f4ce6",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Hotel",
+                          "src_keys": [
+                            "hotel_32176",
+                            "hotel_5097",
+                            "hotel_19324",
+                            "hotel_32173",
+                            "hotel_32175",
+                            "hotel_32174",
+                            "hotel_25326",
+                            "hotel_17313",
+                            "hotel_25245",
+                            "hotel_26167",
+                            "hotel_12239",
+                            "hotel_25240",
+                            "hotel_37592",
+                            "hotel_26169",
+                            "hotel_26497",
+                            "hotel_26492",
+                            "hotel_26140",
+                            "hotel_25193",
+                            "hotel_25241",
+                            "hotel_37595",
+                            "hotel_2483",
+                            "hotel_17312",
+                            "hotel_26168",
+                            "hotel_10904",
+                            "hotel_26493",
+                            "hotel_17310",
+                            "hotel_17597",
+                            "hotel_9062",
+                            "hotel_22540",
+                            "hotel_26220",
+                            "hotel_26494",
+                            "hotel_25197",
+                            "hotel_5098",
+                            "hotel_37591",
+                            "hotel_23388",
+                            "hotel_26501",
+                            "hotel_37248",
+                            "hotel_41239",
+                            "hotel_41237",
+                            "hotel_17595",
+                            "hotel_32177",
+                            "hotel_32172",
+                            "hotel_17309",
+                            "hotel_30016",
+                            "hotel_26498",
+                            "hotel_25505",
+                            "hotel_32171",
+                            "hotel_25243",
+                            "hotel_25511",
+                            "hotel_30017"
+                          ]
+                        },
+                        "path": [
+                          "country"
+                        ],
+                        "return": []
+                      },
+                      "verb": "traverse",
+                      "as": "countries"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              }
+            ],
+            "req_ids": [
+              "474d4689-5147-458d-be99-5b4c59a96d2c",
+              "4294d950-515c-42cc-860e-db9c19dc9b28",
+              "50480d58-1fab-42a2-84c1-0d5cf4c38d0b",
+              "29bf0571-c78b-414d-bd43-0112de5f4ce6"
+            ],
+            "chat_id": "ab-2026-11-20-base-7-2-travel-traverse-country",
+            "turn_id": "c2fa183b-6f20-4c3d-9397-6efd88988b51",
+            "session_id": "sess_20261120T090747606806b892be38",
+            "met": true
+          },
+          "verdict": "better",
+          "why": "The new pack hit the target API. The previous pack did not."
+        }
+      ],
+      "tallies": {
+        "better": 1,
+        "worse": 0,
+        "same": 0,
+        "retest": 0,
+        "not run": 0,
+        "total": 1
+      },
+      "score": {
+        "total": 1,
+        "met_a": 0,
+        "met_b": 1,
+        "ratio_a": "0/1",
+        "ratio_b": "1/1",
+        "better": 1,
+        "worse": 0,
+        "same": 0,
+        "retest": 0,
+        "net": 1,
+        "better_to_worse": "1:0",
+        "label_a": "base-7.1",
+        "label_b": "base-7.2"
+      }
+    }
+  ],
+  "justification": "base-7.2 met the target API on 1 question(s) where base-7.1 did not, and matched base-7.1 on 1. No question got worse. That supports using base-7.2 on this suite.",
+  "score": {
+    "total": 2,
+    "met_a": 1,
+    "met_b": 2,
+    "ratio_a": "1/2",
+    "ratio_b": "2/2",
+    "better": 1,
+    "worse": 0,
+    "same": 1,
+    "retest": 0,
+    "net": 1,
+    "better_to_worse": "1:0",
+    "label_a": "base-7.1",
+    "label_b": "base-7.2"
+  },
+  "stem": "2026-11-20_base-7_1_vs_base-7_2",
+  "scope_briefs": [
+    {
+      "scope": "beer-sample/_default",
+      "has_scope_brief": true,
+      "has_mini_schema": true,
+      "has_walk_paths": true,
+      "chars": 4069,
+      "client_version": "2.4.0",
+      "brief_sha12": "090e8427ceb0",
+      "route": "/v1/ai/chat_request.json",
+      "mode": "analytics",
+      "injection_source": "turn",
+      "scope_brief_chars": 870,
+      "scope_brief_bytes": 878,
+      "scope_brief_tk": 220,
+      "mini_schema_chars": 3171,
+      "mini_schema_bytes": 3191,
+      "mini_schema_tk": 798,
+      "mini_schema_sha12": "9663d356a286",
+      "walk_paths_chars": 2357,
+      "walk_paths_bytes": 2391,
+      "walk_paths_tk": 598,
+      "walk_paths_sha12": "32fb8fc701d3",
+      "full_chars": 7819,
+      "full_bytes": 7881,
+      "full_tk": 1971,
+      "full_sha12": "72be89314989"
+    },
+    {
+      "scope": "travel-sample/inventory",
+      "has_scope_brief": true,
+      "has_mini_schema": true,
+      "has_walk_paths": true,
+      "chars": 8272,
+      "client_version": "2.4.0",
+      "brief_sha12": "72952f25d726",
+      "route": "/v1/ai/chat_request.json",
+      "mode": "analytics",
+      "injection_source": "turn",
+      "scope_brief_chars": 873,
+      "scope_brief_bytes": 881,
+      "scope_brief_tk": 221,
+      "mini_schema_chars": 7361,
+      "mini_schema_bytes": 7391,
+      "mini_schema_tk": 1848,
+      "mini_schema_sha12": "1cbe7f04d13e",
+      "walk_paths_chars": 3077,
+      "walk_paths_bytes": 3127,
+      "walk_paths_tk": 782,
+      "walk_paths_sha12": "d19ab1a799eb",
+      "full_chars": 12957,
+      "full_bytes": 13045,
+      "full_tk": 3262,
+      "full_sha12": "067be92c8f11"
+    }
+  ]
+}

@@ -39,6 +39,8 @@ Versus words: better, worse, both hit, both missed, Orange, not run. both hit an
 A pack cell leads with hit, rounds, and rows. pipeline is a yellow mark. fts is an orange mark only when the target was hybrid and this side did not call hybrid.
 The CR-35 story is written only when the labels are base-6.1 and base-7.x. A later pair gets measured size and the rows that moved the score.
 Size cells show characters, then tk. tk is UTF-8 bytes divided by 4, rounded up. When the evidence JSON has injection counts, Size adds the live suffix per dataset and the system message after that suffix is appended.
+Answer agreement, plan length, and the query_decomposition suggestion do not change better or worse. Scout counts as probe. Analytics is counted only when the return records it.
+A Zeus call whose HTTP status is not 200 wears a badge on that pack cell. Orange is a rejected request. Red is a Zeus failure. The badge does not change better or worse. A turn that ends at 200 stays out of Orange.
 -->"""
 
 VERDICT_RULE = (
@@ -99,6 +101,100 @@ def called_api(row: dict | None) -> str:
                     seen.append(step_label)
         return ", ".join(seen)
     return ", ".join(str(verb) for verb in (row.get("verbs") or []) if verb)
+
+
+def _norm_answer(value) -> str:
+    return str(value).strip().casefold()
+
+
+def _call_answer_bits(call: dict) -> tuple[list[str], list[dict]]:
+    sample = call.get("sample") if isinstance(call.get("sample"), dict) else {}
+    keys: list[str] = []
+    rows: list[dict] = []
+    for key in sample.get("doc_keys") or []:
+        if isinstance(key, str) and key:
+            keys.append(key)
+    for item in list(sample.get("fields") or []) + list(sample.get("preview") or []):
+        if not isinstance(item, dict):
+            continue
+        rows.append(item)
+        doc_key = item.get("doc_key")
+        if isinstance(doc_key, str) and doc_key:
+            keys.append(doc_key)
+    return keys, rows
+
+
+def _fields_hit(rows: list[dict], fields: dict) -> bool:
+    if not fields:
+        return True
+    wanted = {key: _norm_answer(value) for key, value in fields.items() if value not in (None, "")}
+    if not wanted:
+        return True
+    for row in rows:
+        if all(_norm_answer(row.get(key, "")) == value for key, value in wanted.items()):
+            return True
+    return False
+
+
+def _answer_ok(mode: str, required_keys: list[str], fields: dict, seen_keys: list[str], seen_rows: list[dict]) -> bool:
+    if mode == "closed":
+        if not seen_keys:
+            return False
+        allowed = set(required_keys)
+        if any(key not in allowed for key in seen_keys):
+            return False
+        return _fields_hit(seen_rows, fields)
+    if any(key not in seen_keys for key in required_keys):
+        return False
+    return _fields_hit(seen_rows, fields)
+
+
+def judge_answer(spec: dict | None, calls: list) -> tuple[str, int | None]:
+    """Answer anchor against returned document ids and fields.
+
+    contains: every listed id and field showed up. Extra documents stay.
+    closed: the returned ids are a non-empty subset of the list. An id outside it misses.
+    An empty spec is not checked. This does not decide better or worse.
+    """
+    if not isinstance(spec, dict) or not spec:
+        return "not_checked", None
+    mode = str(spec.get("mode") or "contains")
+    required_keys = [str(key) for key in (spec.get("doc_keys") or []) if key]
+    fields = spec.get("fields") if isinstance(spec.get("fields"), dict) else {}
+    if mode not in {"contains", "closed"} or (not required_keys and not fields):
+        return "not_checked", None
+    if mode == "closed" and not required_keys:
+        return "not_checked", None
+    seen_keys: list[str] = []
+    seen_rows: list[dict] = []
+    for call in calls:
+        if not isinstance(call, dict):
+            continue
+        keys, rows = _call_answer_bits(call)
+        for key in keys:
+            if key not in seen_keys:
+                seen_keys.append(key)
+        seen_rows.extend(rows)
+        if not _answer_ok(mode, required_keys, fields, seen_keys, seen_rows):
+            continue
+        raw_round = call.get("round")
+        try:
+            plan = int(raw_round) if raw_round is not None else None
+        except (TypeError, ValueError):
+            plan = None
+        return "agree", plan
+    saw_preview = False
+    for call in calls:
+        if not isinstance(call, dict):
+            continue
+        sample = call.get("sample") if isinstance(call.get("sample"), dict) else {}
+        if "doc_keys" in sample or "fields" in sample:
+            return "miss", None
+        if sample.get("preview") or sample.get("row_count"):
+            saw_preview = True
+    if saw_preview:
+        return "not_in_sample", None
+    return "miss", None
 
 
 def side_met(row: dict | None, evidence_required: bool) -> bool | None:
@@ -354,6 +450,7 @@ def _side_view(row: dict | None) -> dict:
         "chat_id": row.get("chat_id") or "",
         "turn_id": row.get("turn_id") or "",
         "session_id": row.get("session_id") or "",
+        "suggestion": row.get("suggestion") or "not recorded",
     }
 
 
@@ -456,6 +553,28 @@ def justification(tallies: dict, label_a: str, label_b: str) -> str:
     )
 
 
+def apply_answer_insights(view: dict, questions: list[dict]) -> dict:
+    """Fill answer and plan length from stored calls. Does not touch the API verdict."""
+    by_id = {question.get("id"): question for question in questions}
+    for scope in view.get("scopes") or []:
+        for row in scope.get("rows") or []:
+            question = by_id.get(row.get("id")) or {}
+            spec = question.get("answer") if isinstance(question.get("answer"), dict) else {}
+            row["answer"] = spec
+            for key in ("a", "b"):
+                side = row.get(key)
+                if not isinstance(side, dict):
+                    continue
+                if side.get("hit") is None:
+                    side["answer"] = "not_checked"
+                    side["plan_rounds"] = None
+                    continue
+                status, plan = judge_answer(spec, side.get("calls") or [])
+                side["answer"] = status
+                side["plan_rounds"] = plan
+    return view
+
+
 def build_view(report: dict, questions: list[dict], date: str) -> dict:
     packs = report.get("packs") or [{}, {}]
     pack_a = packs[0] if packs else {}
@@ -497,6 +616,15 @@ def build_view(report: dict, questions: list[dict], date: str) -> dict:
         side_b = _side_view(new)
         side_a["met"] = previous_met
         side_b["met"] = new_met
+        spec = question.get("answer") if isinstance(question.get("answer"), dict) else {}
+        for side in (side_a, side_b):
+            if side.get("hit") is None:
+                side["answer"] = "not_checked"
+                side["plan_rounds"] = None
+                continue
+            status, plan = judge_answer(spec, side.get("calls") or [])
+            side["answer"] = status
+            side["plan_rounds"] = plan
         bucket["rows"].append(
             {
                 "id": question["id"],
@@ -504,6 +632,7 @@ def build_view(report: dict, questions: list[dict], date: str) -> dict:
                 "scope": scope,
                 "target_api": target_api(question),
                 "notes": question.get("notes") or "",
+                "answer": spec,
                 "a": side_a,
                 "b": side_b,
                 "verdict": verdict,
@@ -712,6 +841,27 @@ def _empty_hit_note(scope: dict) -> str:
     return ""
 
 
+def _http_badges(side: dict) -> str:
+    """A call whose status is not 200. The API verdict stays where it was."""
+    badges = []
+    for call in side.get("calls") or []:
+        if not isinstance(call, dict):
+            continue
+        code = _as_int(call.get("http"))
+        if code is None or code in (0, 200):
+            continue
+        source = api_error_source(code, _fault_text(call))
+        kind = "badge-red" if source == "Zeus" else "badge-orange"
+        verb = str(call.get("verb") or "call")
+        rnd = call.get("round")
+        round_bit = f" r{rnd}" if rnd not in (None, "") else ""
+        label = f"HTTP {code} {verb}{round_bit}"
+        badges.append(f'<span class="badge {kind}">{html.escape(label)}</span>')
+    if not badges:
+        return ""
+    return '<div class="badges">' + "".join(badges) + "</div>"
+
+
 def _html_side(side: dict, target: str = "") -> str:
     if side.get("hit") is None and not side.get("called"):
         return "—"
@@ -725,7 +875,20 @@ def _html_side(side: dict, target: str = "") -> str:
         f'<span><span class="metric">{html.escape(rows)}</span> rows</span>',
         "</div>",
         f'<div class="called">{_mark_called(str(side.get("called") or "—"), target)}</div>',
+        _http_badges(side),
     ]
+    answer = side.get("answer")
+    if answer == "agree":
+        plan = side.get("plan_rounds")
+        plan_bit = f" · plan {html.escape(str(plan))}" if plan is not None else ""
+        bits.append(f'<div class="sub">answer agree{plan_bit}</div>')
+    elif answer == "miss":
+        bits.append('<div class="sub">answer miss</div>')
+    elif answer == "not_in_sample":
+        bits.append('<div class="sub">answer not in sample</div>')
+    suggestion = side.get("suggestion") or ""
+    if suggestion and suggestion != "not recorded":
+        bits.append(f'<div class="sub">suggestion {html.escape(str(suggestion))}</div>')
     if side.get("http"):
         source = side.get("api_source")
         status = f'HTTP {html.escape(str(side["http"]))}'
@@ -1141,6 +1304,121 @@ def _pack_systems(label_a: str, label_b: str) -> tuple[str, str] | None:
     return system_a, system_b
 
 
+def _answer_line(view: dict) -> str:
+    """Insight only. The API verdict above this line is unchanged."""
+    label_a = view.get("label_a") or "previous"
+    label_b = view.get("label_b") or "new"
+    checked = 0
+    agreed = {"a": 0, "b": 0}
+    plan = {"a": 0, "b": 0}
+    both = 0
+    not_in_sample = 0
+    total = 0
+    for scope in view.get("scopes") or []:
+        for row in scope.get("rows") or []:
+            total += 1
+            side_a = row.get("a") if isinstance(row.get("a"), dict) else {}
+            side_b = row.get("b") if isinstance(row.get("b"), dict) else {}
+            marks = {side_a.get("answer", "not_checked"), side_b.get("answer", "not_checked")}
+            if marks == {"not_checked"}:
+                continue
+            checked += 1
+            if "not_in_sample" in marks:
+                not_in_sample += 1
+            if side_a.get("answer") == "agree":
+                agreed["a"] += 1
+            if side_b.get("answer") == "agree":
+                agreed["b"] += 1
+            if side_a.get("answer") == "agree" and side_b.get("answer") == "agree":
+                both += 1
+                if side_a.get("plan_rounds") is not None:
+                    plan["a"] += int(side_a["plan_rounds"])
+                if side_b.get("plan_rounds") is not None:
+                    plan["b"] += int(side_b["plan_rounds"])
+    if checked == 0:
+        return (
+            "Answer anchors are not set on these questions yet. "
+            "Plan length stays the rounds column. "
+            "Neither number changes better or worse."
+        )
+    held = (
+        f" {not_in_sample} of those anchors are not in the stored sample."
+        if not_in_sample
+        else ""
+    )
+    if both:
+        plan_line = (
+            f"On the questions both sides agreed, plan length is {plan['a']} versus {plan['b']} rounds. "
+        )
+    else:
+        plan_line = "No anchor was agreed by both sides, so plan length is not summed. "
+    return (
+        f"Answer anchors: {label_a} agreed {agreed['a']}/{checked}, "
+        f"{label_b} agreed {agreed['b']}/{checked}. "
+        f"{total - checked} questions have no anchor yet.{held} "
+        + plan_line
+        + "Plan length is the model round where the anchor first showed up. "
+        "These numbers do not change better or worse."
+    )
+
+
+def stamp_suggestion(view: dict) -> dict:
+    """A finished side with no stored label is not recorded. The API verdict stays."""
+    for scope in view.get("scopes") or []:
+        for row in scope.get("rows") or []:
+            for key in ("a", "b"):
+                side = row.get(key)
+                if not isinstance(side, dict):
+                    continue
+                if side.get("hit") is None and not side.get("called"):
+                    continue
+                if not side.get("suggestion"):
+                    side["suggestion"] = "not recorded"
+    return view
+
+
+def _suggestion_counts(view: dict, key: str) -> dict[str, int]:
+    counts = {"fast path": 0, "probe": 0, "analytics": 0, "both": 0, "not recorded": 0}
+    for scope in view.get("scopes") or []:
+        for row in scope.get("rows") or []:
+            side = row.get(key) if isinstance(row.get(key), dict) else {}
+            if side.get("hit") is None and not side.get("called"):
+                continue
+            label = side.get("suggestion") or "not recorded"
+            if label not in counts:
+                label = "not recorded"
+            counts[label] += 1
+    return counts
+
+
+def _suggestion_phrase(counts: dict[str, int]) -> str:
+    bits = [
+        f"fast path {counts['fast path']}",
+        f"probe {counts['probe']}",
+        f"not recorded {counts['not recorded']}",
+    ]
+    if counts["analytics"]:
+        bits.append(f"analytics {counts['analytics']}")
+    if counts["both"]:
+        bits.append(f"both {counts['both']}")
+    return ", ".join(bits)
+
+
+def _suggestion_line(view: dict) -> str:
+    """Insight only. Scout is stored as probe. The API verdict above this line is unchanged."""
+    label_a = view.get("label_a") or "previous"
+    label_b = view.get("label_b") or "new"
+    left = _suggestion_phrase(_suggestion_counts(view, "a"))
+    right = _suggestion_phrase(_suggestion_counts(view, "b"))
+    return (
+        f"Suggestion on query_decomposition: {label_a} {left}. "
+        f"{label_b} {right}. "
+        "Scout is counted as probe. Analytics is reserved and is counted only when the return records it. "
+        "A return that only names intent and entity stays not recorded. "
+        "These numbers do not change better or worse."
+    )
+
+
 def _summary_html(view: dict) -> str:
     """Opening summary: score, text that was added, and file size."""
     label_a = html.escape(view.get("label_a") or "previous")
@@ -1172,6 +1450,8 @@ def _summary_html(view: dict) -> str:
             "Read rows on the question charts and in each pack cell. "
             "A hit with an empty required result still counts as a hit here and as not met in the score.</p>"
         )
+    parts.append(f"<p>{html.escape(_answer_line(view))}</p>")
+    parts.append(f"<p>{html.escape(_suggestion_line(view))}</p>")
     parts.append("<h3>What changed in the text</h3>")
     raw_a = str(view.get("label_a") or "")
     raw_b = str(view.get("label_b") or "")
@@ -1334,6 +1614,7 @@ def _summary_html(view: dict) -> str:
 
 def render_html(view: dict) -> str:
     apply_http_retest(view)
+    stamp_suggestion(view)
     label_a = html.escape(view["label_a"])
     label_b = html.escape(view["label_b"])
     sections = []
@@ -1406,6 +1687,10 @@ main.container {{ max-width: 1280px; padding-bottom: 3rem; }}
 mark.pipeline {{ background-color: #ffe14a; color: #3a2e04; font-weight: 700; padding: 0 0.2rem; border-radius: 3px; }}
 mark.missed-strategy {{ background-color: #ff8a1e; color: #3a1500; font-weight: 700; padding: 0 0.2rem; border-radius: 3px; }}
 .sub {{ color: #52606d; font-size: 0.72rem; line-height: 1.25; }}
+.badges {{ margin: 0.2rem 0; }}
+span.badge {{ display: inline-block; font-size: 0.72rem; font-weight: 700; line-height: 1.3; padding: 0.08rem 0.35rem; border-radius: 3px; margin: 0 0.25rem 0.15rem 0; }}
+span.badge-orange {{ background-color: #ff8a1e; color: #3a1500; }}
+span.badge-red {{ background-color: #ff2d2d; color: #3a0000; }}
 span.tk {{ color: #52606d; font-size: 0.78rem; font-weight: 500; }}
 p.tk-note {{ color: #52606d; font-size: 0.82rem; margin-top: 0.35rem; }}
 .chart-hint {{ margin-top: 0; }}
@@ -1433,7 +1718,7 @@ Client: {html.escape(str(view.get("client") or "—"))} {html.escape(str(view.ge
 {_summary_html(view)}
 <p>Hub Debug, Session lists <code>session</code>. Inspector and Analysis open a <code>req_id</code> from that session. <code>chat</code> is the harness label for the turn. The evidence JSON stores <code>chat_id</code>, <code>turn_id</code>, <code>session_id</code>, and each hop <code>req_id</code>.</p>
 <h2>Hits, rounds, and rows</h2>
-<p>The first three charts are the comparison. A <strong>hit</strong> of 1 means that pack called the target API. <strong>Rows</strong> are the largest Zeus result on that turn. <strong>Rounds</strong> are how many model turns it used. The pattern to look for is a hit, with rows, in fewer rounds. A missing bar means that side did not run. The HTTP chart counts every Zeus call, including 200, 400, and 500. The verdict column below is still the target-API rule. It does not award a point for extra rows. A turn that ends on HTTP 400 or higher is Orange and stays out of that rule.</p>
+<p>The first three charts are the comparison. A <strong>hit</strong> of 1 means that pack called the target API. <strong>Rows</strong> are the largest Zeus result on that turn. <strong>Rounds</strong> are how many model turns it used. The pattern to look for is a hit, with rows, in fewer rounds. A missing bar means that side did not run. The HTTP chart counts every Zeus call, including 200, 400, and 500. A call whose status is not 200 wears a badge on that pack cell: orange when Zeus rejected the request, red when Zeus failed the call. The verdict column below is still the target-API rule. It does not award a point for extra rows. A turn that ends on HTTP 400 or higher is Orange and stays out of that rule. A badge on a turn that ended at 200 does not change better or worse.</p>
 <p id="chart-note"></p>
 {_chart_boxes("chart-suite")}
 <h2>Better, worse, and the score</h2>
@@ -1444,7 +1729,7 @@ Client: {html.escape(str(view.get("client") or "—"))} {html.escape(str(view.ge
 <li><strong>both hit</strong>: both packs met the target.</li>
 <li><strong>both missed</strong>: neither pack met the target.</li>
 <li><strong>not run</strong>: a model call is missing, so the row is left out of the score.</li>
-<li><strong>Orange</strong>: a pack cell ends on HTTP 400 or higher, so the row is re-tested later. The source is <strong>LLM</strong> when the model sent a request Zeus rejected, <strong>Zeus</strong> when the service closed or failed the call, and <strong>koten_converter (FUTURE)</strong> when that hop reports the error. koten_converter is not wired into this suite yet. Orange stays out of better and worse. An earlier HTTP 400 on a turn that ends at 200 stays in the HTTP chart and does not turn the row Orange.</li>
+<li><strong>Orange</strong>: a pack cell ends on HTTP 400 or higher, so the row is re-tested later. The source is <strong>LLM</strong> when the model sent a request Zeus rejected, <strong>Zeus</strong> when the service closed or failed the call, and <strong>koten_converter (FUTURE)</strong> when that hop reports the error. koten_converter is not wired into this suite yet. Orange stays out of better and worse. An earlier HTTP status that is not 200 stays on the cell as a badge and in the HTTP chart. It does not turn the row Orange when the turn ends at 200.</li>
 </ul>
 <p>Both hit and both missed stay out of the better and worse counts. The score still counts them as same. When the question says rows are required, an empty Zeus result is not met. In a pack cell, <mark class="pipeline">pipeline</mark> means a pipeline ran. <mark class="missed-strategy">fts</mark> means the target was hybrid and this side called fts instead.</p>
 <p><strong>Score.</strong> {html.escape(score_line(view.get("score") or {"label_a": view["label_a"], "label_b": view["label_b"], "ratio_a": "0/0", "ratio_b": "0/0", "better_to_worse": "0:0", "net": 0}))} A positive net means {label_b} covered more targets that {label_a} missed than it lost.</p>
@@ -1707,6 +1992,55 @@ def check_verdicts() -> int:
     if ">Orange<" not in orange_page or "chart-suite-http" not in orange_page or "td.retest" not in orange_page:
         print("orange page missing the retest mark or the HTTP chart")
         return 1
+    if "badge-orange" not in orange_page or "HTTP 400 pipeline" not in orange_page:
+        print("turn-ending HTTP 400 missed its badge")
+        return 1
+    recovered_cell = _html_side(
+        {
+            "hit": True,
+            "called": "find",
+            "rounds": 2,
+            "row_count": 1,
+            "http": 200,
+            "calls": [
+                {"verb": "find", "http": 400, "round": 2, "sample": {"error": "bad_request"}},
+                {"verb": "find", "http": 200, "round": 3, "sample": {}},
+            ],
+        }
+    )
+    if "badge-orange" not in recovered_cell or "HTTP 400 find r2" not in recovered_cell:
+        print("recovered HTTP 400 missed its badge", recovered_cell)
+        return 1
+    if side_turn_fault({"http": 200, "calls": [{"http": 400, "verb": "find", "round": 2}]}) is not None:
+        print("badge treated a recovered 400 as the turn status")
+        return 1
+    red_cell = _html_side(
+        {
+            "hit": True,
+            "called": "search",
+            "rounds": 1,
+            "row_count": 0,
+            "http": 429,
+            "calls": [{"verb": "search", "http": 429, "round": 1, "sample": {"error": "session_force_closed"}}],
+        }
+    )
+    if "badge-red" not in red_cell or "HTTP 429 search r1" not in red_cell:
+        print("Zeus HTTP failure missed its red badge", red_cell)
+        return 1
+    clean_cell = _html_side(
+        {
+            "hit": True,
+            "called": "find",
+            "rounds": 1,
+            "row_count": 1,
+            "http": 200,
+            "suggestion": "not recorded",
+            "calls": [{"verb": "find", "http": 200, "round": 1, "sample": {}}],
+        }
+    )
+    if "badge-" in clean_cell or "suggestion not recorded" in clean_cell:
+        print("clean HTTP 200 grew a badge", clean_cell)
+        return 1
     if orange_view["tallies"]["worse"] != 0 or orange_view["tallies"]["retest"] != 1:
         print("retest tally failed", orange_view["tallies"])
         return 1
@@ -1914,5 +2248,180 @@ def check_verdicts() -> int:
             if color not in page:
                 print("verdict color missing", color)
                 return 1
+        agreed, plan = judge_answer(
+            {"mode": "contains", "doc_keys": ["hotel_21052"], "fields": {"country": "United Kingdom"}},
+            [
+                {
+                    "round": 1,
+                    "sample": {"doc_keys": ["hotel_21052"], "fields": [{"doc_key": "hotel_21052", "name": "The Bell Inn"}]},
+                },
+                {
+                    "round": 2,
+                    "sample": {"fields": [{"doc_key": "hotel_21052", "country": "United Kingdom"}]},
+                },
+            ],
+        )
+        if agreed != "agree" or plan != 2:
+            print("answer anchor failed", agreed, plan)
+            return 1
+        missed, missed_plan = judge_answer(
+            {"mode": "closed", "doc_keys": ["hotel_21052"]},
+            [{"round": 1, "sample": {"doc_keys": ["hotel_21052", "hotel_99999"]}}],
+        )
+        if missed != "miss" or missed_plan is not None:
+            print("closed answer set failed", missed, missed_plan)
+            return 1
+        subset, subset_plan = judge_answer(
+            {"mode": "closed", "doc_keys": ["hotel_21052", "hotel_1"]},
+            [{"round": 1, "sample": {"doc_keys": ["hotel_21052"]}}],
+        )
+        if subset != "agree" or subset_plan != 1:
+            print("closed subset failed", subset, subset_plan)
+            return 1
+        if judge_answer({}, []) != ("not_checked", None):
+            print("empty answer spec was scored")
+            return 1
+        preview_only, preview_plan = judge_answer(
+            {"mode": "contains", "fields": {"country": "United Kingdom"}},
+            [{"round": 1, "sample": {"row_count": 1, "preview": [{"doc_key": "hotel_21052", "name": "The Bell Inn"}]}}],
+        )
+        if preview_only != "not_in_sample" or preview_plan is not None:
+            print("preview-only anchor was scored as a miss", preview_only, preview_plan)
+            return 1
+        pending = build_view(
+            {
+                "zeus_version": "test",
+                "packs": [
+                    {"label": "base-a", "questions": [{"id": "anchor-demo", "status": "not_run"}]},
+                    {"label": "base-b", "questions": [{"id": "anchor-demo", "status": "not_run"}]},
+                ],
+            },
+            [
+                {
+                    "id": "anchor-demo",
+                    "scope": "beer-sample/_default",
+                    "text": "pending",
+                    "evidence_required": False,
+                    "expect": {"all_of": [{"verb": "get"}]},
+                    "answer": {"mode": "contains", "doc_keys": ["hotel_21052"]},
+                }
+            ],
+            "2026-11-21",
+        )
+        pending_side = pending["scopes"][0]["rows"][0]["a"]
+        if pending_side.get("answer") != "not_checked":
+            print("unrun row was scored as an answer miss", pending_side.get("answer"))
+            return 1
+        anchor_q = {
+            "id": "anchor-demo",
+            "scope": "beer-sample/_default",
+            "text": "What country is The Bell Inn in?",
+            "evidence_required": False,
+            "expect": {"all_of": [{"verb": "get"}]},
+            "answer": {"mode": "contains", "doc_keys": ["hotel_21052"], "fields": {"country": "United Kingdom"}},
+        }
+        hit_call = {
+            "round": 2,
+            "verb": "get",
+            "http": 200,
+            "evidence": True,
+            "sample": {"doc_keys": ["hotel_21052"], "fields": [{"country": "United Kingdom"}], "row_count": 1},
+        }
+        miss_call = {
+            "round": 3,
+            "verb": "project",
+            "http": 200,
+            "evidence": True,
+            "sample": {"doc_keys": ["hotel_21052"], "fields": [{"name": "The Bell Inn"}], "row_count": 1},
+        }
+        anchor_view = build_view(
+            {
+                "zeus_version": "test",
+                "provider": "xai",
+                "model": "grok-4.7",
+                "packs": [
+                    {
+                        "label": "base-a",
+                        "questions": [
+                            {
+                                "id": "anchor-demo",
+                                "verb_hit": True,
+                                "evidence_nonempty": True,
+                                "rounds_used": 2,
+                                "http_status": 200,
+                                "calls": [hit_call],
+                            }
+                        ],
+                    },
+                    {
+                        "label": "base-b",
+                        "questions": [
+                            {
+                                "id": "anchor-demo",
+                                "verb_hit": True,
+                                "evidence_nonempty": True,
+                                "rounds_used": 3,
+                                "http_status": 200,
+                                "calls": [miss_call],
+                            }
+                        ],
+                    },
+                ],
+            },
+            [anchor_q],
+            "2026-11-21",
+        )
+        if anchor_view["tallies"]["better"] != 0 or anchor_view["tallies"]["worse"] != 0:
+            print("answer insight moved the API score", anchor_view["tallies"])
+            return 1
+        if "does not show a reason to switch" not in anchor_view["justification"]:
+            print("answer insight changed the justification", anchor_view["justification"])
+            return 1
+        anchor_html = _summary_html(anchor_view) + _html_side(anchor_view["scopes"][0]["rows"][0]["a"]) + _html_side(anchor_view["scopes"][0]["rows"][0]["b"])
+        if "agreed 1/1" not in anchor_html or "agreed 0/1" not in anchor_html:
+            print("answer summary missing", anchor_html)
+            return 1
+        if "answer agree · plan 2" not in anchor_html or "answer miss" not in anchor_html:
+            print("answer cell missing", anchor_html)
+            return 1
+        if "do not change better or worse" not in anchor_html:
+            print("answer line claimed the verdict", anchor_html)
+            return 1
+        suggestion_line = _suggestion_line(
+            {
+                "label_a": "left",
+                "label_b": "right",
+                "scopes": [
+                    {
+                        "rows": [
+                            {
+                                "a": {"hit": True, "suggestion": "fast path"},
+                                "b": {"hit": True, "suggestion": "probe"},
+                            },
+                            {
+                                "a": {"hit": True, "suggestion": "not recorded"},
+                                "b": {"hit": True, "suggestion": "analytics"},
+                            },
+                            {
+                                "a": {"hit": None},
+                                "b": {"hit": True, "suggestion": "both"},
+                            },
+                        ]
+                    }
+                ],
+            }
+        )
+        for needle in (
+            "left fast path 1, probe 0, not recorded 1.",
+            "right fast path 0, probe 1, not recorded 0, analytics 1, both 1.",
+            "Scout is counted as probe.",
+            "do not change better or worse.",
+        ):
+            if needle not in suggestion_line:
+                print("suggestion line failed", needle, suggestion_line)
+                return 1
+        if anchor_view["tallies"]["better"] != 0 or anchor_view["tallies"]["worse"] != 0:
+            print("suggestion check moved the API score", anchor_view["tallies"])
+            return 1
     print("report verdict check ok")
     return 0

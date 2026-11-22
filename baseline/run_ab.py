@@ -236,6 +236,12 @@ def spec_matches(spec: dict, call: dict) -> bool:
             if call.get("verb") != expected:
                 return False
             continue
+        # true means the field is present and non-empty. The step alias is not scored.
+        if expected is True:
+            value = args.get(key)
+            if value in (None, "", [], {}):
+                return False
+            continue
         if args.get(key) != expected:
             return False
     return True
@@ -259,10 +265,16 @@ def score_question(question: dict, calls: list[dict], http_status: int | None, e
     }
 
 
-def evidence_nonempty(body: dict | str) -> bool:
-    if not isinstance(body, dict):
-        return False
-    blobs = [body]
+# Lists on the response itself, on result/data/cards, and on each results_so_far step.
+_BLOB_LIST_KEYS = ("items", "node_ids", "rows", "ids", "src_keys")
+# One pipeline step alias, for example rows.rows or beers.items. doc_keys lives here.
+_STEP_LIST_KEYS = ("items", "rows", "node_ids", "doc_keys")
+# Pipeline bookkeeping. Not a step alias, even when the value is an object.
+_SKIP_STEP_KEYS = {"meta", "error", "input_hints", "warnings"}
+
+
+def _evidence_blobs(body: dict) -> list[dict]:
+    blobs: list[dict] = [body]
     result = body.get("result")
     if isinstance(result, dict):
         blobs.append(result)
@@ -275,17 +287,36 @@ def evidence_nonempty(body: dict | str) -> bool:
     so_far = body.get("results_so_far")
     if isinstance(so_far, dict):
         blobs.extend(value for value in so_far.values() if isinstance(value, dict))
-    for blob in blobs:
-        for key in ("items", "node_ids", "rows", "ids", "src_keys"):
+    return blobs
+
+
+def _longest_evidence_list(body: dict) -> list:
+    """Longest non-empty evidence list. An empty list is not evidence."""
+    best: list = []
+    for blob in _evidence_blobs(body):
+        for key in _BLOB_LIST_KEYS:
             value = blob.get(key)
-            if isinstance(value, list) and value:
-                return True
+            if isinstance(value, list) and len(value) > len(best):
+                best = value
         cards = blob.get("cards")
         if isinstance(cards, dict):
             rows = cards.get("rows")
-            if isinstance(rows, list) and rows:
-                return True
-    return False
+            if isinstance(rows, list) and len(rows) > len(best):
+                best = rows
+        for key, value in blob.items():
+            if key in _SKIP_STEP_KEYS or not isinstance(value, dict):
+                continue
+            for inner_key in _STEP_LIST_KEYS:
+                inner = value.get(inner_key)
+                if isinstance(inner, list) and len(inner) > len(best):
+                    best = inner
+    return best
+
+
+def evidence_nonempty(body: dict | str) -> bool:
+    if not isinstance(body, dict):
+        return False
+    return bool(_longest_evidence_list(body))
 
 
 def evidence_sample(body: dict | str) -> dict:
@@ -300,27 +331,86 @@ def evidence_sample(body: dict | str) -> dict:
         if key in hidden or value in (None, "", {}, []):
             continue
         sample[key] = value if isinstance(value, (str, int, float, bool)) else str(value)[:200]
-    blobs = [body]
-    for key in ("result", "data"):
-        value = body.get(key)
-        if isinstance(value, dict):
-            blobs.append(value)
-    so_far = body.get("results_so_far")
-    if isinstance(so_far, dict):
-        blobs.extend(value for value in so_far.values() if isinstance(value, dict))
-    best: list = []
-    for blob in blobs:
-        for key in ("items", "node_ids", "rows", "ids", "src_keys"):
-            value = blob.get(key)
-            if isinstance(value, list) and len(value) > len(best):
-                best = value
-        cards = blob.get("cards")
-        if isinstance(cards, dict) and isinstance(cards.get("rows"), list) and len(cards["rows"]) > len(best):
-            best = cards["rows"]
+    best = _longest_evidence_list(body)
     if best:
         sample["row_count"] = len(best)
         sample["preview"] = [_preview_item(item) for item in best[:3]]
+    doc_keys, fields = _harvest_answer(body)
+    if doc_keys:
+        sample["doc_keys"] = doc_keys
+    if fields:
+        sample["fields"] = fields
     return sample
+
+
+_ANSWER_FIELD_KEYS = ("doc_key", "name", "city", "state", "country", "style", "abv")
+
+
+def _field_row(item) -> dict | None:
+    """Document id and the fields an answer anchor can check. No secrets."""
+    if not isinstance(item, dict):
+        return None
+    node = item.get("node") if isinstance(item.get("node"), dict) else item
+    meta = node.get("metadata") if isinstance(node.get("metadata"), dict) else {}
+    picked = {}
+    for key in _ANSWER_FIELD_KEYS:
+        value = node.get(key)
+        if value in (None, "") and key in meta:
+            value = meta.get(key)
+        if value not in (None, ""):
+            picked[key] = value
+    return picked or None
+
+
+def _harvest_answer(body: dict) -> tuple[list[str], list[dict]]:
+    """Doc keys and field rows from the same lists the row count uses.
+
+    String lists count as document ids only when the key is doc_keys or
+    src_keys. node_ids stay out. Caps keep one wide find from filling the report.
+    """
+    keys: list[str] = []
+    seen: set[str] = set()
+    fields: list[dict] = []
+
+    def add_key(value) -> None:
+        if not isinstance(value, str) or not value or value in seen or len(keys) >= 400:
+            return
+        seen.add(value)
+        keys.append(value)
+
+    def add_row(item) -> None:
+        row = _field_row(item)
+        if not row or len(fields) >= 40:
+            return
+        if row.get("doc_key"):
+            add_key(row["doc_key"])
+        fields.append(row)
+
+    def take_list(name: str, value) -> None:
+        if not isinstance(value, list):
+            return
+        if name in {"doc_keys", "src_keys"}:
+            for item in value:
+                add_key(item)
+            return
+        if name in {"node_ids"}:
+            return
+        for item in value:
+            if isinstance(item, dict):
+                add_row(item)
+
+    for blob in _evidence_blobs(body):
+        for name in ("items", "rows", "ids", "src_keys", "doc_keys", "node_ids"):
+            take_list(name, blob.get(name))
+        cards = blob.get("cards")
+        if isinstance(cards, dict):
+            take_list("rows", cards.get("rows"))
+        for name, value in blob.items():
+            if name in _SKIP_STEP_KEYS or not isinstance(value, dict):
+                continue
+            for inner_name in ("items", "rows", "doc_keys", "node_ids"):
+                take_list(inner_name, value.get(inner_name))
+    return keys, fields
 
 
 def _preview_item(item) -> object:
@@ -340,12 +430,68 @@ def _preview_item(item) -> object:
     return picked
 
 
+_SUGGESTION_LABELS = {
+    "fast path": "fast path",
+    "fast_path": "fast path",
+    "fast-path": "fast path",
+    "fast pass": "fast path",
+    "fast_pass": "fast path",
+    "known_goal": "fast path",
+    "probe": "probe",
+    "one probe": "probe",
+    "scout": "probe",
+    "open_ended": "probe",
+    "open ended": "probe",
+    "analytics": "analytics",
+}
+
+
+def suggestion_label(query_decomposition: dict | None) -> str:
+    """The suggestion recorded on query_decomposition.
+
+    Fast path and probe are the two live suggestions. Scout is the older name
+    for the probe. Analytics is reserved. Anything else is not recorded.
+    """
+    if not isinstance(query_decomposition, dict) or not query_decomposition:
+        return "not recorded"
+    found: list[str] = []
+
+    def add(label: str | None) -> None:
+        if label and label not in found:
+            found.append(label)
+
+    for key, value in query_decomposition.items():
+        if isinstance(value, str):
+            add(_SUGGESTION_LABELS.get(value.strip().casefold()))
+        elif value is True and isinstance(key, str):
+            add(_SUGGESTION_LABELS.get(key.strip().casefold()))
+    if not found:
+        return "not recorded"
+    if len(found) == 1:
+        return found[0]
+    return "both"
+
+
+def _suggestion_from_turn(public: dict, raw_calls: list[dict]) -> str:
+    layer = public.get("layer_a") if isinstance(public, dict) else None
+    if isinstance(layer, dict) and isinstance(layer.get("query_decomposition"), dict):
+        return suggestion_label(layer["query_decomposition"])
+    for call in reversed(raw_calls):
+        if call.get("verb") != "return":
+            continue
+        args = call.get("args") if isinstance(call.get("args"), dict) else {}
+        qd = args.get("query_decomposition")
+        if isinstance(qd, dict):
+            return suggestion_label(qd)
+    return "not recorded"
+
+
 def slim_args(args: dict) -> dict:
     """Keep the fields that show which API was called. Drop bulk id lists."""
     if not isinstance(args, dict):
         return {}
     slim = {}
-    for key in ("entity_type", "strategy", "shape", "query_text", "limit", "name", "format"):
+    for key in ("entity_type", "strategy", "shape", "query_text", "limit", "name", "format", "narrow_to"):
         if key in args:
             slim[key] = args[key]
     where = args.get("where")
@@ -425,7 +571,7 @@ def check_question_lock() -> int:
         print("question suite does not match baseline/suite.lock.json")
         return 1
     scopes = [str(row.get("scope") or "").split("/", 1)[0] for row in current]
-    if len(current) != 21 or scopes.count("beer-sample") != 11 or scopes.count("travel-sample") != 10:
+    if len(current) != 22 or scopes.count("beer-sample") != 11 or scopes.count("travel-sample") != 11:
         print("question suite shape failed", len(current), scopes.count("beer-sample"), scopes.count("travel-sample"))
         return 1
     return 0
@@ -472,6 +618,56 @@ def self_check() -> int:
     cards = {"result": {"cards": {"rows": [{"doc_key": "hotel_26497", "name": "Loews Santa Monica Beach Hotel"}]}}}
     if not evidence_nonempty(cards):
         print("self-check card evidence failed")
+        return 1
+    if evidence_nonempty({"result": {"cards": {"rows": []}}}):
+        print("self-check empty cards counted")
+        return 1
+    alias = {
+        "status": "ok",
+        "rows": {
+            "rows": [{"doc_key": "h", "name": "Loews"}],
+            "doc_keys": ["h"],
+            "node_ids": ["n"],
+        },
+        "meta": {"step_costs": [{"as": "rows", "result_size": 20}]},
+    }
+    alias_sample = evidence_sample(alias)
+    if not evidence_nonempty(alias) or alias_sample.get("row_count") != 1 or alias_sample["preview"][0].get("name") != "Loews":
+        print("self-check step alias failed", alias_sample)
+        return 1
+    beers = {"beers": {"items": [{"node": {"name": "Stone IPA"}}, {"node": {"doc_key": "b2"}}]}}
+    if not evidence_nonempty(beers) or evidence_sample(beers).get("row_count") != 2:
+        print("self-check beers alias failed", evidence_sample(beers))
+        return 1
+    keys_only = {"rows": {"rows": [], "doc_keys": ["beer_1"], "node_ids": []}}
+    if not evidence_nonempty(keys_only) or evidence_sample(keys_only).get("row_count") != 1:
+        print("self-check doc_keys alias failed", evidence_sample(keys_only))
+        return 1
+    empty_alias = {"states": {"items": [], "rows": [], "node_ids": [], "doc_keys": []}}
+    if evidence_nonempty(empty_alias) or evidence_sample(empty_alias).get("row_count"):
+        print("self-check empty alias counted", evidence_sample(empty_alias))
+        return 1
+    so_far = {"status": "failed", "results_so_far": {"beach_lm_rows": {"rows": [1, 2, 3]}}}
+    if not evidence_nonempty(so_far) or evidence_sample(so_far).get("row_count") != 3:
+        print("self-check results_so_far alias failed", evidence_sample(so_far))
+        return 1
+    anchored = evidence_sample(
+        {
+            "result": {
+                "items": [
+                    {
+                        "doc_key": "hotel_21052",
+                        "name": "The Bell Inn",
+                        "metadata": {"country": "United Kingdom", "city": "Redbrook"},
+                    }
+                ]
+            }
+        }
+    )
+    if anchored.get("doc_keys") != ["hotel_21052"] or not any(
+        row.get("country") == "United Kingdom" for row in anchored.get("fields") or []
+    ):
+        print("self-check answer harvest failed", anchored)
         return 1
     parsed = parse_env_text(
         "\n# comment\nexport LLM_MODEL=grok-4.7\nZEUS_USER='kept'\nSKIP\n"
@@ -553,6 +749,79 @@ def self_check() -> int:
         print("self-check scope order failed", groups)
         return 1
     if provider_budget.self_check() != 0:
+        return 1
+    if suggestion_label({"suggestion": "fast path"}) != "fast path":
+        print("self-check fast path suggestion failed")
+        return 1
+    if suggestion_label({"scout": True}) != "probe":
+        print("self-check scout suggestion failed")
+        return 1
+    if suggestion_label({"kind": "analytics"}) != "analytics":
+        print("self-check analytics suggestion failed")
+        return 1
+    if suggestion_label({"fast_path": True, "probe": True}) != "both":
+        print("self-check both suggestions failed")
+        return 1
+    if suggestion_label({"intent": "List", "entity": "Beer"}) != "not recorded":
+        print("self-check plain decomposition was labeled")
+        return 1
+    uk = {
+        "id": "uk",
+        "evidence_required": True,
+        "expect": {
+            "all_of": [
+                {"verb": "pipeline"},
+                {"verb": "find", "where": {"country": "United Kingdom"}},
+                {"verb": "search", "strategy": "hybrid", "narrow_to": True},
+            ]
+        },
+    }
+    uk_calls = [
+        {
+            "verb": "pipeline",
+            "args": {
+                "steps": [
+                    {
+                        "as": "uk_hotels",
+                        "verb": "find",
+                        "params": {"entity_type": "Hotel", "where": {"country": "United Kingdom"}, "limit": 200},
+                    },
+                    {
+                        "as": "beachish",
+                        "verb": "search",
+                        "params": {
+                            "strategy": "hybrid",
+                            "entity_type": "Hotel",
+                            "query_text": "beach",
+                            "narrow_to": "@uk_hotels.node_ids",
+                            "limit": 40,
+                        },
+                    },
+                ]
+            },
+        }
+    ]
+    uk_scored = score_question(uk, uk_calls, 200, True)
+    if not uk_scored["verb_hit"]:
+        print("self-check uk beach failed", uk_scored)
+        return 1
+    uk_slim = [{"verb": "pipeline", "args": slim_args(uk_calls[0]["args"])}]
+    if not score_question(uk, uk_slim, 200, True)["verb_hit"]:
+        print("self-check uk beach slim failed", uk_slim)
+        return 1
+    bare = [
+        {
+            "verb": "pipeline",
+            "args": {
+                "steps": [
+                    {"verb": "find", "params": {"where": {"country": "United Kingdom"}}},
+                    {"verb": "search", "params": {"strategy": "hybrid", "query_text": "beach"}},
+                ]
+            },
+        }
+    ]
+    if score_question(uk, bare, 200, True)["verb_hit"]:
+        print("self-check uk beach accepted a search with no narrow_to")
         return 1
     print("self-check ok")
     return 0
@@ -649,6 +918,7 @@ def row_from_result(question: dict, result) -> tuple[dict, dict]:
         "client_version": str(debug.client_version or ""),
         "hub_notes": notes,
         "req_ids": req_ids,
+        "suggestion": _suggestion_from_turn(public if isinstance(public, dict) else {}, raw_calls),
         "calls": [
             {
                 "round": call["round"],
