@@ -1,16 +1,82 @@
-.DS_Store
-*.swp
-.idea/
-.vscode/
-
-__pycache__/
-*.pyc
-
-# Local secrets / keys (never commit)
+# Local secrets. Never commit these.
+# Safe templates: example.env and .env.example. Neither holds a real secret.
 .env
 .env.*
 !.env.example
 *.pem
+*.key
+*.p12
+*.pfx
 id_rsa
 id_rsa.pub
 secrets/
+credentials.json
+service-account*.json
+.netrc
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.TemporaryItems
+.DocumentRevisions-V100
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.stackdump
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.python-version
+build/
+dist/
+sdist/
+wheels/
+*.egg
+*.egg-info/
+.eggs/
+.installed.cfg
+pip-log.txt
+pip-delete-this-directory.txt
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+.cache/
+*.log
+.ipynb_checkpoints/

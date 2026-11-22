@@ -2,7 +2,7 @@
   "suite": "chat_request_ab_v1",
   "probed_at": "2026-10-21",
   "zeus_version_probed": "0.9.19",
-  "notes": "These questions score the model tool choice. They are not part of the shared chat_request pin. Beer has 11 questions and travel has 10, covering find, search fts, search hybrid, pipeline, and walk_path. travel-walk-country-hotels is out until Country documents exist (CR-38). A find spelling is quoted only when this lab already returned it, or when the question itself states the value. Hotel price is display-only, so no question asks for a price filter. Travel uses ZEUS_USER_TRAVEL. Beer uses ZEUS_USER_BEER.",
+  "notes": "These questions score the model tool choice. They are not part of the shared chat_request pin. Beer has 11 questions and travel has 11, covering find, search fts, search hybrid, pipeline, narrow_to, and walk_path. travel-walk-country-hotels is out until Country documents exist (CR-38). travel-uk-beach-pipeline is the vague-chain qualification: a stored country plus a soft beach facet, one pipeline, narrow_to on the hybrid step. A find spelling is quoted only when this lab already returned it, or when the question itself states the value. Hotel price is display-only, so no question asks for a price filter. Travel uses ZEUS_USER_TRAVEL. Beer uses ZEUS_USER_BEER.",
   "questions": [
     {
       "id": "beer-find-style",
@@ -82,7 +82,11 @@
         ]
       },
       "evidence_required": true,
-      "notes": "Supported on 0.9.19. Once the beer key is known, one walk: from Beer doc_key 21st_amendment_brewery_cafe-21a_ipa, path [brewery_id], return name, city, state. HTTP 200, one row: 21st Amendment Brewery Cafe, San Francisco, California. The utterance has no doc_key, so a seed search may come first. Hybrid 21A IPA's top hit was that key. The scorer does not require the path array."
+      "answer": {
+        "mode": "contains",
+        "fields": {"city": "San Francisco", "state": "California"}
+      },
+      "notes": "Supported on 0.9.19. Once the beer key is known, one walk: from Beer doc_key 21st_amendment_brewery_cafe-21a_ipa, path [brewery_id], return name, city, state. HTTP 200, one row: 21st Amendment Brewery Cafe, San Francisco, California. The utterance has no doc_key, so a seed search may come first. Hybrid 21A IPA's top hit was that key. The scorer does not require the path array. The answer anchor is that city and state. It is not the API score."
     },
     {
       "id": "beer-walk-stone-beers",
@@ -95,7 +99,11 @@
         ]
       },
       "evidence_required": true,
-      "notes": "Supported when the brewery key is stone_brewing_co (name Stone Brewing Co.). stone_brewing is not the live key. Inverse path [{\"inverse\":\"Beer.brewery_id\"}], return name, abv, style, limit 8, HTTP 200. Rows included Stone IPA, abv 6.9, style American-Style India Pale Ale. A seed search may precede the walk. The scorer does not require the path array."
+      "answer": {
+        "mode": "contains",
+        "fields": {"name": "Stone IPA"}
+      },
+      "notes": "Supported when the brewery key is stone_brewing_co (name Stone Brewing Co.). stone_brewing is not the live key. Inverse path [{\"inverse\":\"Beer.brewery_id\"}], return name, abv, style, limit 8, HTTP 200. Rows included Stone IPA, abv 6.9, style American-Style India Pale Ale. A seed search may precede the walk. The scorer does not require the path array. The answer anchor is the name Stone IPA, not the full beer list."
     },
     {
       "id": "beer-walk-belgian",
@@ -114,14 +122,14 @@
       "id": "beer-walk-colorado-counts",
       "scope": "beer-sample/_default",
       "collection": "nodes",
-      "text": "How many beers does each Colorado brewery produce?",
+      "text": "List the beers each Colorado brewery makes.",
       "expect": {
         "all_of": [
           {"verb": "traverse", "shape": "walk_path"}
         ]
       },
       "evidence_required": false,
-      "notes": "The state value that matched is lowercase colorado. group_by as an array is HTTP 400 (expected a string). group_by brewery.name is HTTP 400 because v1 group_by is terminal-local. group_by name on the beer side returned beer-name counts (Pale Ale 3), not a count per brewery. The row form, inverse Beer.brewery_id with return name, abv, style, returns beers and does not attach the brewery name. Evidence is not required."
+      "notes": "The words ask for the beers, which is the walk from Colorado breweries. A count per brewery is not what group_by can return. The state value that matched is lowercase colorado. group_by as an array is HTTP 400 (expected a string). group_by brewery.name is HTTP 400 because v1 group_by is terminal-local. group_by name on the beer side returned beer-name counts (Pale Ale 3), not a count per brewery. The row form, inverse Beer.brewery_id with return name, abv, style, returns beers and does not attach the brewery name. Evidence is not required."
     },
     {
       "id": "beer-walk-beers-by-country",
@@ -236,7 +244,12 @@
         ]
       },
       "evidence_required": false,
-      "notes": "Parallel to beer-walk-21a-ipa. Live key hotel_21052, stored name The Bell Inn, type hotel. Redbrook is the city: find where name is Redbrook returned empty, and find where city is Redbrook returned this key. Walk path country from that key is HTTP 400 because country is not a declared FK on type hotel. A seed find may come first. Evidence is not required."
+      "answer": {
+        "mode": "contains",
+        "doc_keys": ["hotel_21052"],
+        "fields": {"country": "United Kingdom"}
+      },
+      "notes": "Parallel to beer-walk-21a-ipa. Live key hotel_21052, stored name The Bell Inn, type hotel. Redbrook is the city: find where name is Redbrook returned empty, and find where city is Redbrook returned this key. Walk path country from that key is HTTP 400 because country is not a declared FK on type hotel. A seed find may come first. Evidence is not required. The answer anchor is that hotel id and country United Kingdom. The hotel id alone does not agree."
     },
     {
       "id": "travel-walk-city-hotels",
@@ -255,40 +268,57 @@
       "id": "travel-walk-state-counts",
       "scope": "travel-sample/inventory",
       "collection": "nodes",
-      "text": "How many hotels are in each state?",
+      "text": "List the hotels in each state.",
       "expect": {
         "all_of": [
           {"verb": "traverse", "shape": "walk_path"}
         ]
       },
       "evidence_required": false,
-      "notes": "Parallel to beer-walk-colorado-counts. Brief path is State to Hotel via the inverse of Hotel.state. group_by must be a terminal-local string. Evidence is not required."
+      "notes": "The words ask for the hotels, which is the walk from State. A count per state is not what group_by can return. Brief path is State to Hotel via the inverse of Hotel.state. group_by must be a terminal-local string. Evidence is not required."
     },
     {
       "id": "travel-walk-hotels-by-country",
       "scope": "travel-sample/inventory",
       "collection": "nodes",
-      "text": "Count hotels by country.",
+      "text": "List hotels in the United Kingdom.",
       "expect": {
-        "all_of": [
-          {"verb": "traverse", "shape": "walk_path"}
+        "any_of": [
+          {"verb": "find", "entity_type": "hotel"},
+          {"verb": "find", "entity_type": "Hotel"}
         ]
       },
-      "evidence_required": false,
-      "notes": "Parallel to beer-walk-beers-by-country. Terminal-local group_by only. An empty where is not a selector. Evidence is not required."
+      "evidence_required": true,
+      "notes": "Hotel.country is a stored string, not a declared foreign key, and find Country returns no documents. A walk on path country is HTTP 400, and group_by cannot roll hotels up by country. The call this dataset can answer is find Hotel where country is United Kingdom. The Bell Inn is one of those hotels. Rows are required."
+    },
+    {
+      "id": "travel-uk-beach-pipeline",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Show hotels in the United Kingdom whose descriptions sound like a beach.",
+      "expect": {
+        "all_of": [
+          {"verb": "pipeline"},
+          {"verb": "find", "where": {"country": "United Kingdom"}},
+          {"verb": "search", "strategy": "hybrid", "narrow_to": true}
+        ]
+      },
+      "evidence_required": true,
+      "notes": "Vague-chain qualification. The question does not say pipeline. A stored country is find. Beach is a second soft facet, so the hybrid search carries narrow_to. narrow_to true means that step's narrow_to is present and non-empty. The step alias is not scored. Rows are required. Lab turn f408617b-512a-4d32-b75f-7765d54a943e on base-9-prototype-2, travel-sample/inventory, analytics: one pipeline, find Hotel where country is United Kingdom, hybrid search query_text beach with narrow_to those node ids, then project. Rows came back, including Beach House Self Catering and Rhossili Bunkhouse. Distinct from travel-walk-hotels-by-country, which is the equality alone."
     },
     {
       "id": "travel-beach-itinerary",
       "scope": "travel-sample/inventory",
       "collection": "nodes",
-      "text": "Plan a beach trip for me. Suggest hotels and landmarks, and say which country each one is in.",
+      "text": "Plan a trip in France. Suggest hotels and landmarks.",
       "expect": {
         "all_of": [
-          {"verb": "traverse", "shape": "walk_path"}
+          {"verb": "search", "strategy": "hybrid", "entity_type": "Hotel"},
+          {"verb": "search", "strategy": "hybrid", "entity_type": "Landmark"}
         ]
       },
-      "evidence_required": false,
-      "notes": "Parallel to beer-colorado-itinerary. Landmark find on type landmark returned Napa, West Hollywood, and Camberley. Hotel to Country is not a declared FK on type hotel, so the walk may be HTTP 400. Evidence is not required."
+      "evidence_required": true,
+      "notes": "The country is already in the question, so the target is one hybrid search for Hotel and one for Landmark. The wording does not ask for the word beach. SQL++ on 2026-11-18: country = France and the whole word beach in name, city, description, or title is 0 hotels. France still has hotels, including Nice 7, Saint-Florent 2, Cannes 1, Saint-Raphaël 1, and Bonifacio 1. Landmarks in France include Dramont beach in Saint-Raphaël. Rows are required."
     }
   ]
 }

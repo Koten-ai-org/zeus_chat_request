@@ -45,6 +45,8 @@ Do not run `assemble_mode_prompts.py` on this pack.
 
 ## Pin / engine
 
+Later hop: [base-7.1](../base-7.0_to_base-7.1/) is the binding fix. The local Zeus pair is base-6.1 and base-7.1. This page records the base-7.0 ship.
+
 - `CURRENT.json` stays **base-1**. The central `v2/min` alias is unchanged.
 - Zeus **5.5TH** embeds two built-in packs: **base-6.1** and **base-7.0**. The Workbench picker lists both. `ai/chat_request/PIN.json` `base_id` is **base-7.0**, so `GET /v1/ai/chat_request.json` and `chat_request_base_id` serve base-7.0 when the caller does not pick a file.
 - Zeus does not execute `rail` until an engine change lands. The verb is in the catalog so the model can plan the last call.

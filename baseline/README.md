@@ -2,7 +2,7 @@
 
 Agent run steps and the repeatable HTML contract are in [AGENT.md](AGENT.md). The next pack pair uses that same question file and the same page. The command shape is under **Next pair**.
 
-Compare two `chat_request` packs against one Zeus version and one model. The question file says which verb each chat string should invoke. The runner sends each question through `zeus_client` `ZeusRuntime.agent.run_turn`, which opens a durable `/v2/session` and posts the model's tool calls with the trace headers Hub Debug needs.
+Compare two `chat_request` packs against one Zeus version and one model. The question file says which verb each chat string should invoke. The locked suite is 22 questions, 11 beer and 11 travel. `travel-uk-beach-pipeline` is the vague-chain qualification: United Kingdom is a `find`, and beach is a hybrid `search` with `narrow_to` inside one pipeline. The runner sends each question through `zeus_client` `ZeusRuntime.agent.run_turn`, which opens a durable `/v2/session` and posts the model's tool calls with the trace headers Hub Debug needs.
 
 This does not change the shared pin. Hotel and beer phrases stay in this folder.
 

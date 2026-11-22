@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>base-6.1 vs base-7.0</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.min.css">
+<style>
+main.container { max-width: 1280px; padding-bottom: 3rem; }
+.charts { display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin: 0.75rem 0 1.25rem; }
+@media (min-width: 1100px) {
+  .charts { grid-template-columns: 1fr 1fr 1fr; }
+}
+.chart { height: 360px; border: 1px solid #d8dde6; border-radius: 8px; }
+.chart-http { grid-column: 1 / -1; height: 280px; }
+.metrics { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0 0 0.35rem; }
+.metric { font-size: 1.35rem; font-weight: 700; line-height: 1; }
+.called { font-weight: 600; margin-bottom: 0.2rem; }
+mark.pipeline { background-color: #ffe14a; color: #3a2e04; font-weight: 700; padding: 0 0.2rem; border-radius: 3px; }
+mark.missed-strategy { background-color: #ff8a1e; color: #3a1500; font-weight: 700; padding: 0 0.2rem; border-radius: 3px; }
+.sub { color: #52606d; font-size: 0.72rem; line-height: 1.25; }
+span.tk { color: #52606d; font-size: 0.78rem; font-weight: 500; }
+p.tk-note { color: #52606d; font-size: 0.82rem; margin-top: 0.35rem; }
+.chart-hint { margin-top: 0; }
+table td.better { background-color: #21d15a; color: #04210e; font-weight: 700; }
+table td.worse { background-color: #ff2d2d; color: #3a0000; font-weight: 700; }
+table td.same, table td.both-hit, table td.both-missed { background-color: #8e99a4; color: #14181c; font-weight: 700; }
+table td.not-run { background-color: #ffe08a; color: #3a2e04; font-weight: 700; }
+table td.retest { background-color: #ff8a1e; color: #3a1500; font-weight: 700; }
+table td.why-one { background-color: #ffe14a; color: #3a2e04; }
+table td.why-neither { background-color: #ff8a1e; color: #3a1500; }
+table td.why-retest { background-color: #ffe0c2; color: #3a1500; }
+table { font-size: 0.86rem; }
+#chart-note:empty { display: none; }
+</style>
+</head>
+<body>
+<!--
+report-contract: baseline/AGENT.md
+render_html is the only writer. Do not hand-edit this file. Do not add a template HTML file.
+Frozen suite: baseline/questions.json checked against baseline/suite.lock.json. Do not pass --id.
+Section order: Summary, What changed in the text, What in that text shows up in the score, Size, Hub pointer, Hits rounds and rows, Better worse and the score, then beer-sample, then travel-sample.
+Columns: Question, Target API, each pack, Versus the previous pack, Why, Notes.
+Versus words: better, worse, both hit, both missed, Orange, not run. both hit and both missed still score as same. Orange is a turn that ended on HTTP 400 or higher and stays out of better and worse.
+A pack cell leads with hit, rounds, and rows. pipeline is a yellow mark. fts is an orange mark only when the target was hybrid and this side did not call hybrid.
+The CR-35 story is written only when the labels are base-6.1 and base-7.x. A later pair gets measured size and the rows that moved the score.
+Size cells show characters, then tk. tk is UTF-8 bytes divided by 4, rounded up. When the evidence JSON has injection counts, Size adds the live suffix per dataset and the system message after that suffix is appended.
+-->
+<main class="container">
+<h1>base-6.1 vs base-7.0</h1>
+<p>Date: 2026-11-18<br>
+Zeus: 1.0.0-beta.3<br>
+Provider: xai https://api.x.ai/v1<br>
+Model: grok-4.7<br>
+Client: zeus_client.run_turn 2.4.0</p>
+<h2>Summary</h2><p>Every scored question is the same (1). This suite does not show a reason to switch to base-7.0. base-6.1 met 1/1. base-7.0 met 1/1. better:worse 0:0. Net 0 (better minus worse).</p><p>Across the questions that ran: hits 1 versus 1, rounds 4 versus 4. No question moved the score. Hits count a target-API call. Rounds are a sum. Row totals are left off this line because one large find swamps the rest. Read rows on the question charts and in each pack cell. A hit with an empty required result still counts as a hit here and as not met in the score.</p><h3>What changed in the text</h3><p>The analytics system message changed by +2,201 characters. 13 verbs became 14. 8 of the previous tools are unchanged.</p><ul><li>New tools: <code>rail</code>.</li></ul><h3>What in that text shows up in the score</h3><p>No question is better or worse, so the added text did not move the score.</p><h3>Size</h3><p>This run sent the analytics file. base-6.1 is 41,366 characters (10,375 tk, 41,497 bytes). base-7.0 is 45,786 characters (11,481 tk, 45,921 bytes). That is +4,420 characters (+1,106 tk) and +4,424 bytes (10.7%).</p><table><thead><tr><th>Piece</th><th>base-6.1</th><th>base-7.0</th><th>Delta</th></tr></thead><tbody><tr><td>Analytics file</td><td>41,366<br><span class="tk">(10,375 tk)</span></td><td>45,786<br><span class="tk">(11,481 tk)</span></td><td>+4,420<br><span class="tk">(+1,106 tk)</span></td></tr><tr><td>System message</td><td>9,811<br><span class="tk">(2,475 tk)</span></td><td>12,012<br><span class="tk">(3,025 tk)</span></td><td>+2,201<br><span class="tk">(+550 tk)</span></td></tr><tr><td><code>search</code> tool JSON</td><td>1,566<br><span class="tk">(392 tk)</span></td><td>1,880<br><span class="tk">(471 tk)</span></td><td>+314<br><span class="tk">(+79 tk)</span></td></tr><tr><td><code>pipeline</code> tool JSON</td><td>3,842<br><span class="tk">(963 tk)</span></td><td>4,305<br><span class="tk">(1,079 tk)</span></td><td>+463<br><span class="tk">(+116 tk)</span></td></tr><tr><td><code>return</code> tool JSON</td><td>3,749<br><span class="tk">(939 tk)</span></td><td>3,828<br><span class="tk">(959 tk)</span></td><td>+79<br><span class="tk">(+20 tk)</span></td></tr><tr><td><code>rail</code> tool JSON</td><td>—</td><td>751<br><span class="tk">(189 tk)</span></td><td>+751<br><span class="tk">(+189 tk)</span></td></tr><tr><td>Changed prose and tool JSON</td><td></td><td></td><td>+3,808<br><span class="tk">(+954 tk)</span></td></tr><tr><td>JSON wrapping around those edits</td><td></td><td></td><td>+612<br><span class="tk">(+152 tk)</span></td></tr></tbody></table><p>The same +4,420 character delta (+1,106 tk) is on all 10 mode files. This run used analytics only.</p><p>The live suffix Zeus appends to the system message, one column per dataset. Both packs receive the same suffix. The table above is the pack file before that append.</p><table><thead><tr><th>Piece</th><th>travel-sample/inventory</th></tr></thead><tbody><tr><td>Scope brief</td><td>873<br><span class="tk">(221 tk)</span></td></tr><tr><td>Mini-schema</td><td>7,361<br><span class="tk">(1,848 tk)</span></td></tr><tr><td>Walk paths</td><td>3,077<br><span class="tk">(782 tk)</span></td></tr><tr><td>Full injection</td><td>13,403<br><span class="tk">(3,373 tk)</span></td></tr></tbody></table><p>Mini-schema is 7,361 <span class="tk">(1,848 tk)</span> (54.9% of travel-sample/inventory). Walk paths are 3,077 <span class="tk">(782 tk)</span> (23.0% of travel-sample/inventory).</p><p>Text outside those three headings accounts for 2,092 characters on travel-sample/inventory.</p><p>These counts come from the system message on the turn that first merged the brief. The evidence file recorded 8,272 UTF-8 bytes for travel-sample/inventory. That figure is the scope-brief slice plus the mini-schema slice. Those two byte lengths match this measurement. Walk paths are the next heading.</p><p>System message after that suffix is appended. The gap between the packs stays the system-message delta above.</p><table><thead><tr><th>Dataset</th><th>base-6.1</th><th>base-7.0</th></tr></thead><tbody><tr><td>travel-sample/inventory</td><td>23,215<br><span class="tk">(5,848 tk)</span></td><td>25,416<br><span class="tk">(6,398 tk)</span></td></tr></tbody></table><p class="tk-note">The first line of a cell is characters. tk is the token budget from the pack viewer: UTF-8 bytes ÷ 4, rounded up. It is not the model's own tokenizer.</p>
+<p>Hub Debug, Session lists <code>session</code>. Inspector and Analysis open a <code>req_id</code> from that session. <code>chat</code> is the harness label for the turn. The evidence JSON stores <code>chat_id</code>, <code>turn_id</code>, <code>session_id</code>, and each hop <code>req_id</code>.</p>
+<h2>Hits, rounds, and rows</h2>
+<p>The first three charts are the comparison. A <strong>hit</strong> of 1 means that pack called the target API. <strong>Rows</strong> are the largest Zeus result on that turn. <strong>Rounds</strong> are how many model turns it used. The pattern to look for is a hit, with rows, in fewer rounds. A missing bar means that side did not run. The HTTP chart counts every Zeus call, including 200, 400, and 500. The verdict column below is still the target-API rule. It does not award a point for extra rows. A turn that ends on HTTP 400 or higher is Orange and stays out of that rule.</p>
+<p id="chart-note"></p>
+<div class="charts"><div id="chart-suite-hits" class="chart"></div><div id="chart-suite-rounds" class="chart"></div><div id="chart-suite-rows" class="chart"></div><div id="chart-suite-http" class="chart chart-http"></div></div>
+<h2>Better, worse, and the score</h2>
+<p>The verdict column compares base-7.0 with base-6.1 on the Target API column. It does not score which prose answer was nicer. A different verb that still returns rows is not a hit.</p>
+<ul>
+<li><strong>better</strong>: base-7.0 called the target API and base-6.1 did not.</li>
+<li><strong>worse</strong>: base-6.1 called the target API and base-7.0 did not. On “Find hoppy citrus beers” the target is search hybrid. That row is worse when base-6.1 calls search hybrid and base-7.0 calls search fts, find, or set, even when both sides are HTTP 200 and both returned beers.</li>
+<li><strong>both hit</strong>: both packs met the target.</li>
+<li><strong>both missed</strong>: neither pack met the target.</li>
+<li><strong>not run</strong>: a model call is missing, so the row is left out of the score.</li>
+<li><strong>Orange</strong>: a pack cell ends on HTTP 400 or higher, so the row is re-tested later. The source is <strong>LLM</strong> when the model sent a request Zeus rejected, <strong>Zeus</strong> when the service closed or failed the call, and <strong>koten_converter (FUTURE)</strong> when that hop reports the error. koten_converter is not wired into this suite yet. Orange stays out of better and worse. An earlier HTTP 400 on a turn that ends at 200 stays in the HTTP chart and does not turn the row Orange.</li>
+</ul>
+<p>Both hit and both missed stay out of the better and worse counts. The score still counts them as same. When the question says rows are required, an empty Zeus result is not met. In a pack cell, <mark class="pipeline">pipeline</mark> means a pipeline ran. <mark class="missed-strategy">fts</mark> means the target was hybrid and this side called fts instead.</p>
+<p><strong>Score.</strong> base-6.1 met 1/1. base-7.0 met 1/1. better:worse 0:0. Net 0 (better minus worse). A positive net means base-7.0 covered more targets that base-6.1 missed than it lost.</p>
+<p>Every scored question is the same (1). This suite does not show a reason to switch to base-7.0.</p>
+<p>Suite tally: better 0, worse 0, both hit 1, both missed 0, Orange 0, not run 0.</p>
+<p>Live scope brief, mini-schema, and walk paths are sized in the Size section. Brief text stays out of the evidence file.</p><ul><li>travel-sample/inventory: brief sha12 72952f25d726, zeus_client 2.4.0</li></ul>
+<h2>travel-sample</h2><p>Scope: travel-sample/inventory. better 0, worse 0, both hit 1, both missed 0, Orange 0, not run 0. base-6.1 met 1/1. base-7.0 met 1/1. better:worse 0:0. Net 0 (better minus worse).</p><div class="charts"><div id="chart-travel-sample-hits" class="chart"></div><div id="chart-travel-sample-rounds" class="chart"></div><div id="chart-travel-sample-rows" class="chart"></div><div id="chart-travel-sample-http" class="chart chart-http"></div></div><table><thead><tr><th>Question</th><th>Target API</th><th>base-6.1</th><th>base-7.0</th><th>Versus base-6.1</th><th>Why</th><th>Notes</th></tr></thead><tbody><tr><td><strong>travel-beach-itinerary</strong><br>Plan a beach trip in France. Suggest hotels and landmarks.</td><td>search hybrid Hotel + search hybrid Landmark (rows required)</td><td><div class="metrics"><span><span class="metric">1</span> hit</span><span><span class="metric">4</span> rounds</span><span><span class="metric">30</span> rows</span></div><div class="called">search fts Hotel, search fts Landmark, find Hotel, find Landmark, search hybrid Hotel, search hybrid Landmark, get, project</div><div class="sub">HTTP 200</div><div class="sub">session sess_20261119T03424654621661d697da</div><div class="sub">chat ab-2026-11-18-base-6-1-travel-beach-itinerary</div></td><td><div class="metrics"><span><span class="metric">1</span> hit</span><span><span class="metric">4</span> rounds</span><span><span class="metric">20</span> rows</span></div><div class="called">search hybrid Hotel, search hybrid Landmark, search fts Hotel, search fts Landmark, get, traverse walk_path</div><div class="sub">HTTP 200</div><div class="sub">session sess_20261119T034424831542b55374e0</div><div class="sub">chat ab-2026-11-18-base-7-0-travel-beach-itinerary</div></td><td class="both-hit">both hit</td><td>Both packs hit the target API.</td><td>Scoped like beer-colorado-itinerary. The country is already in the question, so the target is one hybrid search for Hotel and one for Landmark. Rows are required. SQL++ on 2026-11-18: country = France and the whole word beach in name, city, description, or title is 0 hotels. FTS description/name/city beach in France is also 0. Coastal French hotels still exist without that word: Nice 7, Saint-Florent 2, Cannes 1, Saint-Raphaël 1, Bonifacio 1. Landmarks in France with beach in name, city, content, or activity: 2 (Dramont beach in Saint-Raphaël, and Normandy American Cemetery because the content says Omaha Beach).</td></tr></tbody></table>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+<script>
+const AB = {"label_a": "base-6.1", "label_b": "base-7.0", "http_codes": ["200", "400", "500"], "http_a": [16, 0, 0], "http_b": [6, 2, 0], "scopes": [{"name": "travel-sample", "ids": ["travel-beach-itinerary"], "hits_a": [1], "hits_b": [1], "rounds_a": [4], "rounds_b": [4], "rows_a": [30], "rows_b": [20], "http_codes": ["200", "400", "500"], "http_a": [16, 0, 0], "http_b": [6, 2, 0]}]};
+(function () {
+  const note = document.getElementById("chart-note");
+  if (!window.echarts) {
+    if (note) note.textContent = "Charts did not load. The tables still list hit, rounds, and rows.";
+    return;
+  }
+  const colorA = "#3d5a80";
+  const colorB = "#2a9d8f";
+  function sum(values) {
+    let total = 0;
+    let any = false;
+    (values || []).forEach(function (value) {
+      if (value == null) return;
+      any = true;
+      total += Number(value) || 0;
+    });
+    return any ? total : null;
+  }
+  function paint(id, title, categories, seriesA, seriesB, yName) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const chart = echarts.init(el);
+    chart.setOption({
+      title: { text: title, left: 8, top: 8, textStyle: { fontSize: 14, fontWeight: 600 } },
+      tooltip: { trigger: "axis" },
+      legend: { data: [AB.label_a, AB.label_b], top: 8, right: 8 },
+      grid: { left: 52, right: 16, top: 52, bottom: 88 },
+      xAxis: {
+        type: "category",
+        data: categories,
+        axisLabel: { rotate: 40, fontSize: 10, interval: 0 }
+      },
+      yAxis: { type: "value", name: yName, minInterval: 1 },
+      series: [
+        { name: AB.label_a, type: "bar", data: seriesA, itemStyle: { color: colorA } },
+        { name: AB.label_b, type: "bar", data: seriesB, itemStyle: { color: colorB } }
+      ]
+    });
+    window.addEventListener("resize", function () { chart.resize(); });
+  }
+  const scopeNames = AB.scopes.map(function (scope) { return scope.name; });
+  paint(
+    "chart-suite-hits",
+    "Hits by scope",
+    scopeNames,
+    AB.scopes.map(function (scope) { return sum(scope.hits_a); }),
+    AB.scopes.map(function (scope) { return sum(scope.hits_b); }),
+    "hits"
+  );
+  paint(
+    "chart-suite-rounds",
+    "Rounds by scope",
+    scopeNames,
+    AB.scopes.map(function (scope) { return sum(scope.rounds_a); }),
+    AB.scopes.map(function (scope) { return sum(scope.rounds_b); }),
+    "rounds"
+  );
+  paint(
+    "chart-suite-rows",
+    "Rows by scope",
+    scopeNames,
+    AB.scopes.map(function (scope) { return sum(scope.rows_a); }),
+    AB.scopes.map(function (scope) { return sum(scope.rows_b); }),
+    "rows"
+  );
+  paint(
+    "chart-suite-http",
+    "HTTP calls",
+    AB.http_codes || [],
+    AB.http_a || [],
+    AB.http_b || [],
+    "calls"
+  );
+  AB.scopes.forEach(function (scope) {
+    const prefix = "chart-" + String(scope.name || "scope").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    paint(prefix + "-hits", scope.name + " hits", scope.ids, scope.hits_a, scope.hits_b, "hit");
+    paint(prefix + "-rounds", scope.name + " rounds", scope.ids, scope.rounds_a, scope.rounds_b, "rounds");
+    paint(prefix + "-rows", scope.name + " rows", scope.ids, scope.rows_a, scope.rows_b, "rows");
+    paint(prefix + "-http", scope.name + " HTTP", scope.http_codes || [], scope.http_a || [], scope.http_b || [], "calls");
+  });
+})();
+</script>
+</body>
+</html>

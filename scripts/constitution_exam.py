@@ -22,6 +22,12 @@ from pathlib import Path
 PICO = "https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.min.css"
 ECHARTS = "https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"
 
+# Superseded lab cuts stay on disk. The chart keeps the current base-9 cut.
+SUPERSEDED = {
+    "base-9-prototype-1",
+    "base-9-prototype-2",
+}
+
 # Measured suites only. Do not invent a score for a base that was not run.
 SUITE = {
     "base-7.1": "Full pass versus base-7.0: 17/21 versus 17/21, net 0.",
@@ -312,6 +318,9 @@ def build(root: Path) -> dict:
     skipped = []
     base_root = root / "v2" / "base"
     for pack_dir in sorted(p for p in base_root.iterdir() if p.is_dir() and p.name.startswith("base-")):
+        if pack_dir.name in SUPERSEDED:
+            skipped.append(pack_dir.name + " is a superseded base-9 cut")
+            continue
         path = analytics_json(pack_dir)
         if path is None:
             skipped.append(pack_dir.name + " has no analytics min JSON")

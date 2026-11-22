@@ -1,0 +1,2638 @@
+{
+  "title": "base-6.1 vs base-7.0",
+  "date": "2026-11-18",
+  "status": "ran",
+  "label_a": "base-6.1",
+  "label_b": "base-7.0",
+  "base_id_a": "base-6.1",
+  "base_id_b": "base-7.0",
+  "zeus_version": "1.0.0-beta.3",
+  "provider": "xai",
+  "provider_base": "https://api.x.ai/v1",
+  "model": "grok-4.7",
+  "client": "zeus_client.run_turn",
+  "client_version": "2.4.0",
+  "verdict_rule": "better means the new pack called the target API and the previous pack did not. worse means the previous pack called the target API and the new pack did not. Rows from a different verb do not count. On Find hoppy citrus beers the target is search hybrid. That row is worse when the previous pack calls search hybrid and the new pack calls search fts, find, or set, even when both sides are HTTP 200 and both returned beers. same means both called the target, or neither did. not run means a model call is missing. When the question says rows are required, an empty Zeus result is not met.",
+  "tallies": {
+    "better": 0,
+    "worse": 0,
+    "same": 8,
+    "not run": 0,
+    "total": 8
+  },
+  "scopes": [
+    {
+      "name": "travel-sample",
+      "scopes": [
+        "travel-sample/inventory"
+      ],
+      "rows": [
+        {
+          "id": "travel-search-fts",
+          "text": "Full-text search hotel descriptions for the single word beach.",
+          "scope": "travel-sample/inventory",
+          "target_api": "or search fts hotel or search fts Hotel (rows required)",
+          "notes": "The harness posts this question to collection hotel. That FTS returned 3 doc_key hits on 2026-10-21. The same call on collection nodes returned HTTP 500. A doc_key hit counts as a row.",
+          "a": {
+            "called": "search fts Hotel, get, traverse walk_path, search hybrid Hotel",
+            "hit": true,
+            "rows": true,
+            "row_count": 30,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "ba0376cc-352e-4911-9c3a-610029a4ec4b",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "beach",
+                  "limit": 30
+                },
+                "sample": {
+                  "row_count": 30,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_32176"
+                    },
+                    {
+                      "doc_key": "hotel_5097"
+                    },
+                    {
+                      "doc_key": "hotel_19324"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 400,
+                "req_id": "95949325-a9ac-4b6a-8a19-0d5bd743c37c",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "error": "bad_request",
+                  "message": "get: `ids` must be node_ids. 30 values are a doc_key"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 500,
+                "req_id": "a0aeeeef-33ef-46ba-9a3c-9adf60dde39b",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_32176",
+                        "hotel_5097",
+                        "hotel_19324",
+                        "hotel_32173",
+                        "hotel_32175",
+                        "hotel_32174",
+                        "hotel_25326",
+                        "hotel_17313",
+                        "hotel_25245",
+                        "hotel_26167",
+                        "hotel_12239",
+                        "hotel_25240",
+                        "hotel_37592",
+                        "hotel_26169",
+                        "hotel_26497",
+                        "hotel_26492",
+                        "hotel_26140",
+                        "hotel_25193",
+                        "hotel_25241",
+                        "hotel_37595",
+                        "hotel_2483",
+                        "hotel_17312",
+                        "hotel_26168",
+                        "hotel_10904",
+                        "hotel_26493",
+                        "hotel_17310",
+                        "hotel_17597",
+                        "hotel_9062",
+                        "hotel_22540",
+                        "hotel_26220"
+                      ]
+                    },
+                    "path": [],
+                    "return": [
+                      "name",
+                      "description",
+                      "city",
+                      "country"
+                    ]
+                  }
+                },
+                "sample": {
+                  "error": "internal_error",
+                  "message": "tool request failed"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "05d94700-4524-4bf2-b360-5e4a68d7d1c8",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "beach",
+                  "limit": 20
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_26497",
+                      "id": "n_a1737549fc3627",
+                      "name": "Loews Santa Monica Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_22540",
+                      "id": "n_139b13969c294c",
+                      "name": "Inn at Playa del Rey Bed and Breakfast"
+                    },
+                    {
+                      "doc_key": "hotel_25245",
+                      "id": "n_85b5255ac0a911",
+                      "name": "Surfer Beach Hotel"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "ba0376cc-352e-4911-9c3a-610029a4ec4b",
+              "95949325-a9ac-4b6a-8a19-0d5bd743c37c",
+              "a0aeeeef-33ef-46ba-9a3c-9adf60dde39b",
+              "05d94700-4524-4bf2-b360-5e4a68d7d1c8"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-travel-search-fts",
+            "turn_id": "24335abe-a05a-40a7-a89a-f98fe2a1702a",
+            "session_id": "sess_20261118T073427525179",
+            "met": true
+          },
+          "b": {
+            "called": "search fts Hotel, get, project",
+            "hit": true,
+            "rows": true,
+            "row_count": 20,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "66a18518-25e1-4fee-a424-e5ed26402901",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "beach",
+                  "limit": 20
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_32176"
+                    },
+                    {
+                      "doc_key": "hotel_5097"
+                    },
+                    {
+                      "doc_key": "hotel_19324"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 400,
+                "req_id": "1fcbedd2-48ac-4213-96cd-0e11093a654f",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "error": "bad_request",
+                  "message": "get: `ids` must be node_ids. 20 values are a doc_key"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "0ebd1e66-0c37-4919-87f9-4c436a62db4a",
+                "rows": true,
+                "args": {
+                  "format": "card"
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    "n_e7ca669dc63fb8",
+                    "n_13f85f01bc2a76",
+                    "n_bddf4f0bf22637"
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "d5c14d2e-6abb-4ff7-9737-5aae46d1f10a",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "66a18518-25e1-4fee-a424-e5ed26402901",
+              "1fcbedd2-48ac-4213-96cd-0e11093a654f",
+              "0ebd1e66-0c37-4919-87f9-4c436a62db4a",
+              "d5c14d2e-6abb-4ff7-9737-5aae46d1f10a"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-travel-search-fts",
+            "turn_id": "2270ffd7-694c-4c01-a463-10b09212c377",
+            "session_id": "sess_20261118T074523698540",
+            "met": true
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        },
+        {
+          "id": "travel-search-hybrid",
+          "text": "Find beach destination hotels. The graph type is hotel.",
+          "scope": "travel-sample/inventory",
+          "target_api": "or search hybrid hotel or search hybrid Hotel (rows required)",
+          "notes": "hybrid on type hotel and query beach returned Moss Beach, Santa Monica, and Carmel-by-the-Sea. type Hotel returned 0. Do not require a country equality. Hotel.price is display-only.",
+          "a": {
+            "called": "search fts Hotel, get, traverse walk_path, return",
+            "hit": false,
+            "rows": true,
+            "row_count": 25,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "1907a948-aaec-43dc-a0f8-1670a966bdc8",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "beach",
+                  "limit": 25
+                },
+                "sample": {
+                  "row_count": 25,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_32176"
+                    },
+                    {
+                      "doc_key": "hotel_5097"
+                    },
+                    {
+                      "doc_key": "hotel_19324"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 400,
+                "req_id": "1d5d1d39-5518-4b89-9d00-e998a74e6714",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "error": "bad_request",
+                  "message": "get: `ids` must be node_ids. 12 values are a doc_key"
+                }
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "e9a952d8-f483-4044-879b-300effac7628",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_32176",
+                        "hotel_5097",
+                        "hotel_19324",
+                        "hotel_32173",
+                        "hotel_32175",
+                        "hotel_32174",
+                        "hotel_25326",
+                        "hotel_17313",
+                        "hotel_25245",
+                        "hotel_26167",
+                        "hotel_12239",
+                        "hotel_25240",
+                        "hotel_37592",
+                        "hotel_26169",
+                        "hotel_26497"
+                      ]
+                    },
+                    "path": [
+                      "city"
+                    ],
+                    "return": []
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "bc21b2e9-31cf-4e30-b21e-7792357ab65f",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_32176",
+                        "hotel_5097",
+                        "hotel_19324",
+                        "hotel_32173",
+                        "hotel_32175",
+                        "hotel_32174",
+                        "hotel_25326",
+                        "hotel_17313",
+                        "hotel_25245",
+                        "hotel_26167",
+                        "hotel_12239",
+                        "hotel_25240",
+                        "hotel_37592",
+                        "hotel_26169",
+                        "hotel_26497"
+                      ]
+                    },
+                    "path": [
+                      "country"
+                    ],
+                    "return": []
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "341d1b0d-4ca6-4e8f-8db6-ebb238e4e48f",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_32176",
+                        "hotel_5097",
+                        "hotel_19324",
+                        "hotel_32173",
+                        "hotel_32175",
+                        "hotel_32174",
+                        "hotel_25326",
+                        "hotel_17313",
+                        "hotel_25245",
+                        "hotel_26167",
+                        "hotel_12239",
+                        "hotel_25240",
+                        "hotel_37592",
+                        "hotel_26169",
+                        "hotel_26497"
+                      ]
+                    },
+                    "path": [
+                      "name"
+                    ],
+                    "return": [
+                      "name"
+                    ]
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "1907a948-aaec-43dc-a0f8-1670a966bdc8",
+              "1d5d1d39-5518-4b89-9d00-e998a74e6714",
+              "e9a952d8-f483-4044-879b-300effac7628",
+              "bc21b2e9-31cf-4e30-b21e-7792357ab65f",
+              "341d1b0d-4ca6-4e8f-8db6-ebb238e4e48f"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-travel-search-hybrid",
+            "turn_id": "1d0d1601-e632-433f-9bb4-72a14d844f6e",
+            "session_id": "sess_20261118T073646139133",
+            "met": false
+          },
+          "b": {
+            "called": "pipeline, search hybrid Hotel, project, return",
+            "hit": true,
+            "rows": false,
+            "row_count": 20,
+            "http": 200,
+            "rounds": 2,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "b3ebd27f-1e29-4e99-a755-d9585ea497b6",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "beach destination",
+                      "limit": 20,
+                      "verb": "search",
+                      "as": "hotels"
+                    },
+                    {
+                      "format": "card",
+                      "verb": "project",
+                      "as": "cards"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok",
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_25245",
+                      "id": "n_85b5255ac0a911",
+                      "name": "Surfer Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_26497",
+                      "id": "n_a1737549fc3627",
+                      "name": "Loews Santa Monica Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_5098",
+                      "id": "n_5c4a159aea97dc",
+                      "name": "Carlsbad Seapointe Resort"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "b3ebd27f-1e29-4e99-a755-d9585ea497b6"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-travel-search-hybrid",
+            "turn_id": "4bd9d68f-b57d-4aba-abe9-e476b4a6fe48",
+            "session_id": "sess_20261118T074624846834",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "travel-pipeline-cards",
+          "text": "Show ten beach destination hotels of type hotel as cards with name. Do it in one pipeline.",
+          "scope": "travel-sample/inventory",
+          "target_api": "pipeline + or search hybrid hotel or search hybrid Hotel (rows required)",
+          "notes": "Same API pair as beer-pipeline-cards: one pipeline that contains search hybrid. Rows depend on type hotel.",
+          "a": {
+            "called": "pipeline, search hybrid Hotel, project",
+            "hit": true,
+            "rows": true,
+            "row_count": 10,
+            "http": 200,
+            "rounds": 1,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "91538de5-5308-4cfb-815b-e82e0833dfac",
+                "rows": true,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "beach",
+                      "limit": 10,
+                      "verb": "search",
+                      "as": "hits"
+                    },
+                    {
+                      "limit": 10,
+                      "format": "card",
+                      "verb": "project",
+                      "as": "cards"
+                    }
+                  ]
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_26497",
+                      "id": "n_a1737549fc3627",
+                      "name": "Loews Santa Monica Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_22540",
+                      "id": "n_139b13969c294c",
+                      "name": "Inn at Playa del Rey Bed and Breakfast"
+                    },
+                    {
+                      "doc_key": "hotel_25245",
+                      "id": "n_85b5255ac0a911",
+                      "name": "Surfer Beach Hotel"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "91538de5-5308-4cfb-815b-e82e0833dfac"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-travel-pipeline-cards",
+            "turn_id": "32738979-a887-4fe2-b6fd-9d4ab9a946c7",
+            "session_id": "sess_20261118T073839956631",
+            "met": true
+          },
+          "b": {
+            "called": "pipeline, search hybrid Hotel, project",
+            "hit": true,
+            "rows": true,
+            "row_count": 10,
+            "http": 200,
+            "rounds": 1,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "daf885ed-5fc9-4724-a62c-3e808fbcc69b",
+                "rows": true,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "beach destination",
+                      "limit": 10,
+                      "verb": "search",
+                      "as": "hits"
+                    },
+                    {
+                      "format": "card",
+                      "verb": "project",
+                      "as": "cards"
+                    }
+                  ]
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_25245",
+                      "id": "n_85b5255ac0a911",
+                      "name": "Surfer Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_26497",
+                      "id": "n_a1737549fc3627",
+                      "name": "Loews Santa Monica Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_5098",
+                      "id": "n_5c4a159aea97dc",
+                      "name": "Carlsbad Seapointe Resort"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "daf885ed-5fc9-4724-a62c-3e808fbcc69b"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-travel-pipeline-cards",
+            "turn_id": "860ea390-dffb-42c2-b3bb-f3bbc06ef387",
+            "session_id": "sess_20261118T074710646169",
+            "met": true
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        },
+        {
+          "id": "travel-walk-redbrook-country",
+          "text": "What country is the Redbrook hotel in?",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-walk-21a-ipa. Live key hotel_21052, name Redbrook, type hotel. Walk path country from that key is HTTP 400 because country is not a declared FK on type hotel. A seed find may come first. Evidence is not required.",
+          "a": {
+            "called": "search fts Hotel, find Hotel, search fts Landmark",
+            "hit": false,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "07abe01c-92b1-4432-9428-567faeadb626",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "a9ad1363-a3ec-4109-bacb-41935d2c4913",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 10,
+                  "where": {
+                    "name": "Redbrook"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "02146203-629e-47b4-a63d-d13b13ba51e1",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5
+                },
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "id": "n_4f629f17a9d2ae",
+                      "name": "Panamint Springs Resort"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte Youth Hostel"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "0b99e3d2-786e-4c9d-85ee-61ebd30d2d17",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "brook",
+                  "limit": 20
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "05817b21-55ec-4277-83fb-751a08aa0fe1",
+                "rows": false,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 10
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "8d4049e3-7bfd-4ad5-aa90-d521e68bf965",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 200
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "id": "n_4f629f17a9d2ae",
+                      "name": "Panamint Springs Resort"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte Youth Hostel"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "07abe01c-92b1-4432-9428-567faeadb626",
+              "a9ad1363-a3ec-4109-bacb-41935d2c4913",
+              "02146203-629e-47b4-a63d-d13b13ba51e1",
+              "0b99e3d2-786e-4c9d-85ee-61ebd30d2d17",
+              "05817b21-55ec-4277-83fb-751a08aa0fe1",
+              "8d4049e3-7bfd-4ad5-aa90-d521e68bf965"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-travel-walk-redbrook-country",
+            "turn_id": "04c3173f-fd62-477a-9bb0-8544aab53dc8",
+            "session_id": "sess_20261118T073925068755",
+            "met": false
+          },
+          "b": {
+            "called": "pipeline, search hybrid Hotel, project, find Hotel, search fts Hotel, get, return",
+            "hit": false,
+            "rows": true,
+            "row_count": 1,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "4efc1ede-0309-4a8c-a8c7-91424eba6bf1",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "Redbrook",
+                      "limit": 20,
+                      "verb": "search",
+                      "as": "hits"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "4c433599-4e04-4122-9b6e-6e4f599e10c4",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "080e44cf-a675-4b07-98c2-e169a1b6ee5c",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook Hotel"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 429,
+                "req_id": "74ccd6ba-09ac-421a-9378-00b6b50e626b",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "The Redbrook Hotel"
+                  }
+                },
+                "sample": {
+                  "error": "session_force_closed",
+                  "message": "session exceeded per-session round budget; re-authenticate to continue"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "b26ed390-4ad9-4432-b9a4-7cdd49dd1301",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "The Redbrook"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "d6199240-db99-4191-bb02-ba07abbb15b7",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "3ff1e1c7-d624-4735-b337-a6817e7e37cc",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 20,
+                  "where": {
+                    "city": "Redbrook"
+                  }
+                },
+                "sample": {
+                  "row_count": 1,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "5bc8084c-ddec-4ea9-a16c-4c40c7f9b01f",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "4efc1ede-0309-4a8c-a8c7-91424eba6bf1",
+              "4c433599-4e04-4122-9b6e-6e4f599e10c4",
+              "080e44cf-a675-4b07-98c2-e169a1b6ee5c",
+              "74ccd6ba-09ac-421a-9378-00b6b50e626b",
+              "b26ed390-4ad9-4432-b9a4-7cdd49dd1301",
+              "d6199240-db99-4191-bb02-ba07abbb15b7",
+              "3ff1e1c7-d624-4735-b337-a6817e7e37cc",
+              "5bc8084c-ddec-4ea9-a16c-4c40c7f9b01f"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-travel-walk-redbrook-country",
+            "turn_id": "cd00978c-14fe-4bb4-9b26-3bcfcd5dd871",
+            "session_id": "sess_20261118T074747398135",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "travel-walk-city-hotels",
+          "text": "List hotels in the same city as the Redbrook hotel.",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-walk-stone-beers. Brief inverse is Hotel.city. A walk that puts path city on type hotel is HTTP 400 and the error hints at the inverse. Evidence is not required.",
+          "a": {
+            "called": "search fts Hotel, find Hotel, search hybrid Hotel, search fts Landmark, find Landmark, get",
+            "hit": false,
+            "rows": true,
+            "row_count": 20,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "a6246cce-a977-48fb-9b6b-45bfcc144026",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "12307357-3299-40a7-9dc3-70166d77e2b1",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook Hotel"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "d82026cc-f17d-4dc9-ad44-f1bcc75c99e5",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "b83f0568-6ff8-453a-98dd-bace5500bf81",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_23634",
+                      "id": "n_f1fca91ac79695",
+                      "name": "Lamplighter Lodge"
+                    },
+                    {
+                      "doc_key": "hotel_41239",
+                      "id": "n_c7ae7b73e40426",
+                      "name": "St Davids Holiday Park"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "dfba1d31-bc15-4c2c-9f0f-63e2f01012c0",
+                "rows": false,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 10
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "44835188-900d-4773-84da-547f19f8b5b1",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "The Redbrook"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "838e778c-308d-44e7-9a20-a54e5894c976",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook Inn"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "7905421c-239b-4611-899c-23c62a9b6b71",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook Lodge"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "03f3e128-4def-432c-ac61-d30b7f366484",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 20,
+                  "where": {
+                    "city": "Redbrook"
+                  }
+                },
+                "sample": {
+                  "row_count": 1,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "963c2579-25e0-4d2e-b02e-a7c7595e9a70",
+                "rows": false,
+                "args": {
+                  "entity_type": "Landmark",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "3e0ee2ca-3918-44b0-8e6c-5084d65b2d64",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "a6246cce-a977-48fb-9b6b-45bfcc144026",
+              "12307357-3299-40a7-9dc3-70166d77e2b1",
+              "d82026cc-f17d-4dc9-ad44-f1bcc75c99e5",
+              "b83f0568-6ff8-453a-98dd-bace5500bf81",
+              "dfba1d31-bc15-4c2c-9f0f-63e2f01012c0",
+              "44835188-900d-4773-84da-547f19f8b5b1",
+              "838e778c-308d-44e7-9a20-a54e5894c976",
+              "7905421c-239b-4611-899c-23c62a9b6b71",
+              "03f3e128-4def-432c-ac61-d30b7f366484",
+              "963c2579-25e0-4d2e-b02e-a7c7595e9a70",
+              "3e0ee2ca-3918-44b0-8e6c-5084d65b2d64"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-travel-walk-city-hotels",
+            "turn_id": "cad26067-5670-4989-a207-a5b262acf2c3",
+            "session_id": "sess_20261118T074012220993",
+            "met": false
+          },
+          "b": {
+            "called": "search hybrid Hotel, search fts Hotel, find Hotel, search fts Landmark",
+            "hit": false,
+            "rows": true,
+            "row_count": 20,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "f3005dbd-9572-4359-83f9-947e63d3bc36",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "Redbrook hotel",
+                  "limit": 20
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_23634",
+                      "id": "n_f1fca91ac79695",
+                      "name": "Lamplighter Lodge"
+                    },
+                    {
+                      "doc_key": "hotel_16443",
+                      "id": "n_884f7b8235253b",
+                      "name": "The Lord Jim Hotel"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "cbf6d0a6-1451-4978-b713-b1a0d92e2e0b",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 20
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "698808de-7e95-40dd-a9a7-5fb885bfa525",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook Hotel"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "04da331f-2469-44d2-8165-5196c5c30818",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "Redbrook"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "8842d88b-579d-47ab-8361-1a41cecbd91b",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "Redbrook",
+                  "limit": 10
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_23634",
+                      "id": "n_f1fca91ac79695",
+                      "name": "Lamplighter Lodge"
+                    },
+                    {
+                      "doc_key": "hotel_41239",
+                      "id": "n_c7ae7b73e40426",
+                      "name": "St Davids Holiday Park"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "fts",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "80132b33-2449-4454-b54b-e337f2c99066",
+                "rows": false,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "fts",
+                  "query_text": "Redbrook",
+                  "limit": 10
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "29c9208c-767a-44a0-800b-3aea47340862",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "name": "The Redbrook Hotel"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "f7cbf28d-5562-45e7-a8c0-8a54081d0630",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "city": "Redbrook"
+                  }
+                },
+                "sample": {
+                  "row_count": 1,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "f3005dbd-9572-4359-83f9-947e63d3bc36",
+              "cbf6d0a6-1451-4978-b713-b1a0d92e2e0b",
+              "698808de-7e95-40dd-a9a7-5fb885bfa525",
+              "04da331f-2469-44d2-8165-5196c5c30818",
+              "8842d88b-579d-47ab-8361-1a41cecbd91b",
+              "80132b33-2449-4454-b54b-e337f2c99066",
+              "29c9208c-767a-44a0-800b-3aea47340862",
+              "f7cbf28d-5562-45e7-a8c0-8a54081d0630"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-travel-walk-city-hotels",
+            "turn_id": "10a06f50-7308-43b6-a1a4-45d04158c578",
+            "session_id": "sess_20261118T074848442269",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "travel-walk-country-hotels",
+          "text": "What hotels are in the United Kingdom?",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-walk-belgian. Brief path is Country to Hotel via the inverse of Hotel.country. find entity_type country returned 0 on 2026-10-21. Evidence is not required.",
+          "a": {
+            "called": "find Hotel, project",
+            "hit": false,
+            "rows": true,
+            "row_count": 50,
+            "http": 200,
+            "rounds": 3,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "aff24e74-f045-406a-8849-58edf621fc1f",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 50,
+                  "where": {
+                    "country": "United Kingdom"
+                  }
+                },
+                "sample": {
+                  "row_count": 50,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte Youth Hostel"
+                    },
+                    {
+                      "doc_key": "hotel_10289",
+                      "id": "n_f50918f0851b67",
+                      "name": "Rhossili Bunkhouse"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "bbeb5b38-9321-4a50-8815-d650d75ce473",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "where": {
+                    "country": "United Kingdom"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "aa07efce-1097-48c5-8e7f-6feb195a2ea3",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 50,
+                  "preview": [
+                    "n_ca56ea2db65d73",
+                    "n_7207bf04c76a91",
+                    "n_f50918f0851b67"
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "aff24e74-f045-406a-8849-58edf621fc1f",
+              "bbeb5b38-9321-4a50-8815-d650d75ce473",
+              "aa07efce-1097-48c5-8e7f-6feb195a2ea3"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-travel-walk-country-hotels",
+            "turn_id": "ccaddef9-d31e-4847-aef6-7fa91be7ea58",
+            "session_id": "sess_20261118T074131397813",
+            "met": false
+          },
+          "b": {
+            "called": "find Hotel, return",
+            "hit": false,
+            "rows": true,
+            "row_count": 20,
+            "http": 200,
+            "rounds": 2,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "c4e9a6ee-4877-427b-866b-cc939e5ffd2b",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 20,
+                  "where": {
+                    "country": "United Kingdom"
+                  }
+                },
+                "sample": {
+                  "row_count": 20,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte Youth Hostel"
+                    },
+                    {
+                      "doc_key": "hotel_10289",
+                      "id": "n_f50918f0851b67",
+                      "name": "Rhossili Bunkhouse"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "c4e9a6ee-4877-427b-866b-cc939e5ffd2b"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-travel-walk-country-hotels",
+            "turn_id": "99bd39a0-df04-4cbe-9247-eaf7e40e1ee1",
+            "session_id": "sess_20261118T075128415723",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        },
+        {
+          "id": "travel-walk-state-counts",
+          "text": "How many hotels are in each state?",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-walk-colorado-counts. Brief path is State to Hotel via the inverse of Hotel.state. group_by must be a terminal-local string. Evidence is not required.",
+          "a": {
+            "called": "pipeline, find Hotel, project, get, find State, traverse walk_path",
+            "hit": true,
+            "rows": true,
+            "row_count": 5,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "39ad5c27-4a35-44ed-9add-6d15dd76ea02",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 500,
+                      "verb": "find",
+                      "as": "hotels"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "e2e721ff-ec22-47b5-98bf-c57fea570223",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "State",
+                "shape": null,
+                "http": 200,
+                "req_id": "c606fe95-27b9-4680-8ba0-8990df27d177",
+                "rows": false,
+                "args": {
+                  "entity_type": "State",
+                  "limit": 100
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "36bd89bb-b9bb-46a0-b778-3d45f958773b",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5
+                },
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "id": "n_4f629f17a9d2ae",
+                      "name": "Panamint Springs Resort"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte Youth Hostel"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 400,
+                "req_id": "e4f53067-ee5b-4a7f-918f-ab9ac96e45aa",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel"
+                },
+                "sample": {
+                  "error": "bad_request",
+                  "message": "find: return=selectivity requires `entity_id` (or `via_entity`)"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "670e43b3-ef5b-4307-a9a3-1a15e91f80c7",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    "n_ca56ea2db65d73",
+                    "n_4f629f17a9d2ae",
+                    "n_7207bf04c76a91"
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "3fec681c-81c3-44f5-8c8a-303fed6b2231",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_21052",
+                        "hotel_7386",
+                        "hotel_12337",
+                        "hotel_10289",
+                        "hotel_37650"
+                      ]
+                    },
+                    "path": [
+                      "state"
+                    ],
+                    "return": [
+                      "name"
+                    ]
+                  }
+                },
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "39ad5c27-4a35-44ed-9add-6d15dd76ea02",
+              "e2e721ff-ec22-47b5-98bf-c57fea570223",
+              "c606fe95-27b9-4680-8ba0-8990df27d177",
+              "36bd89bb-b9bb-46a0-b778-3d45f958773b",
+              "e4f53067-ee5b-4a7f-918f-ab9ac96e45aa",
+              "670e43b3-ef5b-4307-a9a3-1a15e91f80c7",
+              "3fec681c-81c3-44f5-8c8a-303fed6b2231"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-travel-walk-state-counts",
+            "turn_id": "d90f3ffa-c4cd-4549-a018-a8296932dcfd",
+            "session_id": "sess_20261118T074213200905",
+            "met": true
+          },
+          "b": {
+            "called": "pipeline, find Hotel, project, find State, get, traverse walk_path",
+            "hit": true,
+            "rows": true,
+            "row_count": 5,
+            "http": 400,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "bb5a66b0-3a6c-4c85-b330-547788c6b0bc",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 1000,
+                      "verb": "find",
+                      "as": "hotels"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "9a835f44-c91d-486d-a25e-d483a744ef86",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel"
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "State",
+                "shape": null,
+                "http": 200,
+                "req_id": "72ca1cd6-a063-4412-81bc-90831f7e237b",
+                "rows": false,
+                "args": {
+                  "entity_type": "State",
+                  "limit": 200
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "1262d083-019e-42cf-bede-48da3b7e4809",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "41fa2c81-b2df-47ed-8e00-78b5939dc1ac",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5
+                },
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "id": "n_4f629f17a9d2ae",
+                      "name": "Panamint Springs Resort"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte Youth Hostel"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "8fd0a087-98dd-4563-9a10-f6e4f0d04678",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_21052",
+                        "hotel_7386",
+                        "hotel_12337",
+                        "hotel_37650",
+                        "hotel_25159",
+                        "hotel_26220",
+                        "hotel_32174"
+                      ]
+                    },
+                    "path": [
+                      "state"
+                    ],
+                    "return": [
+                      "name"
+                    ]
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 400,
+                "req_id": "b7484db8-a860-45f0-a52d-3097cf677eab",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel"
+                },
+                "sample": {
+                  "error": "bad_request",
+                  "message": "find: return=selectivity requires `entity_id` (or `via_entity`)"
+                }
+              }
+            ],
+            "req_ids": [
+              "bb5a66b0-3a6c-4c85-b330-547788c6b0bc",
+              "9a835f44-c91d-486d-a25e-d483a744ef86",
+              "72ca1cd6-a063-4412-81bc-90831f7e237b",
+              "1262d083-019e-42cf-bede-48da3b7e4809",
+              "41fa2c81-b2df-47ed-8e00-78b5939dc1ac",
+              "8fd0a087-98dd-4563-9a10-f6e4f0d04678",
+              "b7484db8-a860-45f0-a52d-3097cf677eab"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-travel-walk-state-counts",
+            "turn_id": "5dea1046-60b5-4f4f-825f-b66644a76782",
+            "session_id": "sess_20261118T075205955487",
+            "met": true
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        },
+        {
+          "id": "travel-beach-itinerary",
+          "text": "Plan a beach trip for me. Suggest hotels and landmarks, and say which country each one is in.",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "Parallel to beer-colorado-itinerary. Landmark find on type landmark returned Napa, West Hollywood, and Camberley. Hotel to Country is not a declared FK on type hotel, so the walk may be HTTP 400. Evidence is not required.",
+          "a": {
+            "called": "pipeline, search hybrid Hotel, search hybrid Landmark, project, get, find Hotel",
+            "hit": false,
+            "rows": true,
+            "row_count": 19,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "167e7b1a-5410-4f06-a563-aa81db5c47b1",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "beach",
+                      "limit": 8,
+                      "verb": "search",
+                      "as": "hotels"
+                    },
+                    {
+                      "entity_type": "Landmark",
+                      "strategy": "hybrid",
+                      "query_text": "beach",
+                      "limit": 8,
+                      "verb": "search",
+                      "as": "landmarks"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "hotel_rows"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "landmark_rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "f4c8552b-af14-4888-a095-89e965e9183f",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "b59b5e51-4882-450a-9fd2-8b3846cc117c",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "ocean",
+                  "limit": 8
+                },
+                "sample": {
+                  "row_count": 8,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_25245",
+                      "id": "n_85b5255ac0a911",
+                      "name": "Surfer Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_26731",
+                      "id": "n_e0a87f3cad1ddb",
+                      "name": "Sea Ranch Lodge"
+                    },
+                    {
+                      "doc_key": "hotel_32172",
+                      "id": "n_cbbd684c5c771e",
+                      "name": "Hotel Erwin"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "dd32b390-eb77-4bd2-a0f7-78a6ac0cda3f",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "coast",
+                  "limit": 8
+                },
+                "sample": {
+                  "row_count": 8,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_5098",
+                      "id": "n_5c4a159aea97dc",
+                      "name": "Carlsbad Seapointe Resort"
+                    },
+                    {
+                      "doc_key": "hotel_18845",
+                      "id": "n_36b88d08e2fe2b",
+                      "name": "InterContinental The Clement Monterey"
+                    },
+                    {
+                      "doc_key": "hotel_5114",
+                      "id": "n_4159f9bbd955b1",
+                      "name": "Carmel Valley Ranch"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "f18ae1c8-c0d7-4cc8-bb1f-19f1477c2e54",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 8,
+                  "where": {
+                    "city": "San Diego"
+                  }
+                },
+                "sample": {
+                  "row_count": 8,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_25159",
+                      "id": "n_414dd8d244bd80",
+                      "name": "Comfort Inn Gaslamp Convention Center"
+                    },
+                    {
+                      "doc_key": "hotel_25197",
+                      "id": "n_dd256b3d005fa8",
+                      "name": "Grande Colonial Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_25156",
+                      "id": "n_1adc5950e73feb",
+                      "name": "La Pensione Hotel"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "e5c7251a-a217-4a3b-9253-4866bf169aae",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "city": "Isle of Anglesey"
+                  }
+                },
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_15955",
+                      "id": "n_7e5288bc6c1fe5",
+                      "name": "The Outbuildings"
+                    },
+                    {
+                      "doc_key": "hotel_41237",
+                      "id": "n_86783b961ca4f7",
+                      "name": "Pen y Graig B&B and Holiday Farmhouse"
+                    },
+                    {
+                      "doc_key": "hotel_40179",
+                      "id": "n_ff317e11c13872",
+                      "name": "Swallow Cottage Benllech"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "b59c6e3c-3008-49e0-87a2-344e3a9da733",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5,
+                  "where": {
+                    "city": "Rhos on Sea"
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "9a2037bd-61d4-4970-a8b2-13d98aa58815",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 19,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_25245",
+                      "id": "n_85b5255ac0a911",
+                      "name": "Surfer Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_26731",
+                      "id": "n_e0a87f3cad1ddb",
+                      "name": "Sea Ranch Lodge"
+                    },
+                    {
+                      "doc_key": "hotel_32172",
+                      "id": "n_cbbd684c5c771e",
+                      "name": "Hotel Erwin"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "f8ee39a5-0821-46c9-bf80-d04b73aafc00",
+                "rows": true,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "hybrid",
+                  "query_text": "beach",
+                  "limit": 8
+                },
+                "sample": {
+                  "row_count": 8,
+                  "preview": [
+                    {
+                      "doc_key": "landmark_39486",
+                      "id": "n_fc53ca4ad10a23",
+                      "name": "Beach and Promenade"
+                    },
+                    {
+                      "doc_key": "landmark_41236",
+                      "id": "n_c1dda39d77e2e0",
+                      "name": "Church Bay beach"
+                    },
+                    {
+                      "doc_key": "landmark_28234",
+                      "id": "n_ab26bc642cd626",
+                      "name": "East Sands (beach)"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "15375205-600f-41ec-976a-88acd5aa8f98",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "167e7b1a-5410-4f06-a563-aa81db5c47b1",
+              "f4c8552b-af14-4888-a095-89e965e9183f",
+              "b59b5e51-4882-450a-9fd2-8b3846cc117c",
+              "dd32b390-eb77-4bd2-a0f7-78a6ac0cda3f",
+              "f18ae1c8-c0d7-4cc8-bb1f-19f1477c2e54",
+              "e5c7251a-a217-4a3b-9253-4866bf169aae",
+              "b59c6e3c-3008-49e0-87a2-344e3a9da733",
+              "9a2037bd-61d4-4970-a8b2-13d98aa58815",
+              "f8ee39a5-0821-46c9-bf80-d04b73aafc00",
+              "15375205-600f-41ec-976a-88acd5aa8f98"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-travel-beach-itinerary",
+            "turn_id": "1cc57478-7981-4d6f-862a-6c1975981f15",
+            "session_id": "sess_20261118T074325983556",
+            "met": false
+          },
+          "b": {
+            "called": "search hybrid Hotel, search hybrid Landmark, project, return",
+            "hit": false,
+            "rows": true,
+            "row_count": 10,
+            "http": 200,
+            "rounds": 3,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "598b5b82-68ed-4035-866e-152ebac33292",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "beach",
+                  "limit": 10
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_26497",
+                      "id": "n_a1737549fc3627",
+                      "name": "Loews Santa Monica Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_22540",
+                      "id": "n_139b13969c294c",
+                      "name": "Inn at Playa del Rey Bed and Breakfast"
+                    },
+                    {
+                      "doc_key": "hotel_25245",
+                      "id": "n_85b5255ac0a911",
+                      "name": "Surfer Beach Hotel"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Landmark",
+                "shape": null,
+                "http": 200,
+                "req_id": "f9d32c14-6274-46ed-8316-af382eefc656",
+                "rows": true,
+                "args": {
+                  "entity_type": "Landmark",
+                  "strategy": "hybrid",
+                  "query_text": "beach",
+                  "limit": 10
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    {
+                      "doc_key": "landmark_39486",
+                      "id": "n_fc53ca4ad10a23",
+                      "name": "Beach and Promenade"
+                    },
+                    {
+                      "doc_key": "landmark_41236",
+                      "id": "n_c1dda39d77e2e0",
+                      "name": "Church Bay beach"
+                    },
+                    {
+                      "doc_key": "landmark_28234",
+                      "id": "n_ab26bc642cd626",
+                      "name": "East Sands (beach)"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "9c08adf7-a784-4baf-a638-8f8a929fa18b",
+                "rows": true,
+                "args": {
+                  "format": "card"
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    "n_a1737549fc3627",
+                    "n_139b13969c294c",
+                    "n_85b5255ac0a911"
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "de5eab78-b1ba-427a-a4f6-26ea29813c76",
+                "rows": true,
+                "args": {
+                  "format": "card"
+                },
+                "sample": {
+                  "row_count": 10,
+                  "preview": [
+                    "n_fc53ca4ad10a23",
+                    "n_c1dda39d77e2e0",
+                    "n_ab26bc642cd626"
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "598b5b82-68ed-4035-866e-152ebac33292",
+              "f9d32c14-6274-46ed-8316-af382eefc656",
+              "9c08adf7-a784-4baf-a638-8f8a929fa18b",
+              "de5eab78-b1ba-427a-a4f6-26ea29813c76"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-travel-beach-itinerary",
+            "turn_id": "fbfc52a3-45fc-4555-a89d-54bd4e511918",
+            "session_id": "sess_20261118T075352660576",
+            "met": false
+          },
+          "verdict": "same",
+          "why": "Neither pack hit the target API."
+        }
+      ],
+      "tallies": {
+        "better": 0,
+        "worse": 0,
+        "same": 8,
+        "not run": 0,
+        "total": 8
+      },
+      "score": {
+        "total": 8,
+        "met_a": 3,
+        "met_b": 3,
+        "ratio_a": "3/8",
+        "ratio_b": "3/8",
+        "better": 0,
+        "worse": 0,
+        "same": 8,
+        "net": 0,
+        "better_to_worse": "0:0",
+        "label_a": "base-6.1",
+        "label_b": "base-7.0"
+      }
+    }
+  ],
+  "justification": "Every scored question is the same (8). This suite does not show a reason to switch to base-7.0.",
+  "score": {
+    "total": 8,
+    "met_a": 3,
+    "met_b": 3,
+    "ratio_a": "3/8",
+    "ratio_b": "3/8",
+    "better": 0,
+    "worse": 0,
+    "same": 8,
+    "net": 0,
+    "better_to_worse": "0:0",
+    "label_a": "base-6.1",
+    "label_b": "base-7.0"
+  },
+  "stem": "2026-11-18_base-6_1_vs_base-7_0",
+  "scope_briefs": [
+    {
+      "scope": "travel-sample/inventory",
+      "has_scope_brief": true,
+      "has_mini_schema": true,
+      "has_walk_paths": true,
+      "chars": 8272,
+      "client_version": "2.4.0",
+      "brief_sha12": "72952f25d726",
+      "route": "/v1/ai/chat_request.json",
+      "mode": "analytics",
+      "injection_source": "turn",
+      "scope_brief_chars": 873,
+      "scope_brief_bytes": 881,
+      "scope_brief_tk": 221,
+      "mini_schema_chars": 7361,
+      "mini_schema_bytes": 7391,
+      "mini_schema_tk": 1848,
+      "mini_schema_sha12": "1cbe7f04d13e",
+      "walk_paths_chars": 3077,
+      "walk_paths_bytes": 3127,
+      "walk_paths_tk": 782,
+      "walk_paths_sha12": "d19ab1a799eb",
+      "full_chars": 12769,
+      "full_bytes": 12857,
+      "full_tk": 3215,
+      "full_sha12": "05448772ddba"
+    }
+  ]
+}

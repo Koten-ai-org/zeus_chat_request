@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "base_id": "base-9-prototype-4",
+  "kind": "base",
+  "status": "prototype",
+  "note": "base-9-prototype-4 is the constitution v2 empty-parent cut from base-9-prototype-3 on 2026-11-21. An empty parent type does not stop a scalar_ent child where. A filled relation is walk_path, and project of that field is the card. shape stays common, exact, or vague. Not the catalog pin. CURRENT.json stays base-1. Zeus embed stays base-6.1 and base-7.1. Contract hashes are the copied stamps. Suite not run.",
+  "paths": {
+    "min": "v2/base/base-9-prototype-4/min",
+    "text": "v2/base/base-9-prototype-4/text",
+    "bible": "docs/BIBLE.md",
+    "roadmap": "docs/ROADMAP.md",
+    "create_base": "docs/CREATE_BASE.md",
+    "response_output_schema": "v2/base/base-9-prototype-4/response_output_schema.json",
+    "response_output_example": "v2/base/base-9-prototype-4/response_output_example.json"
+  },
+  "parent_source": "v2/base/base-9-prototype-3",
+  "updated_at": "2026-11-22T00:31:12Z",
+  "generator": "scripts/new_base.py",
+  "catalogs": [
+    {
+      "file": "v2/base/base-9-prototype-4/min/chat_request_analytics_base-9-prototype-4.json",
+      "mode": "analytics",
+      "base_id": "base-9-prototype-4",
+      "prototype": true,
+      "bytes": 47980
+    },
+    {
+      "file": "v2/base/base-9-prototype-4/min/chat_request_auto_base-9-prototype-4.json",
+      "mode": "auto",
+      "base_id": "base-9-prototype-4",
+      "prototype": true,
+      "bytes": 48207
+    },
+    {
+      "file": "v2/base/base-9-prototype-4/min/chat_request_code_base-9-prototype-4.json",
+      "mode": "code",
+      "base_id": "base-9-prototype-4",
+      "prototype": true,
+      "bytes": 48469
+    },
+    {
+      "file": "v2/base/base-9-prototype-4/min/chat_request_custom_base-9-prototype-4.json",
+      "mode": "custom",
+      "base_id": "base-9-prototype-4",
+      "prototype": true,
+      "bytes": 47760
+    },
+    {
+      "file": "v2/base/base-9-prototype-4/min/chat_request_fraud_base-9-prototype-4.json",
+      "mode": "fraud",
+      "base_id": "base-9-prototype-4",
+      "prototype": true,
+      "bytes": 48717
+    },
+    {
+      "file": "v2/base/base-9-prototype-4/min/chat_request_open_base-9-prototype-4.json",
+      "mode": "open",
+      "base_id": "base-9-prototype-4",
+      "prototype": true,
+      "bytes": 47837
+    },
+    {
+      "file": "v2/base/base-9-prototype-4/min/chat_request_private_base-9-prototype-4.json",
+      "mode": "private",
+      "base_id": "base-9-prototype-4",
+      "prototype": true,
+      "bytes": 47894
+    },
+    {
+      "file": "v2/base/base-9-prototype-4/min/chat_request_regulated_base-9-prototype-4.json",
+      "mode": "regulated",
+      "base_id": "base-9-prototype-4",
+      "prototype": true,
+      "bytes": 48440
+    },
+    {
+      "file": "v2/base/base-9-prototype-4/min/chat_request_research_base-9-prototype-4.json",
+      "mode": "research",
+      "base_id": "base-9-prototype-4",
+      "prototype": true,
+      "bytes": 48549
+    },
+    {
+      "file": "v2/base/base-9-prototype-4/min/chat_request_tenant_base-9-prototype-4.json",
+      "mode": "tenant",
+      "base_id": "base-9-prototype-4",
+      "prototype": true,
+      "bytes": 47891
+    }
+  ]
+}

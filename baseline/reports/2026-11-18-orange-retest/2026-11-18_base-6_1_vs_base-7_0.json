@@ -1,0 +1,1200 @@
+{
+  "title": "base-6.1 vs base-7.0",
+  "date": "2026-11-18",
+  "status": "ran",
+  "label_a": "base-6.1",
+  "label_b": "base-7.0",
+  "base_id_a": "base-6.1",
+  "base_id_b": "base-7.0",
+  "zeus_version": "1.0.0-beta.3",
+  "provider": "xai",
+  "provider_base": "https://api.x.ai/v1",
+  "model": "grok-4.7",
+  "client": "zeus_client.run_turn",
+  "client_version": "2.4.0",
+  "verdict_rule": "better means the new pack called the target API and the previous pack did not. worse means the previous pack called the target API and the new pack did not. Rows from a different verb do not count. On Find hoppy citrus beers the target is search hybrid. That row is worse when the previous pack calls search hybrid and the new pack calls search fts, find, or set, even when both sides are HTTP 200 and both returned beers. same means both called the target, or neither did. not run means a model call is missing. When the question says rows are required, an empty Zeus result is not met.",
+  "tallies": {
+    "better": 0,
+    "worse": 0,
+    "same": 2,
+    "retest": 0,
+    "not run": 0,
+    "total": 2
+  },
+  "scopes": [
+    {
+      "name": "beer-sample",
+      "scopes": [
+        "beer-sample/_default"
+      ],
+      "rows": [
+        {
+          "id": "beer-walk-belgian",
+          "text": "What beers come from Belgian breweries?",
+          "scope": "beer-sample/_default",
+          "target_api": "traverse walk_path",
+          "notes": "The forward body from Beer with where {} , path [brewery_id, country], where country=belgium is HTTP 400 on 0.9.19: an empty where is not a selector. The engine doc marks that forward terminal projection as not yet. The selective side worked: from Brewery where country=belgium, inverse Beer.brewery_id, limit 5, HTTP 200, truncated. Rows included Oude Geuze, Drie Fonteinen Kriek, and Leffe Blonde. Country where name=Belgium inverse to Brewery returned 0 rows. Evidence is not required because the textbook forward body does not return rows.",
+          "a": {
+            "called": "find Country, find Brewery, traverse walk_path",
+            "hit": true,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Country",
+                "shape": null,
+                "http": 200,
+                "req_id": "44c3a6b4-c380-400e-8eb2-6d9345a1df6e",
+                "rows": false,
+                "args": {
+                  "entity_type": "Country",
+                  "limit": 100
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "291e873f-062a-4690-b45c-4d6816cacbed",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 100,
+                  "where": {
+                    "country": "Belgium"
+                  }
+                },
+                "sample": {
+                  "row_count": 99,
+                  "preview": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat",
+                      "id": "n_2675cc3951e16b",
+                      "name": "Brouwerij Duvel Moortgat"
+                    },
+                    {
+                      "doc_key": "brasserie_brouwerij_cantillon",
+                      "id": "n_00265d811adfd9",
+                      "name": "Brasserie-Brouwerij Cantillon"
+                    },
+                    {
+                      "doc_key": "brouwerij_lindemans",
+                      "id": "n_c264883b222e10",
+                      "name": "Brouwerij Lindemans"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "1d5eabdf-08d4-4278-bb3c-78a5b05365ff",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "src_keys": [
+                        "brouwerij_duvel_moortgat",
+                        "brasserie_brouwerij_cantillon",
+                        "brouwerij_lindemans",
+                        "duvel_moortgat",
+                        "brasserie_de_brunehaut",
+                        "brouwerij_the_musketiers",
+                        "kleinbrouwerij_de_glazen_toren",
+                        "brouwerij_van_steenberge",
+                        "brouwerij_kerkom",
+                        "brouwerij_oud_beersel",
+                        "brouwerij_huyghe",
+                        "brouwerij_de_ranke",
+                        "brasserie_du_bocq",
+                        "brouwerij_abdij_der_trappisten_van_westmalle",
+                        "timmermans",
+                        "brouwerij_het_anker",
+                        "tongerlo",
+                        "abbaye_de_maredsous",
+                        "affligem_brouwerij",
+                        "brouwerij_alken_maes",
+                        "brasserie_dupont",
+                        "brewery_belle_vue",
+                        "brouwerij_liefmans",
+                        "brouwerij_de_regenboog",
+                        "brewery_corsendonk",
+                        "brasserie_d_orval",
+                        "brasserie_de_silenrieux",
+                        "brouwerij_bavik_de_brabandere",
+                        "brouwerij_strubbe",
+                        "microbrouwerij_achilles",
+                        "brasserie_de_blaugies",
+                        "abbaye_notre_dame_du_st_remy",
+                        "brasserie_de_silly",
+                        "brouwerij_slaghmuylder",
+                        "brasserie_des_gants",
+                        "brouwerij_abdij_saint_sixtus",
+                        "brouwerij_de_keersmaeker",
+                        "john_martin_sa",
+                        "brasserie_la_caracole",
+                        "folx_les_caves",
+                        "brasserie_fantme",
+                        "brouwerij_de_block",
+                        "de_leyerth_brouwerijen",
+                        "brouwerij_van_eecke",
+                        "brennerei_distillerie_radermacher",
+                        "brouwerij_van_honsebrouck",
+                        "brouwerij_boon",
+                        "van_honsebrouch",
+                        "daas",
+                        "brouwerij_de_dolle_brouwers",
+                        "brasserie_la_binchoise",
+                        "chimay_abbaye_notre_dame_de_scourmont",
+                        "liefmans_breweries",
+                        "ronald_mengerink",
+                        "de_struise_brouwers",
+                        "brasserie_val_de_sambre",
+                        "brouwerij_sint_jozef",
+                        "icobes_b_v_b_a",
+                        "brouwerij_van_den_bossche",
+                        "inbev",
+                        "brasserie_de_l_abbaye_des_rocs",
+                        "brouwerij_st_feuillien",
+                        "brasserie_dubuisson",
+                        "abbaye_de_leffe",
+                        "brouwerij_verhaeghe",
+                        "palm_breweries",
+                        "brouwerij_duysters",
+                        "brasserie_clarysse",
+                        "brouwerij_de_achelse_kluis",
+                        "brouwerij_de_landtsheer",
+                        "brouwerij_sterkens",
+                        "de_dochter_van_de_korenaar",
+                        "brasserie_d_achouffe",
+                        "brouwerij_bockor",
+                        "brouwerij_bosteels",
+                        "brewery_de_troch",
+                        "3_fonteinen_brouwerij_ambachtelijke_geuzestekerij",
+                        "brouwerij_der_sint_benedictusabdij_de_achelse_kluis",
+                        "hanssens_artisanal",
+                        "brouwerij_de_gouden_boom",
+                        "brouwerij_rodenbach",
+                        "brasserie_de_cazeau",
+                        "brasserie_de_la_senne",
+                        "brouwerij_st_bernardus",
+                        "brouwerij_roman",
+                        "de_proef_brouwerij",
+                        "alvinne_picobrouwerij",
+                        "brouwerij_girardin",
+                        "brouwerij_de_smedt",
+                        "brasserie_lefebvre",
+                        "brasserie_de_l_abbaye_val_dieu",
+                        "brasserie_de_l_abbaye_de_scourmont_trappistes",
+                        "brasserie_de_vervifontaine",
+                        "de_halve_maan",
+                        "brouwerij_van_hoegaarden",
+                        "brasserie_artisanale_de_rulles",
+                        "brasserie_d_ecaussinnes",
+                        "brasserie_ellezelloise",
+                        "brouwerij_artois"
+                      ]
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "return": [
+                      "name",
+                      "abv",
+                      "style",
+                      "category",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "name": "Oude Geuze"
+                    },
+                    {
+                      "name": "Drie Fonteinen Kriek"
+                    },
+                    {
+                      "name": "Leffe Blonde"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "c84bfad3-91b9-40ae-8f50-1d12d25d8617",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "src_keys": [
+                        "brouwerij_duvel_moortgat",
+                        "brasserie_brouwerij_cantillon",
+                        "brouwerij_lindemans",
+                        "duvel_moortgat",
+                        "brasserie_de_brunehaut",
+                        "brouwerij_the_musketiers",
+                        "kleinbrouwerij_de_glazen_toren",
+                        "brouwerij_van_steenberge",
+                        "brouwerij_kerkom",
+                        "brouwerij_oud_beersel",
+                        "brouwerij_huyghe",
+                        "brouwerij_de_ranke",
+                        "brasserie_du_bocq",
+                        "brouwerij_abdij_der_trappisten_van_westmalle",
+                        "timmermans",
+                        "brouwerij_het_anker",
+                        "tongerlo",
+                        "abbaye_de_maredsous",
+                        "affligem_brouwerij",
+                        "brouwerij_alken_maes",
+                        "brasserie_dupont",
+                        "brewery_belle_vue",
+                        "brouwerij_liefmans",
+                        "brouwerij_de_regenboog",
+                        "brewery_corsendonk",
+                        "brasserie_d_orval",
+                        "brasserie_de_silenrieux",
+                        "brouwerij_bavik_de_brabandere",
+                        "brouwerij_strubbe",
+                        "microbrouwerij_achilles",
+                        "brasserie_de_blaugies",
+                        "abbaye_notre_dame_du_st_remy",
+                        "brasserie_de_silly",
+                        "brouwerij_slaghmuylder",
+                        "brasserie_des_gants",
+                        "brouwerij_abdij_saint_sixtus",
+                        "brouwerij_de_keersmaeker",
+                        "john_martin_sa",
+                        "brasserie_la_caracole",
+                        "folx_les_caves",
+                        "brasserie_fantme",
+                        "brouwerij_de_block",
+                        "de_leyerth_brouwerijen",
+                        "brouwerij_van_eecke",
+                        "brennerei_distillerie_radermacher",
+                        "brouwerij_van_honsebrouck",
+                        "brouwerij_boon",
+                        "van_honsebrouch",
+                        "daas",
+                        "brouwerij_de_dolle_brouwers",
+                        "brasserie_la_binchoise",
+                        "chimay_abbaye_notre_dame_de_scourmont",
+                        "liefmans_breweries",
+                        "ronald_mengerink",
+                        "de_struise_brouwers",
+                        "brasserie_val_de_sambre",
+                        "brouwerij_sint_jozef",
+                        "icobes_b_v_b_a",
+                        "brouwerij_van_den_bossche",
+                        "inbev",
+                        "brasserie_de_l_abbaye_des_rocs",
+                        "brouwerij_st_feuillien",
+                        "brasserie_dubuisson",
+                        "abbaye_de_leffe",
+                        "brouwerij_verhaeghe",
+                        "palm_breweries",
+                        "brouwerij_duysters",
+                        "brasserie_clarysse",
+                        "brouwerij_de_achelse_kluis",
+                        "brouwerij_de_landtsheer",
+                        "brouwerij_sterkens",
+                        "de_dochter_van_de_korenaar",
+                        "brasserie_d_achouffe",
+                        "brouwerij_bockor",
+                        "brouwerij_bosteels",
+                        "brewery_de_troch",
+                        "3_fonteinen_brouwerij_ambachtelijke_geuzestekerij",
+                        "brouwerij_der_sint_benedictusabdij_de_achelse_kluis",
+                        "hanssens_artisanal",
+                        "brouwerij_de_gouden_boom",
+                        "brouwerij_rodenbach",
+                        "brasserie_de_cazeau",
+                        "brasserie_de_la_senne",
+                        "brouwerij_st_bernardus",
+                        "brouwerij_roman",
+                        "de_proef_brouwerij",
+                        "alvinne_picobrouwerij",
+                        "brouwerij_girardin",
+                        "brouwerij_de_smedt",
+                        "brasserie_lefebvre",
+                        "brasserie_de_l_abbaye_val_dieu",
+                        "brasserie_de_l_abbaye_de_scourmont_trappistes",
+                        "brasserie_de_vervifontaine",
+                        "de_halve_maan",
+                        "brouwerij_van_hoegaarden",
+                        "brasserie_artisanale_de_rulles",
+                        "brasserie_d_ecaussinnes",
+                        "brasserie_ellezelloise",
+                        "brouwerij_artois"
+                      ]
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "limit": 200,
+                    "return": [
+                      "name",
+                      "abv",
+                      "style",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 129,
+                  "preview": [
+                    {
+                      "name": "Cuvée René Grand Cru Gueuze Lambic"
+                    },
+                    {
+                      "name": "Pêche / Pecheresse"
+                    },
+                    {
+                      "name": "Gueuze Cuvée René"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "44c3a6b4-c380-400e-8eb2-6d9345a1df6e",
+              "291e873f-062a-4690-b45c-4d6816cacbed",
+              "1d5eabdf-08d4-4278-bb3c-78a5b05365ff",
+              "c84bfad3-91b9-40ae-8f50-1d12d25d8617"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-beer-walk-belgian",
+            "turn_id": "4de4ebf3-7ae0-41cb-b28b-b44b858e96cf",
+            "session_id": "sess_20261118T183118539440",
+            "met": true
+          },
+          "b": {
+            "called": "find Country, search hybrid Brewery, get, find Brewery, pipeline, traverse walk_path, project",
+            "hit": true,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Country",
+                "shape": null,
+                "http": 200,
+                "req_id": "f47b0b39-3036-4933-8209-0b8d09a24f72",
+                "rows": false,
+                "args": {
+                  "entity_type": "Country",
+                  "limit": 50
+                },
+                "sample": {}
+              },
+              {
+                "round": 1,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "b19abd9b-1d14-4da4-89b7-64dfe997e74d",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "strategy": "hybrid",
+                  "query_text": "Belgian",
+                  "limit": 50
+                },
+                "sample": {
+                  "row_count": 50,
+                  "preview": [
+                    {
+                      "doc_key": "brouwerij_sint_jozef",
+                      "id": "n_1a33935d607d1c",
+                      "name": "Brouwerij Sint-Jozef"
+                    },
+                    {
+                      "doc_key": "brasserie_fantme",
+                      "id": "n_56dd43f73cbfb9",
+                      "name": "Brasserie Fantme"
+                    },
+                    {
+                      "doc_key": "brouwerij_alken_maes",
+                      "id": "n_5a943390d02b94",
+                      "name": "Brouwerij Alken-Maes"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "5b4809e9-96db-4949-9713-f2c7592242bf",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 1,
+                  "preview": [
+                    {
+                      "doc_key": "duvel_moortgat",
+                      "id": "n_715d04238abc25",
+                      "name": "Duvel Moortgat",
+                      "entity_type": "Brewery"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "0562c50f-c5e5-4bae-96d7-71d1f8f2290e",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 5,
+                  "where": {
+                    "country": "Belgium"
+                  }
+                },
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat",
+                      "id": "n_2675cc3951e16b",
+                      "name": "Brouwerij Duvel Moortgat"
+                    },
+                    {
+                      "doc_key": "brasserie_brouwerij_cantillon",
+                      "id": "n_00265d811adfd9",
+                      "name": "Brasserie-Brouwerij Cantillon"
+                    },
+                    {
+                      "doc_key": "brouwerij_lindemans",
+                      "id": "n_c264883b222e10",
+                      "name": "Brouwerij Lindemans"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "1da9e8d5-c887-42a5-9c73-942abe712189",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Brewery",
+                      "limit": 300,
+                      "where": {
+                        "country": "Belgium"
+                      },
+                      "verb": "find",
+                      "as": "breweries"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "src_keys": "@breweries.doc_keys"
+                        },
+                        "path": [
+                          {
+                            "inverse": "Beer.brewery_id"
+                          }
+                        ],
+                        "return": [
+                          "name",
+                          "style",
+                          "category",
+                          "abv",
+                          "brewery_id"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "beers"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "cards"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 4,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "e1a846ba-e97d-4a08-b51c-7cc523fb2c58",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "where": {
+                        "country": "Belgium"
+                      }
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "return": [
+                      "name",
+                      "style",
+                      "category",
+                      "abv",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "name": "Oude Geuze"
+                    },
+                    {
+                      "name": "Drie Fonteinen Kriek"
+                    },
+                    {
+                      "name": "Leffe Blonde"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "f47b0b39-3036-4933-8209-0b8d09a24f72",
+              "b19abd9b-1d14-4da4-89b7-64dfe997e74d",
+              "5b4809e9-96db-4949-9713-f2c7592242bf",
+              "0562c50f-c5e5-4bae-96d7-71d1f8f2290e",
+              "1da9e8d5-c887-42a5-9c73-942abe712189",
+              "e1a846ba-e97d-4a08-b51c-7cc523fb2c58"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-beer-walk-belgian",
+            "turn_id": "4d4d8877-cc5f-4af3-8a09-f65cf95f2519",
+            "session_id": "sess_20261118T183813169946",
+            "met": true
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        }
+      ],
+      "tallies": {
+        "better": 0,
+        "worse": 0,
+        "same": 1,
+        "retest": 0,
+        "not run": 0,
+        "total": 1
+      },
+      "score": {
+        "total": 1,
+        "met_a": 1,
+        "met_b": 1,
+        "ratio_a": "1/1",
+        "ratio_b": "1/1",
+        "better": 0,
+        "worse": 0,
+        "same": 1,
+        "retest": 0,
+        "net": 0,
+        "better_to_worse": "0:0",
+        "label_a": "base-6.1",
+        "label_b": "base-7.0"
+      }
+    },
+    {
+      "name": "travel-sample",
+      "scopes": [
+        "travel-sample/inventory"
+      ],
+      "rows": [
+        {
+          "id": "travel-traverse-country",
+          "text": "Find beach destination hotels of type hotel, then walk those hotels to their country.",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path + or search hybrid hotel or search hybrid Hotel",
+          "notes": "Brief path is Hotel to Country via country. On type hotel that path is HTTP 400: country is not a declared FK. from.entity_type is required. Evidence is not required.",
+          "a": {
+            "called": "pipeline, search hybrid Hotel, traverse walk_path, project, return",
+            "hit": true,
+            "rows": false,
+            "row_count": 0,
+            "http": 200,
+            "rounds": 2,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "400301f5-5b4e-46fb-bee8-24946d8076e4",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "beach",
+                      "limit": 40,
+                      "verb": "search",
+                      "as": "hotels"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Hotel",
+                          "src_keys": "@hotels.doc_keys"
+                        },
+                        "path": [
+                          "country"
+                        ],
+                        "return": []
+                      },
+                      "verb": "traverse",
+                      "as": "to_country"
+                    },
+                    {
+                      "limit": 40,
+                      "verb": "project",
+                      "as": "rows"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "return",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 0,
+                "req_id": "",
+                "rows": false,
+                "args": {},
+                "sample": {
+                  "reason": "terminal emit"
+                }
+              }
+            ],
+            "req_ids": [
+              "400301f5-5b4e-46fb-bee8-24946d8076e4"
+            ],
+            "chat_id": "ab-2026-11-18-base-6-1-travel-traverse-country",
+            "turn_id": "400e646b-4fac-4482-9b19-7e9bb86c9cce",
+            "session_id": "sess_20261118T183118547518",
+            "met": true
+          },
+          "b": {
+            "called": "pipeline, search hybrid Hotel, project, traverse walk_path, find Hotel, find Country, get",
+            "hit": true,
+            "rows": true,
+            "row_count": 100,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "e0841e6e-56d6-42d6-8c25-95e7a68ff196",
+                "rows": false,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "strategy": "hybrid",
+                      "query_text": "beach destination",
+                      "limit": 50,
+                      "verb": "search",
+                      "as": "hotels"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "hotel_rows"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Hotel",
+                          "src_keys": "@hotels.doc_keys"
+                        },
+                        "path": [
+                          "country"
+                        ],
+                        "return": [
+                          "name"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "countries"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok"
+                }
+              },
+              {
+                "round": 2,
+                "verb": "search",
+                "strategy": "hybrid",
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "ff79d8a6-96b0-431a-9337-e0fcb89f27ef",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "strategy": "hybrid",
+                  "query_text": "beach",
+                  "limit": 100
+                },
+                "sample": {
+                  "row_count": 100,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_26497",
+                      "id": "n_a1737549fc3627",
+                      "name": "Loews Santa Monica Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_22540",
+                      "id": "n_139b13969c294c",
+                      "name": "Inn at Playa del Rey Bed and Breakfast"
+                    },
+                    {
+                      "doc_key": "hotel_25245",
+                      "id": "n_85b5255ac0a911",
+                      "name": "Surfer Beach Hotel"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "e94efb73-4f2b-4db8-af64-fa9fdc0f5b20",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 5
+                },
+                "sample": {
+                  "row_count": 5,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "id": "n_4f629f17a9d2ae",
+                      "name": "Panamint Springs Resort"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte Youth Hostel"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "b876e5cf-6d52-49ab-8d89-c0110f721e91",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_26497",
+                        "hotel_22540",
+                        "hotel_25245",
+                        "hotel_19324",
+                        "hotel_26501",
+                        "hotel_41239",
+                        "hotel_5098",
+                        "hotel_25243",
+                        "hotel_17309",
+                        "hotel_37591",
+                        "hotel_26494",
+                        "hotel_26492",
+                        "hotel_32177",
+                        "hotel_22096",
+                        "hotel_25241",
+                        "hotel_17312",
+                        "hotel_10180",
+                        "hotel_32171",
+                        "hotel_37248",
+                        "hotel_37592",
+                        "hotel_23388",
+                        "hotel_38036",
+                        "hotel_5114",
+                        "hotel_26493",
+                        "hotel_32173",
+                        "hotel_37595",
+                        "hotel_22456",
+                        "hotel_32176",
+                        "hotel_12239",
+                        "hotel_17310",
+                        "hotel_10289",
+                        "hotel_5097",
+                        "hotel_17596",
+                        "hotel_17595",
+                        "hotel_37594",
+                        "hotel_10904",
+                        "hotel_25326",
+                        "hotel_9062",
+                        "hotel_25240",
+                        "hotel_25197",
+                        "hotel_37590",
+                        "hotel_40186",
+                        "hotel_17597",
+                        "hotel_17308",
+                        "hotel_41237",
+                        "hotel_26502",
+                        "hotel_32172",
+                        "hotel_37593",
+                        "hotel_33899",
+                        "hotel_18845",
+                        "hotel_5112",
+                        "hotel_17313",
+                        "hotel_17599",
+                        "hotel_33898",
+                        "hotel_25193",
+                        "hotel_33896",
+                        "hotel_12357",
+                        "hotel_26495",
+                        "hotel_5110",
+                        "hotel_26491",
+                        "hotel_21552",
+                        "hotel_33894",
+                        "hotel_32174",
+                        "hotel_26490",
+                        "hotel_2483",
+                        "hotel_33902",
+                        "hotel_33890",
+                        "hotel_26731",
+                        "hotel_12929",
+                        "hotel_40178",
+                        "hotel_12927",
+                        "hotel_17311",
+                        "hotel_30017",
+                        "hotel_40177",
+                        "hotel_32175",
+                        "hotel_37596",
+                        "hotel_12922",
+                        "hotel_26169",
+                        "hotel_3369",
+                        "hotel_26168",
+                        "hotel_33895",
+                        "hotel_25666",
+                        "hotel_9723",
+                        "hotel_25304",
+                        "hotel_25671",
+                        "hotel_26167",
+                        "hotel_3852",
+                        "hotel_26140",
+                        "hotel_5111",
+                        "hotel_20422",
+                        "hotel_25264",
+                        "hotel_28960",
+                        "hotel_30016",
+                        "hotel_28676",
+                        "hotel_2610",
+                        "hotel_40382",
+                        "hotel_28259",
+                        "hotel_28657",
+                        "hotel_12926",
+                        "hotel_33887"
+                      ]
+                    },
+                    "path": [
+                      "country"
+                    ],
+                    "return": [
+                      "name"
+                    ]
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "085a067f-abfc-4f34-badc-46e2ae09ae12",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 100,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_26497",
+                      "id": "n_a1737549fc3627",
+                      "name": "Loews Santa Monica Beach Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_22540",
+                      "id": "n_139b13969c294c",
+                      "name": "Inn at Playa del Rey Bed and Breakfast"
+                    },
+                    {
+                      "doc_key": "hotel_25245",
+                      "id": "n_85b5255ac0a911",
+                      "name": "Surfer Beach Hotel"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Country",
+                "shape": null,
+                "http": 200,
+                "req_id": "dae9adf6-0f08-499d-ab24-073fed9ab61f",
+                "rows": false,
+                "args": {
+                  "entity_type": "Country",
+                  "limit": 10
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "2cc7ebf8-45f5-49b3-ad6e-18f32e3d3c28",
+                "rows": false,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Hotel",
+                      "src_keys": [
+                        "hotel_26497",
+                        "hotel_19324"
+                      ]
+                    },
+                    "path": [
+                      "country"
+                    ]
+                  }
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "get",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "0f33cfd6-99e4-463a-980c-4a430a7cb8b3",
+                "rows": false,
+                "args": {},
+                "sample": {}
+              }
+            ],
+            "req_ids": [
+              "e0841e6e-56d6-42d6-8c25-95e7a68ff196",
+              "ff79d8a6-96b0-431a-9337-e0fcb89f27ef",
+              "e94efb73-4f2b-4db8-af64-fa9fdc0f5b20",
+              "b876e5cf-6d52-49ab-8d89-c0110f721e91",
+              "085a067f-abfc-4f34-badc-46e2ae09ae12",
+              "dae9adf6-0f08-499d-ab24-073fed9ab61f",
+              "2cc7ebf8-45f5-49b3-ad6e-18f32e3d3c28",
+              "0f33cfd6-99e4-463a-980c-4a430a7cb8b3"
+            ],
+            "chat_id": "ab-2026-11-18-base-7-0-travel-traverse-country",
+            "turn_id": "74df2694-e4b7-4b6c-a842-18fa054052f5",
+            "session_id": "sess_20261118T183813192734",
+            "met": true
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        }
+      ],
+      "tallies": {
+        "better": 0,
+        "worse": 0,
+        "same": 1,
+        "retest": 0,
+        "not run": 0,
+        "total": 1
+      },
+      "score": {
+        "total": 1,
+        "met_a": 1,
+        "met_b": 1,
+        "ratio_a": "1/1",
+        "ratio_b": "1/1",
+        "better": 0,
+        "worse": 0,
+        "same": 1,
+        "retest": 0,
+        "net": 0,
+        "better_to_worse": "0:0",
+        "label_a": "base-6.1",
+        "label_b": "base-7.0"
+      }
+    }
+  ],
+  "justification": "Every scored question is the same (2). This suite does not show a reason to switch to base-7.0.",
+  "score": {
+    "total": 2,
+    "met_a": 2,
+    "met_b": 2,
+    "ratio_a": "2/2",
+    "ratio_b": "2/2",
+    "better": 0,
+    "worse": 0,
+    "same": 2,
+    "retest": 0,
+    "net": 0,
+    "better_to_worse": "0:0",
+    "label_a": "base-6.1",
+    "label_b": "base-7.0"
+  },
+  "stem": "2026-11-18_base-6_1_vs_base-7_0",
+  "scope_briefs": [
+    {
+      "scope": "beer-sample/_default",
+      "has_scope_brief": true,
+      "has_mini_schema": true,
+      "has_walk_paths": true,
+      "chars": 4069,
+      "client_version": "2.4.0",
+      "brief_sha12": "090e8427ceb0",
+      "route": "/v1/ai/chat_request.json",
+      "mode": "analytics",
+      "injection_source": "turn",
+      "scope_brief_chars": 870,
+      "scope_brief_bytes": 878,
+      "scope_brief_tk": 220,
+      "mini_schema_chars": 3171,
+      "mini_schema_bytes": 3191,
+      "mini_schema_tk": 798,
+      "mini_schema_sha12": "9663d356a286",
+      "walk_paths_chars": 2357,
+      "walk_paths_bytes": 2391,
+      "walk_paths_tk": 598,
+      "walk_paths_sha12": "32fb8fc701d3",
+      "full_chars": 7892,
+      "full_bytes": 7954,
+      "full_tk": 1989,
+      "full_sha12": "e763b8210674"
+    },
+    {
+      "scope": "travel-sample/inventory",
+      "has_scope_brief": true,
+      "has_mini_schema": true,
+      "has_walk_paths": true,
+      "chars": 8272,
+      "client_version": "2.4.0",
+      "brief_sha12": "0b3319178b72",
+      "route": "/v1/ai/chat_request.json",
+      "mode": "analytics",
+      "injection_source": "turn",
+      "scope_brief_chars": 873,
+      "scope_brief_bytes": 881,
+      "scope_brief_tk": 221,
+      "mini_schema_chars": 7361,
+      "mini_schema_bytes": 7391,
+      "mini_schema_tk": 1848,
+      "mini_schema_sha12": "1cbe7f04d13e",
+      "walk_paths_chars": 3077,
+      "walk_paths_bytes": 3127,
+      "walk_paths_tk": 782,
+      "walk_paths_sha12": "d19ab1a799eb",
+      "full_chars": 12582,
+      "full_bytes": 12670,
+      "full_tk": 3168,
+      "full_sha12": "f590be56852a"
+    }
+  ]
+}

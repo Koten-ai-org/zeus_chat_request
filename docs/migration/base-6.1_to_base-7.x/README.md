@@ -19,7 +19,7 @@ base-6.2 reduced the base-6.1 prefix. That size cut was a performance regression
 3. Add `rail` (`name` from the SCOPE BRIEF, `binds` only, no SQL).
 4. Teach `search` and `pipeline` the narrow rules. Do not mention `offset`.
 
-Prompt growth versus base-6.1 is about **+3043 characters** (~12%) on every mode. That growth is the method plus `rail`.
+Prompt growth versus base-6.1 is about **+3043 characters** (~12%) on every mode. That growth is the method plus `rail`. Later sentences, and why each one is worth the characters, are in [PROMPT_SENTENCES.md](../base-6.1_to_base-7.0/PROMPT_SENTENCES.md).
 
 ## Commands
 

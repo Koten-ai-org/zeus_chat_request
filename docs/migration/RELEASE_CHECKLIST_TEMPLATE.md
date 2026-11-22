@@ -91,6 +91,7 @@ python3 scripts/verify_base_pack.py --base Y
 - [ ] `python3 scripts/new_base.py --refresh-manifest --base Y`  
 - [ ] `python3 scripts/scan_catalogs.py` (inspector `catalog-index.json`)  
 - [ ] **`python3 scripts/verify_base_pack.py --base Y` → OK** (required before pack PR)  
+- [ ] **`python3 scripts/chat_request_size.py`** rewrote `v2/base/chat_request_size.csv`, then `v2/base/chat_request_size.html` from that CSV. The page is static ECharts. Do not hand-edit it.  
 - [ ] Root `manifest.json` updated if it lists packs  
 
 ---

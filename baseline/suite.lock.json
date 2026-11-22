@@ -134,7 +134,7 @@
       "id": "beer-walk-colorado-counts",
       "scope": "beer-sample/_default",
       "collection": "nodes",
-      "text": "How many beers does each Colorado brewery produce?",
+      "text": "List the beers each Colorado brewery makes.",
       "expect": {
         "all_of": [
           {
@@ -323,7 +323,7 @@
       "id": "travel-walk-state-counts",
       "scope": "travel-sample/inventory",
       "collection": "nodes",
-      "text": "How many hotels are in each state?",
+      "text": "List the hotels in each state.",
       "expect": {
         "all_of": [
           {
@@ -338,31 +338,66 @@
       "id": "travel-walk-hotels-by-country",
       "scope": "travel-sample/inventory",
       "collection": "nodes",
-      "text": "Count hotels by country.",
+      "text": "List hotels in the United Kingdom.",
       "expect": {
-        "all_of": [
+        "any_of": [
           {
-            "verb": "traverse",
-            "shape": "walk_path"
+            "verb": "find",
+            "entity_type": "hotel"
+          },
+          {
+            "verb": "find",
+            "entity_type": "Hotel"
           }
         ]
       },
-      "evidence_required": false
+      "evidence_required": true
+    },
+    {
+      "id": "travel-uk-beach-pipeline",
+      "scope": "travel-sample/inventory",
+      "collection": "nodes",
+      "text": "Show hotels in the United Kingdom whose descriptions sound like a beach.",
+      "expect": {
+        "all_of": [
+          {
+            "verb": "pipeline"
+          },
+          {
+            "verb": "find",
+            "where": {
+              "country": "United Kingdom"
+            }
+          },
+          {
+            "verb": "search",
+            "strategy": "hybrid",
+            "narrow_to": true
+          }
+        ]
+      },
+      "evidence_required": true
     },
     {
       "id": "travel-beach-itinerary",
       "scope": "travel-sample/inventory",
       "collection": "nodes",
-      "text": "Plan a beach trip for me. Suggest hotels and landmarks, and say which country each one is in.",
+      "text": "Plan a trip in France. Suggest hotels and landmarks.",
       "expect": {
         "all_of": [
           {
-            "verb": "traverse",
-            "shape": "walk_path"
+            "verb": "search",
+            "strategy": "hybrid",
+            "entity_type": "Hotel"
+          },
+          {
+            "verb": "search",
+            "strategy": "hybrid",
+            "entity_type": "Landmark"
           }
         ]
       },
-      "evidence_required": false
+      "evidence_required": true
     }
   ]
 }

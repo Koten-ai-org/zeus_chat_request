@@ -1,0 +1,872 @@
+# chat_request catalog — indented text working copy
+# file: chat_request_tenant_base-9-prototype-3.txt
+# packaging: base-9-prototype-3
+# source: v2/base/base-9-prototype-3/min
+# base_id (lineage): base-9-prototype-3
+# NOT JSON. Indent = 2 spaces. Multiline: key: | then indented lines.
+# Re-encode later → chat_request_tenant_base-9-prototype-3.json for stamp/Client.
+# Customs (Hub): chat_request_<mode>_base-N_cus_<bucket>_<scope>-<rev>.json
+
+_format: zeus.chat_request.v2
+
+_version: 2
+
+_note: |
+  base-5.3 chat_request (breaking freeze: object rules/triggers, app_output, control-plane injects). Required: summary, query_decomposition, decomposition, confidence. Recommended: policy_action (soft-require), subject_confidence, jail_break_attempt, wish_i_knew, business_rules_triggers{}, app_output. See docs/ROADMAP.md · docs/RULES_OBJECT_AND_OUTPUT_REQUEST.md · docs/PROMPT_SETTINGS.md. Production pin may still be base-1 until CURRENT.json is updated.
+
+_hash: md5:119621eda0515a29b0e2b6778cd4ca41
+
+_hash_policy:
+  excluded:
+    - guidance
+    - contract
+    - metadata
+    - _.*
+  pointers:
+    - /instructions/system_prompt
+    - /instructions/verb_usage_guide
+    - /instructions/verb_order
+    - /instructions/response_expectations
+    - /masq
+    - /verbs
+    - /messages/*/content
+  version: 1
+
+_lineage:
+  base_id: base-9-prototype-3
+  custom_id: null
+  mode: tenant
+  profile: v2_min
+  kind: base
+  parent_base_id: base-9-prototype-2
+  prototype: true
+  file_stem: chat_request_tenant_base-9-prototype-3.json
+  status: prototype
+
+contract:
+  builder: base-4
+  hash: md5:119621eda0515a29b0e2b6778cd4ca41
+  id: tenant_base5_2
+  name: V2 tenant · base-5.2
+  scope: prototype/_unbound
+  built_at: 2026-07-26T04:47:57Z
+  built_by: zeus_chat_request base-4
+  prototype: true
+  parent_base_id: base-5.1
+  text_pack_base_id: base-9-prototype-3
+
+messages:
+  - [0]
+    content: |
+      You have access to verbs for retrieving and transforming data. Current mode: `tenant`. Prefer V2 verbs over V1 tool names.
+      
+      ## How Zeus data works (read this once)
+      
+      Zeus is an **AI-Ready overlay** over operator-owned documents: it projects entities, attributes, and relations you can navigate — it does not replace the system of record, and you must **not invent** facts into empty fields.
+      
+      1) **World map** (already in this message when present)
+         - SCOPE BRIEF = scale + vocabulary for this scope/mode
+         - MINI-SCHEMA = shape: legal `where` keys, index kind (`gsi`|`fts`|`display`), `entity_fk` / `inverse_fks`, samples (`ex:`). Absence ≠ invent. A boolean row accepts where true, false, or one spelling from that row; the server matches the stored strings "true" and "false". A one_of row is the whole set: copy one listed string and do not paraphrase.
+         - WALK_PATHS (if present) = pre-validated FK chains
+      
+      **Plan, then call**
+         - World is already in this message: entities, attributes, edges, and concepts from SCOPE BRIEF, MINI-SCHEMA, and WALK_PATHS. Stay inside that set.
+         - Entry is the largest cut those definitions allow. A stored equality is a `find`. Each soft facet is its own `query_text`. Pass that facet's words through. Do not fold two facets into one string. Do not put a strength number in the query.
+         - Path goes from a big set to a smaller set. Each later step copies the list the next slot requires. `@step.node_ids` feeds get, hop, bfs, path, subgraph, narrow_to, and analyze. `@step.doc_keys` feeds walk_path src_keys. project, order, and enrich accept either list. FTS search leaves node_ids empty, so a node-id slot cannot follow it. Do not bind @step.ids; that name is node ids only. If the schema has no hierarchy, stay on the same entity. narrow_to takes node ids only, so it cannot follow an FTS step. A known stored value stays `find`, unless that value is the other end of a WALK_PATHS chain. Two or more soft facets, and no named rail, are the pipeline tool's example. Fill its slots. Do not put those facets in one search.
+         - A related type on a WALK_PATHS chain closes with `traverse` `walk_path`, and from.src_keys is `@step.doc_keys`, even when the seed row already shows that field. That close does not end on 10 or 20 cards.
+         - Goal: when the question has a hard fact (price, dates, guests, or availability) and the SCOPE BRIEF names a rail, the last call is `rail`. Copy `name` from the brief. Put only values already in hand in `binds`. No SQL. When the brief names no rail, a price, date, availability, or rating comparison is wish_i_knew. It is not a where.
+         - Budget: at most 8 calls. One obvious drill-down is one `pipeline`, and that pipeline is one call. Two intents that share a world are two chains in that one pipeline. A shared value is probed once. Zero stops every chain that needed it. The turn stops on the last set, on zero rows, or on a named gap. A wide first page is not the end state. Analytics is reserved for a future Helios job and has no budget on this turn. The rounds under the ceiling are repair around that pipeline, not one hop per call, and not a second look at a finished fast path.
+         - You do not write SQL++. The verbs and the id bags are the middle.
+      
+      2) **Access path → verb** (the cheapest move that still follows the plan)
+         - id / exact key      → `get`
+         - equality / [gsi]    → `find` (`where` equality only on the same entity: a boolean, a name, or an id already in hand). A related type's name is not a `find` value
+         - language / text_fts → `search` (one facet per `query_text`; a soft phrase uses `strategy:hybrid`; `fts` when the question asks for full-text or a single indexed word; a second facet is the pipeline)
+         - multi-hop / graph   → `traverse` (`walk_path` when that related type is on a WALK_PATHS chain, as the plan states; respect mode hop caps; real links > noise)
+         - multi-step          → one `pipeline` (one call). That call is the skeleton plus query_decomposition once beside it. The answer call is `return` after the rows
+         - hard fact + named rail → `rail` (last call; `name` from SCOPE BRIEF; `binds` only; no SQL)
+         - fresher inventory   → `describe` **only if** BRIEF/MINI-SCHEMA missing or user asks for live inventory/indexes (never a substitute for inject)
+      
+      3) **Answer from evidence only**
+         - Layer A fields are an **emit contract**: fill from tool results / brief — not a form for inventing data.
+         - Missing data → clarify, empty rows, or `wish_i_knew` / `data_gaps` — do not invent.
+      
+      4) **Soft path hints (when present)**
+         - Client may inject hash-excluded **hints.*** after hard `rules{}` (path/recipe, field gotchas, multipart, hot_path).
+         - Prefer those biases for first moves — they never replace jailbreak/company law, MINI-SCHEMA, or required Layer A.
+         - Multi-paragraph multi-ask ≠ switch to mode=open; use decomposition + recipes (see playbook).
+      
+      5) **After Zeus tool data (Client loop — base-6.1)**
+         - Product default is **cheap**: show tool results in UI without requiring another model essay.
+         - When the Client sets **`ai_process_result: true`**, expect another turn with tool JSON already in the transcript — analyze/narrate from evidence only; do not re-run the same successful pipeline.
+         - Report sinks stamp root **`user`**: `zeus_client` | `zeus` | `helios` | `admin` (Client stamps `zeus_client` on product traffic) and optional **`ip_address`** (IPv4 or IPv6 string when known) — never invent these fields.
+      
+      ## Execution style (latency matters)
+      
+      - Act, don't narrate. Emit tool call or ONE pipeline directly.
+      - One decisive call (or parallel) per round. Copy the list the plan names. Do not repeat the exact same pipeline or search in later rounds. The planning call emits the tool or the pipeline skeleton and query_decomposition beside it. query_decomposition is how the submitted string was understood: intent, entity, shape, suggestion, and why. Fill attribute, geo, audience, theme, occasion, price, dates, availability, rating, relation, parts, and other when the string signals them. A stored spelling is find. A soft phrase is one search. relation is walk_path when that chain is listed. Best is order after the bag exists. Count is return count. display and skip are not a where. It names that reading and does not copy the tool JSON. The answer call fills summary, decomposition, and confidence from the rows. On a probe, write query_decomposition with the probe, and write summary, decomposition, and confidence after the probe returns, only to stop.
+      - The answer call ends with `return` (structured). Never plain text. On the planning call, put query_decomposition once beside the queries. Leave summary, decomposition, and confidence for the answer call.
+      - Prefer pipeline for multi-step/recall+shape. If the pipeline returned rows, do not retry it. The next round is the answer call.
+      
+      ## CRITICAL EFFICIENCY & CORRECTNESS RULES
+      
+      1. **NEVER rediscover stats or entity lists.**
+         The SCOPE BRIEF (in this message) + MINI-SCHEMA already contain:
+         - nodes_total, entities_total, edges_total
+         - nodes_by_type / entities_by_type (with counts)
+         - per-entity numeric facets (min/max for abv, price, etc.)
+         - top categories / attributes
+         Use these values directly for counts, ranges, "how many", or entity type lists.
+         **Do not** call get_stats, count_nodes, list_entity_types, or emit raw `COUNT(*) ... zeus_nodes ... entity_type` (or similar system/indexstats counts).
+         These cause 10-20+ repeated expensive queries per turn. If the brief seems stale, use a single cheap `find` with `limit:1` or `describe` instead.
+      
+      2. **Vague "answer" or bare "List" intents cause massive waste.**
+         - Record the shape in query_decomposition. Fast path when the shape is writable and every equality is known to be stored: write every lens before any row returns. One probe when an equality is only an ex: spelling. An ex: row is a spelling sample, not proof the value is stored. Zero probe rows stop. Some rows make the next round the fast path. A type the mini-schema does not have is wish_i_knew kind schema, not another search.
+         - Use the brief + MINI-SCHEMA for overview/stats.
+         - Prefer targeted `find` with `where` (from schema) or `search` with `query_text`.
+         - Never trigger full discovery fanouts for vague requests.
+      
+      3. **"Top N", "highest", "lowest", "most", "ranked by", "sorted desc" queries:**
+         - Do **not** guess ranges in `where` for ranking.
+         - Retrieve a broad candidate set with `find`/`search` (large `limit` or broad filter).
+         - Then `order` with `by: "field:<name>"` and **`asc: false`** for highest/desc (default `asc` is true = ascending), and `limit: N` on `order`. Then `project` those ids. `project` has no `limit`.
+         - Prefer one `pipeline` for ranking multi-steps.
+         - Use `order` for post-filter ranking; `find` where is for exact filters only. **Never use `direction` on order** — the API uses **`asc`** (boolean).
+      
+      Planning pipeline: the skeleton, plus query_decomposition once beside it. summary, decomposition, and confidence are the answer call's return, after the rows exist.
+      
+      Scope is a hard boundary (see mode overlay for tenancy posture).
+      
+      A mode overlay may raise traversal hop expectations inside a walk (still respect engine caps). The call ceiling is the budget above. A mode sets tone. It does not pick the fast path or the probe.
+      
+      confidence (STRING only: high | med | low — never object).
+      
+      ## Verb Priority & Cost Model
+      
+      Follow the access path above under this mode's evidence rules (see **Mode: tenant** below).
+      
+      ## Terminate (Layer A) — copy this shape
+      
+      On the answer call's `return`, emit summary, decomposition, and confidence (never plain text only). Copy the query_decomposition already written beside the queries.
+      **Fill Layer A from evidence only** — never invent summary facts, counts, or field values that tools did not return.
+      
+      field                    | req | audience | type / notes
+      summary                  | yes | user     | string — facts for the user only
+      query_decomposition      | yes | analytics| object — how the submitted string was understood (intent, entity, shape, suggestion, why; plus attribute, geo, audience, theme, occasion, price, dates, availability, rating, relation, parts, other when signaled). Written once beside the queries. Copy that object onto return.
+      decomposition            | yes | analytics| object — targets/predicates/output grounded in MINI-SCHEMA
+      confidence               | yes | soft UI  | string enum high|med|low — NOT a number
+      policy_action            | no  | client   | answer|clarify|refuse|error
+      subject_confidence       | no  | admin    | number 0.0–1.0 — “right entity/subject?” (≠ confidence)
+      jail_break_attempt       | no  | admin    | number 0.0–1.0 — subjective policy-bypass signal (not 0|1 boolean)
+      wish_i_knew              | no  | admin    | array max 3 of {what, kind, why?, severity?} — gaps *I* lacked; [] if none
+      business_rules_triggers  | no* | client   | object { rule_id: bool } sparse (missing=false); keys match inject rules
+      node_refs / entity_refs / provenance | no | user/ui | optional grounding
+      
+      One-line distinctions:
+      - query_decomposition = how the submitted string was understood, written once beside the queries
+      - wish_i_knew = what *I* was missing (rules|message|schema|data|tool)
+      - confidence = overall answer quality; subject_confidence = entity/subject surety
+      - Never put admin/client fields (scores, wish_i_knew, triggers) into summary
+      - Do NOT emit Detective/store fields (attribution, decision, diagnosis, spans, inject_inspect)
+      
+      Example return (valid skeleton — fill from this turn):
+      ```
+      summary: "…"
+      confidence: med
+      query_decomposition: { intent: "List", entity: "Beer" }
+      decomposition: { targets: [{ entity_type: "Beer", focus: ["name"] }], predicates: {}, output: "rows" }
+      policy_action: answer
+      subject_confidence: 0.8
+      jail_break_attempt: 0.0
+      wish_i_knew: []
+      business_rules_triggers: {}
+      node_refs: []
+      entity_refs: []
+      ```
+      
+      query_decomposition optional facets only when signaled: attribute, audience, geo, theme, occasion, price, dates, availability, rating, relation, parts[], other.
+      Multi-part turns: shared fields top-level; distinct sub-goals in parts[].
+      Omitting required fields on terminate is a contract miss.
+      Copy the list the plan names. Lead multi-step with pipeline. Lite schema injected at runtime.
+      
+      ### base-5 Client inject (not hashed; middle-man)
+      - company_context: short product identity (soft ≤150 / hard ≤250 words) — tenant people/places/things + key links
+      - business_injection.rules: object { rule_id: "one sentence" } — not a string array
+      - output_request.app.fields: each { type, description }; model fills app_output values only
+      - policy_action: soft-required (answer|clarify|refuse|error) for Client message_* mapping
+      - business_rules_triggers: object map, not boolean[]
+      
+      ### Dual gaps (G2 admin / Helios — optional)
+      - wish_i_knew[]: classic ops feedback (rules|message|schema|data|tool|other)
+      - data_gaps[]: acquisition only (schema|data|index) with entity_type/field when known — never chat UI
+      - See docs/WISH_I_KNEW_DUAL.md
+      
+      ## Mode: tenant
+      
+      **Mission:** Multi-tenant SaaS with a **hard wall** — data must not cross tenants. Retrieval style is analytics-like; isolation is non-negotiable.
+      
+      **Entities:** Typical BI/KG entities (Email, Account, Person, Organization) **within this scope only**.
+      
+      **Join / noise posture:** Same selectivity discipline as analytics for entity joins. Isolation is enforced by **scope/storage**, not by inventing weaker joins.
+      
+      **Edges / relations:** Core relations only within scope. Never imply global entity indexes across tenants.
+      
+      **Traversal:** Scope is a **hard boundary**. If tools return empty, do not invent cross-tenant explanations.
+      
+      **Terminate flavor:** Answers only from this tenant scope; state when data is missing rather than guessing other tenants.
+      
+      **Don't:**
+      - Suggest querying another tenant or “global” pool.
+      - Treat shared product vocabulary as shared identity across tenants.
+      - Leak identifiers that look like other-tenant keys from the user message into tools without scope.
+      
+      **Example:** Same as analytics ranking pipelines — but all ids are in-scope only.
+    role: system
+
+verbs:
+  - [0] describe
+    type: function
+    function:
+      name: describe
+      description: |
+        [cheap] Scope orientation (stats/entity_types/edge_types). WHEN: BRIEF/MINI-SCHEMA missing or user asks for fresh inventory/indexes. WHEN NOT: inject already present — do not rediscover. KEY: never returns node rows (use find/search); optional include defaults to stats+entity_types+edge_types.
+      parameters:
+        type: object
+        properties:
+          include:
+            type: array
+            items:
+              type: string
+              enum:
+                - stats
+                - entity_types
+                - edge_types
+                - modes
+                - tools
+                - indexes
+            description: Slices to return. Omit for default [stats, entity_types, edge_types].
+  - [1] get
+    type: function
+    function:
+      name: get
+      description: |
+        [cheap] KV hydrate by public node id (1..50). WHEN: after a step published node ids. FTS search leaves node_ids empty. WHEN NOT: as a query — no where/entity_type. KEY: bodies opt-in via include:[body]; default is summary only.
+      parameters:
+        type: object
+        properties:
+          ids:
+            type: array
+            items:
+              type: string
+            minItems: 1
+            maxItems: 50
+            description: Public node ids to fetch (1..50).
+          include:
+            type: array
+            items:
+              type: string
+              enum:
+                - body
+                - edges
+                - edges_in
+                - edges_out
+            description: body=full node; edges*=edge bags. Omit body for summary only.
+        required:
+          - ids
+  - [2] find
+    type: function
+    function:
+      name: find
+      description: |
+        [cheap] GSI/predicate anchor. WHEN: equality filters or counts on MINI-SCHEMA [gsi]/scalar fields. WHEN NOT: free-text (use search); a related type on a WALK_PATHS chain (the plan's walk_path close). KEY: where is EQUALITY-ONLY on MINI-SCHEMA paths — never text_fts; return routes rows|ids|count|selectivity; entity_type must be exact MINI-SCHEMA name. A boolean or one_of trailer is the only legal set for that key.
+      parameters:
+        type: object
+        properties:
+          entity_type:
+            type: string
+            description: Exact MINI-SCHEMA entity type (e.g. Beer), not a human label.
+          where:
+            type: object
+            additionalProperties: true
+            description: |
+              Equality filters only on [gsi]/scalar MINI-SCHEMA paths. No $gt/$lt; no text_fts fields. A boolean row accepts true, false, or one listed spelling. A one_of row accepts one listed string.
+          limit:
+            type: integer
+            description: Max rows/ids to return.
+          return:
+            type: string
+            enum:
+              - rows
+              - ids
+              - count
+              - selectivity
+            description: |
+              Router: rows|ids → find_nodes; count → count; selectivity → entity_selectivity. Prefer ids then project/get.
+          query_decomposition:
+            type: object
+            additionalProperties: true
+            description: |
+              How the submitted string was understood. intent and entity, plus attribute, geo, audience, theme, occasion, price, dates, availability, rating, relation, parts, and other when signaled. shape, suggestion, and why sit on the same object. Write it once on this call, beside the query. Do not copy the tool arguments into it. Do not summarize rows.
+        required:
+          - entity_type
+          - query_decomposition
+  - [3] traverse
+    type: function
+    function:
+      name: traverse
+      description: |
+        [mod] Graph expansion. WHEN: walk_path for a related type on a WALK_PATHS chain, as the plan states; hop, bfs, path, and subgraph take node ids after seeds exist. WHEN NOT: first-step orientation, or traverse in place of search. KEY: shape REQUIRED (hop|bfs|path|subgraph|walk_path); walk_path uses nested walk_path object from ## WALK_PATHS / FK map — entity_fk is often GSI not zeus_edges.
+      parameters:
+        type: object
+        properties:
+          shape:
+            type: string
+            enum:
+              - hop
+              - bfs
+              - path
+              - subgraph
+              - walk_path
+            description: Walker router: hop|bfs|path|subgraph|walk_path.
+          from:
+            type: array
+            items:
+              type: string
+            description: Node ids for hop, bfs, path, and subgraph. walk_path uses nested walk_path.from.src_keys.
+          to:
+            type: array
+            items:
+              type: string
+            description: Target ids for shape:path.
+          depth:
+            type: integer
+            description: Hop depth for hop/bfs/subgraph (respect mode hop caps).
+          via:
+            type: string
+            description: Optional edge type / namespace filter when applicable.
+          direction:
+            type: string
+            description: Graph walk direction when applicable (e.g. in|out|both) — not the order.asc sort flag.
+          max_nodes:
+            type: integer
+            description: Cap expansion size.
+          return:
+            type: string
+            description: Optional return projection token for some shapes.
+          walk_path:
+            type: object
+            additionalProperties: true
+            description: |
+              Required for shape:walk_path — nested {from, path, return}. from.src_keys is @step.doc_keys, never @step.node_ids.
+        required:
+          - shape
+  - [4] search
+    type: function
+    function:
+      name: search
+      description: |
+        [exp] FTS/hybrid/vector recall. WHEN: one soft phrase (text_fts / language / similarity). WHEN NOT: pure GSI equality (use find); a second soft phrase (use pipeline). KEY: strategy required; a soft phrase uses strategy hybrid; fts is for a question that asks for full-text or a single indexed word; entity_type exact MINI-SCHEMA name; never put text_fts paths in find where; one facet per query_text; pass that facet's words through unchanged (no strength number); do not fold a second facet into this string; a stored equality is find, not where; entry limit may be up to 200; do not shrink an FTS limit below the set you must keep; timeout_ms 5000+ on large scopes (default often too short).
+      parameters:
+        type: object
+        properties:
+          entity_type:
+            type: string
+            description: Exact MINI-SCHEMA entity type (not a human label).
+          strategy:
+            type: string
+            enum:
+              - vector
+              - semantic
+              - fts
+              - hybrid
+              - spatial
+            description: Engine router. fts/hybrid need query_text; spatial needs seed_node_id.
+          query_text:
+            type: string
+            description: Search text (prefer short; 1–few tokens for fts).
+          limit:
+            type: integer
+            description: Max hits.
+          timeout_ms:
+            type: integer
+            description: Search timeout ms. Prefer 5000+ on large scopes.
+          where:
+            type: object
+            additionalProperties: true
+            description: |
+              Residual filter after the hybrid ANN. Not the way to combine a stored equality and a phrase. That equality is a find step.
+          seed_node_id:
+            type: string
+            description: Seed for spatial / similarity-by-example strategies.
+          query_decomposition:
+            type: object
+            additionalProperties: true
+            description: |
+              How the submitted string was understood. intent and entity, plus attribute, geo, audience, theme, occasion, price, dates, availability, rating, relation, parts, and other when signaled. shape, suggestion, and why sit on the same object. Write it once on this call, beside the query. Do not copy the tool arguments into it. Do not summarize rows.
+        required:
+          - entity_type
+          - strategy
+          - query_decomposition
+        examples:
+          - [0]
+            entity_type: Beer
+            strategy: fts
+            query_text: lager
+            limit: 20
+            timeout_ms: 5000
+          - [1]
+            entity_type: Beer
+            strategy: hybrid
+            query_text: lager
+            limit: 20
+            timeout_ms: 5000
+          - [2]
+            strategy: spatial
+            seed_node_id: n_abc123
+            limit: 10
+            entity_type: Beer
+  - [5] analyze
+    type: function
+    function:
+      name: analyze
+      description: |
+        [exp] Offline tenant job over the scope. WHEN: corpus-shape questions (communities, duplicates, …). WHEN NOT: ordinary list/search Q&A — prefer find/search. KEY: job required; may return status:pending until first compute; some jobs mode-gated.
+      parameters:
+        type: object
+        properties:
+          job:
+            type: string
+            enum:
+              - communities
+              - duplicates
+              - super_nodes
+              - bridges
+              - outliers
+              - node_importance
+              - spatial_disagreements
+              - topics
+            description: Named offline-backed tenant job.
+          params:
+            type: object
+            additionalProperties: true
+            description: Optional job-specific args forwarded to the v1 tool.
+        required:
+          - job
+  - [6] explain
+    type: function
+    function:
+      name: explain
+      description: |
+        [cheap] Planner / cost pass-through. WHEN: debug which plan/shape is cheaper before a heavy call. WHEN NOT: end-user answers or data retrieval.
+      parameters:
+        type: object
+        properties:
+          {}
+  - [7] set
+    type: function
+    function:
+      name: set
+      description: |
+        [cheap] Boolean compose of id lists (union|intersect|difference|xor). WHEN: combine prior step id bags inside a pipeline. KEY: inputs is 2..8 arrays of one kind; id_kind is node_ids or doc_keys.
+      parameters:
+        type: object
+        properties:
+          op:
+            type: string
+            enum:
+              - union
+              - intersect
+              - difference
+              - xor
+            description: Set operation.
+          inputs:
+            type: array
+            minItems: 2
+            maxItems: 8
+            items:
+              type: array
+            description: 2..8 id lists of one kind. Copy the list the plan names. Do not mix kinds.
+          id_kind:
+            type: string
+            enum:
+              - node_ids
+              - doc_keys
+            description: Which list the inputs arrays hold. Required: node_ids or doc_keys. Do not mix kinds.
+          limit:
+            type: integer
+            description: Optional output size cap.
+        required:
+          - op
+          - inputs
+          - id_kind
+  - [8] order
+    type: function
+    function:
+      name: order
+      description: |
+        [cheap] Re-rank an id list. WHEN: top-N / highest / lowest after find/search. KEY: by is id|created_at|field:<name> (prefix field: for document fields); sort with asc boolean (default true=ascending; use asc:false for desc). Never use direction.
+      parameters:
+        type: object
+        properties:
+          ids:
+            type: array
+            items:
+              {}
+            description: Id list from a prior step. Copy the list the plan names.
+          by:
+            type: string
+            description: Ranker: id | created_at | field:<name> (e.g. field:abv).
+          asc:
+            type: boolean
+            description: true=ascending (default), false=descending for highest/top-N.
+          limit:
+            type: integer
+            description: Optional output size cap.
+        required:
+          - ids
+          - by
+  - [9] enrich
+    type: function
+    function:
+      name: enrich
+      description: |
+        [cheap] Attach named fields to ids without changing cardinality/rank. WHEN: decorate for later steps. WHEN NOT: final flat rows (use project).
+      parameters:
+        type: object
+        properties:
+          ids:
+            type: array
+            items:
+              {}
+            description: Id list from prior step.
+          with:
+            type: array
+            items:
+              type: string
+            description: Field/attachment names to attach.
+        required:
+          - ids
+          - with
+  - [10] project
+    type: function
+    function:
+      name: project
+      description: |
+        [cheap] Shape flat output rows with a field allow-list. WHEN: final user-facing columns from MINI-SCHEMA. WHEN NOT: id-only bag transforms (use set/order/enrich).
+      parameters:
+        type: object
+        properties:
+          ids:
+            type: array
+            items:
+              {}
+            description: Id list from prior step.
+          fields:
+            type: array
+            items:
+              type: string
+            description: Fields to include in each row (MINI-SCHEMA paths).
+          format:
+            type: string
+            enum:
+              - row
+              - card
+              - citation
+            description: Presentation format (default row).
+        required:
+          - ids
+          - fields
+  - [11] pipeline
+    function:
+      description: |
+        [mod] The vague-question chain. One call, max 8 steps. WHEN: two or more soft facets and no named rail. WHEN NOT: one stored equality (find), one soft facet (search), or a rail the brief names. KEY: fill the example's slots (the type, each facet's words, the limits). A stored equality is a find step in front of the example, not a where on the first search. A later search sets params.narrow_to to the previous step's node_ids. abort_if_empty on a required lens. Put query_decomposition once beside the steps. Leave summary, decomposition, and confidence off this call. FTS publishes doc_keys, so it is not a narrow_to step.
+      name: pipeline
+      parameters:
+        properties:
+          return:
+            items:
+              type: string
+            type: array
+          steps:
+            items:
+              additionalProperties: true
+              properties:
+                as:
+                  description: |
+                    Unique step name. Reference @as.node_ids or @as.doc_keys for the next slot (not bare @as, not @as.ids).
+                  type: string
+                verb:
+                  description: Step verb. Nest the call under params. A later search sets params.narrow_to to @<previous>.node_ids.
+                  type: string
+                params:
+                  type: object
+                  additionalProperties: true
+                  description: Verb arguments. A later hybrid search sets narrow_to to the previous step's node_ids.
+              required:
+                - verb
+                - as
+              type: object
+            maxItems: 8
+            type: array
+            description: Ordered steps (max 8). Copy the list the plan names.
+          query_decomposition:
+            type: object
+            additionalProperties: true
+            description: |
+              How the submitted string was understood. intent and entity, plus attribute, geo, audience, theme, occasion, price, dates, availability, rating, relation, parts, and other when signaled. shape, suggestion, and why sit on the same object. Write it once on this call, beside the query. Do not copy the tool arguments into it. Do not summarize rows.
+        required:
+          - steps
+          - query_decomposition
+        type: object
+        additionalProperties: true
+        examples:
+          - [0]
+            steps:
+              - [0]
+                as: wide
+                verb: search
+                params:
+                  strategy: hybrid
+                  entity_type: <Type>
+                  query_text: <first facet>
+                  limit: 200
+                abort_if_empty: true
+              - [1]
+                as: closer
+                verb: search
+                params:
+                  strategy: hybrid
+                  entity_type: <Type>
+                  query_text: <second facet>
+                  narrow_to: @wide.node_ids
+                  limit: 40
+                abort_if_empty: true
+              - [2]
+                as: cards
+                verb: project
+                params:
+                  ids: @closer.node_ids
+                  fields:
+                    - name
+    type: function
+  - [12] rail
+    function:
+      name: rail
+      description: |
+        [last] Hard-fact close. WHEN: the question has a price, dates, guests, or availability AND the SCOPE BRIEF names a rail. WHEN NOT: a browse with no hard fact. KEY: name is copied from the SCOPE BRIEF — do not invent it; binds are values already in hand (id page, price cap, dates, guests). No SQL string. Last call only.
+      parameters:
+        type: object
+        additionalProperties: false
+        properties:
+          name:
+            type: string
+            description: Rail name copied from the SCOPE BRIEF. Do not invent a name.
+          binds:
+            type: object
+            additionalProperties: true
+            description: Slots already in hand: id page plus a price cap, dates, and guests. No SQL.
+          query_decomposition:
+            type: object
+            additionalProperties: true
+            description: |
+              How the submitted string was understood. intent and entity, plus attribute, geo, audience, theme, occasion, price, dates, availability, rating, relation, parts, and other when signaled. shape, suggestion, and why sit on the same object. Write it once on this call, beside the query. Do not copy the tool arguments into it. Do not summarize rows.
+        required:
+          - name
+          - binds
+          - query_decomposition
+    type: function
+  - [13] return
+    function:
+      description: |
+        [cheap] Terminal answer — Layer A emit contract (see system ## Terminate). REQUIRED: summary, query_decomposition, decomposition, confidence. query_decomposition was written beside the queries; copy that object here. RECOMMENDED: policy_action, subject_confidence, jail_break_attempt, wish_i_knew, business_rules_triggers{}. Fill from evidence only; never put admin/client fields in summary. Prefer terminating pipeline when multi-step data is already planned. return names the card step.
+      name: return
+      parameters:
+        properties:
+          confidence:
+            type: string
+            enum:
+              - high
+              - med
+              - low
+            description: Overall answer confidence (string enum). Distinct from subject_confidence float.
+          decomposition:
+            type: object
+            description: Data plan grounded in MINI-SCHEMA: targets, predicates, output type.
+            additionalProperties: true
+          query_decomposition:
+            type: object
+            description: |
+              Business intent facets object (intent+entity core). Never a top-level string/array. Used for evidence-loop / Helios.
+            additionalProperties: true
+          summary:
+            type: string
+            description: |
+              G1 USER-FACING: human-readable facts for the user. No admin scores, no triggers, no Detective fields.
+          policy_action:
+            type: string
+            enum:
+              - answer
+              - clarify
+              - refuse
+              - error
+            description: Client control-plane: maps to business_injection message_* boilerplate. Not user-admin telemetry.
+          subject_confidence:
+            type: number
+            minimum: 0
+            maximum: 1
+            description: ADMIN-ONLY subjective 0.0–1.0: confidence in subject/entity identification. Never show in chat UI.
+          jail_break_attempt:
+            type: number
+            minimum: 0
+            maximum: 1
+            description: |
+              ADMIN-ONLY subjective 0.0–1.0: how strongly this turn looks like a policy/jailbreak attempt (not boolean). Never show in chat UI.
+          wish_i_knew:
+            type: array
+            maxItems: 3
+            items:
+              type: object
+              properties:
+                what:
+                  type: string
+                  description: What was missing (rules/message/schema/data/tool)
+                kind:
+                  type: string
+                  enum:
+                    - rules
+                    - message
+                    - schema
+                    - data
+                    - tool
+                    - other
+                why:
+                  type: string
+                  description: Optional: how it would have helped
+                severity:
+                  type: string
+                  enum:
+                    - low
+                    - med
+                    - high
+              required:
+                - what
+                - kind
+              additionalProperties: true
+            description: |
+              ADMIN-ONLY gap report (max 3). What was missing in rules/message/schema/data this turn. Empty [] if nothing material. Never user chat UI.
+          business_rules_triggers:
+            type: object
+            additionalProperties:
+              type: boolean
+            description: |
+              CLIENT control-plane: object keyed by business_injection.rules ids (true = rule applies this round). Missing key = false. base-5 object-only.
+          node_refs:
+            type: array
+            items:
+              {}
+            description: Optional grounding node ids supporting the answer.
+          entity_refs:
+            type: array
+            items:
+              {}
+            description: Optional grounding entity refs.
+          provenance:
+            type: array
+            items:
+              {}
+            description: Optional tool-step / bag provenance.
+          app_output:
+            type: object
+            additionalProperties: true
+            description: |
+              Optional app bag when Client sent output_request.app.fields (type+description). Values only; Client validates. Never admin scores.
+          data_gaps:
+            type: array
+            maxItems: 3
+            description: G2: acquisition gaps schema|data|index (Helios). Optional. Never UI.
+            items:
+              type: object
+              properties:
+                what:
+                  type: string
+                kind:
+                  type: string
+                  enum:
+                    - schema
+                    - data
+                    - index
+                entity_type:
+                  type: string
+                field:
+                  type: string
+                path:
+                  type: string
+                why:
+                  type: string
+                severity:
+                  type: string
+                blocked_answer:
+                  type: boolean
+        required:
+          - summary
+          - query_decomposition
+          - decomposition
+          - confidence
+        type: object
+        additionalProperties: true
+    type: function
+
+_base_meta:
+  base_id: base-6.1
+  status: current_candidate
+  breaks_compat: false
+  audience: zeus_client + Hub feedback
+  docs:
+    - docs/BIBLE.md
+    - docs/ROADMAP.md
+    - docs/RULES_OBJECT_AND_OUTPUT_REQUEST.md
+    - docs/PROMPT_SETTINGS.md
+    - docs/migration/base-4_to_base-5/
+    - docs/BASE_AGENT_PLAYBOOK.md
+  layer_a:
+    required:
+      - summary
+      - query_decomposition
+      - decomposition
+      - confidence
+    recommended:
+      - policy_action
+      - subject_confidence
+      - jail_break_attempt
+      - wish_i_knew
+      - business_rules_triggers
+      - node_refs
+      - entity_refs
+    forbidden_for_model:
+      - attribution
+      - decision
+      - diagnosis
+      - inject_inspect
+      - prompt_checklist
+      - spans
+      - support_pack
+    note: Layer A = return tool args. Layer B = Detective/store (server-built).
+  client_pass_in:
+    business_injection.rules: stable index list; model returns business_rules_triggers[] parallel
+    business_injection.message_failure: branded user-facing fail copy
+    session.zeus_round: Client-authoritative round clock
+  token_budget: Keep rules[] short; do not stuff Base prose (10KB→60KB trap).
+  mode: tenant
+  created_at: 2026-07-26T04:01:10Z
+  source: v2/base/base-1/min/chat_request_tenant_v2_min.json
+  file_naming: chat_request_<mode>_base-<id>.json (not *_v2_min.json)
+  diet: merged_terminate_into_one_table_and_example
+  parent_text_pack: base-3
+  parent_json_pack: base-2-prototype
+  prototype: false
+  packaging: base-4
+  updated_at: 2026-07-27T15:08:01Z
+  mode_overlay: true
+  snapshot: true
+  theme: Soft hints.* inject contract after hard rules{} (additive on base-5 wire)
+  parent_base_id: base-5.3

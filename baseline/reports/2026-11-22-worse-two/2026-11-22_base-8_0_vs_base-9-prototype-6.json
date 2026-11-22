@@ -1,0 +1,3910 @@
+{
+  "title": "base-8.0 vs base-9-prototype-6",
+  "date": "2026-11-22",
+  "status": "ran",
+  "label_a": "base-8.0",
+  "label_b": "base-9-prototype-6",
+  "base_id_a": "base-8.0",
+  "base_id_b": "base-9-prototype-6",
+  "zeus_version": "1.0.0-beta.3",
+  "provider": "xai",
+  "provider_base": "https://api.x.ai/v1",
+  "model": "grok-4.7",
+  "client": "zeus_client.run_turn",
+  "client_version": "2.4.0",
+  "verdict_rule": "better means the new pack called the target API and the previous pack did not. worse means the previous pack called the target API and the new pack did not. Rows from a different verb do not count. On Find hoppy citrus beers the target is search hybrid. That row is worse when the previous pack calls search hybrid and the new pack calls search fts, find, or set, even when both sides are HTTP 200 and both returned beers. same means both called the target, or neither did. not run means a model call is missing. When the question says rows are required, an empty Zeus result is not met.",
+  "tallies": {
+    "better": 0,
+    "worse": 0,
+    "same": 1,
+    "retest": 0,
+    "not run": 1,
+    "total": 2
+  },
+  "scopes": [
+    {
+      "name": "beer-sample",
+      "scopes": [
+        "beer-sample/_default"
+      ],
+      "rows": [
+        {
+          "id": "beer-walk-belgian",
+          "text": "What beers come from Belgian breweries?",
+          "scope": "beer-sample/_default",
+          "target_api": "traverse walk_path",
+          "notes": "The forward body from Beer with where {} , path [brewery_id, country], where country=belgium is HTTP 400 on 0.9.19: an empty where is not a selector. The engine doc marks that forward terminal projection as not yet. The selective side worked: from Brewery where country=belgium, inverse Beer.brewery_id, limit 5, HTTP 200, truncated. Rows included Oude Geuze, Drie Fonteinen Kriek, and Leffe Blonde. Country where name=Belgium inverse to Brewery returned 0 rows. Evidence is not required because the textbook forward body does not return rows.",
+          "answer": {},
+          "a": {
+            "called": "pipeline, find Brewery, project, traverse walk_path",
+            "hit": true,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "484eb1d3-b741-42e8-8d8a-537554325a4c",
+                "rows": true,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Brewery",
+                      "limit": 200,
+                      "where": {
+                        "country": "Belgium"
+                      },
+                      "verb": "find",
+                      "as": "breweries"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "brewery_rows"
+                    },
+                    {
+                      "shape": "walk_path",
+                      "walk_path": {
+                        "from": {
+                          "entity_type": "Brewery",
+                          "src_keys": "@breweries.doc_keys"
+                        },
+                        "path": [
+                          {
+                            "inverse": "Beer.brewery_id"
+                          }
+                        ],
+                        "return": [
+                          "name",
+                          "style",
+                          "category",
+                          "abv",
+                          "ibu",
+                          "brewery_id"
+                        ]
+                      },
+                      "verb": "traverse",
+                      "as": "beers"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "aborted",
+                  "reason": "abort_if_empty",
+                  "row_count": 99,
+                  "preview": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat",
+                      "id": "n_2675cc3951e16b"
+                    },
+                    {
+                      "doc_key": "brasserie_brouwerij_cantillon",
+                      "id": "n_00265d811adfd9"
+                    },
+                    {
+                      "doc_key": "brouwerij_lindemans",
+                      "id": "n_c264883b222e10"
+                    }
+                  ],
+                  "doc_keys": [
+                    "brouwerij_duvel_moortgat",
+                    "brasserie_brouwerij_cantillon",
+                    "brouwerij_lindemans",
+                    "duvel_moortgat",
+                    "brasserie_de_brunehaut",
+                    "brouwerij_the_musketiers",
+                    "kleinbrouwerij_de_glazen_toren",
+                    "brouwerij_van_steenberge",
+                    "brouwerij_kerkom",
+                    "brouwerij_oud_beersel",
+                    "brouwerij_huyghe",
+                    "brouwerij_de_ranke",
+                    "brasserie_du_bocq",
+                    "brouwerij_abdij_der_trappisten_van_westmalle",
+                    "timmermans",
+                    "brouwerij_het_anker",
+                    "tongerlo",
+                    "abbaye_de_maredsous",
+                    "affligem_brouwerij",
+                    "brouwerij_alken_maes",
+                    "brasserie_dupont",
+                    "brewery_belle_vue",
+                    "brouwerij_liefmans",
+                    "brouwerij_de_regenboog",
+                    "brewery_corsendonk",
+                    "brasserie_d_orval",
+                    "brasserie_de_silenrieux",
+                    "brouwerij_bavik_de_brabandere",
+                    "brouwerij_strubbe",
+                    "microbrouwerij_achilles",
+                    "brasserie_de_blaugies",
+                    "abbaye_notre_dame_du_st_remy",
+                    "brasserie_de_silly",
+                    "brouwerij_slaghmuylder",
+                    "brasserie_des_gants",
+                    "brouwerij_abdij_saint_sixtus",
+                    "brouwerij_de_keersmaeker",
+                    "john_martin_sa",
+                    "brasserie_la_caracole",
+                    "folx_les_caves",
+                    "brasserie_fantme",
+                    "brouwerij_de_block",
+                    "de_leyerth_brouwerijen",
+                    "brouwerij_van_eecke",
+                    "brennerei_distillerie_radermacher",
+                    "brouwerij_van_honsebrouck",
+                    "brouwerij_boon",
+                    "van_honsebrouch",
+                    "daas",
+                    "brouwerij_de_dolle_brouwers",
+                    "brasserie_la_binchoise",
+                    "chimay_abbaye_notre_dame_de_scourmont",
+                    "liefmans_breweries",
+                    "ronald_mengerink",
+                    "de_struise_brouwers",
+                    "brasserie_val_de_sambre",
+                    "brouwerij_sint_jozef",
+                    "icobes_b_v_b_a",
+                    "brouwerij_van_den_bossche",
+                    "inbev",
+                    "brasserie_de_l_abbaye_des_rocs",
+                    "brouwerij_st_feuillien",
+                    "brasserie_dubuisson",
+                    "abbaye_de_leffe",
+                    "brouwerij_verhaeghe",
+                    "palm_breweries",
+                    "brouwerij_duysters",
+                    "brasserie_clarysse",
+                    "brouwerij_de_achelse_kluis",
+                    "brouwerij_de_landtsheer",
+                    "brouwerij_sterkens",
+                    "de_dochter_van_de_korenaar",
+                    "brasserie_d_achouffe",
+                    "brouwerij_bockor",
+                    "brouwerij_bosteels",
+                    "brewery_de_troch",
+                    "3_fonteinen_brouwerij_ambachtelijke_geuzestekerij",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis",
+                    "hanssens_artisanal",
+                    "brouwerij_de_gouden_boom",
+                    "brouwerij_rodenbach",
+                    "brasserie_de_cazeau",
+                    "brasserie_de_la_senne",
+                    "brouwerij_st_bernardus",
+                    "brouwerij_roman",
+                    "de_proef_brouwerij",
+                    "alvinne_picobrouwerij",
+                    "brouwerij_girardin",
+                    "brouwerij_de_smedt",
+                    "brasserie_lefebvre",
+                    "brasserie_de_l_abbaye_val_dieu",
+                    "brasserie_de_l_abbaye_de_scourmont_trappistes",
+                    "brasserie_de_vervifontaine",
+                    "de_halve_maan",
+                    "brouwerij_van_hoegaarden",
+                    "brasserie_artisanale_de_rulles",
+                    "brasserie_d_ecaussinnes",
+                    "brasserie_ellezelloise",
+                    "brouwerij_artois"
+                  ],
+                  "fields": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat"
+                    },
+                    {
+                      "doc_key": "brasserie_brouwerij_cantillon"
+                    },
+                    {
+                      "doc_key": "brouwerij_lindemans"
+                    },
+                    {
+                      "doc_key": "duvel_moortgat"
+                    },
+                    {
+                      "doc_key": "brasserie_de_brunehaut"
+                    },
+                    {
+                      "doc_key": "brouwerij_the_musketiers"
+                    },
+                    {
+                      "doc_key": "kleinbrouwerij_de_glazen_toren"
+                    },
+                    {
+                      "doc_key": "brouwerij_van_steenberge"
+                    },
+                    {
+                      "doc_key": "brouwerij_kerkom"
+                    },
+                    {
+                      "doc_key": "brouwerij_oud_beersel"
+                    },
+                    {
+                      "doc_key": "brouwerij_huyghe"
+                    },
+                    {
+                      "doc_key": "brouwerij_de_ranke"
+                    },
+                    {
+                      "doc_key": "brasserie_du_bocq"
+                    },
+                    {
+                      "doc_key": "brouwerij_abdij_der_trappisten_van_westmalle"
+                    },
+                    {
+                      "doc_key": "timmermans"
+                    },
+                    {
+                      "doc_key": "brouwerij_het_anker"
+                    },
+                    {
+                      "doc_key": "tongerlo"
+                    },
+                    {
+                      "doc_key": "abbaye_de_maredsous"
+                    },
+                    {
+                      "doc_key": "affligem_brouwerij"
+                    },
+                    {
+                      "doc_key": "brouwerij_alken_maes"
+                    },
+                    {
+                      "doc_key": "brasserie_dupont"
+                    },
+                    {
+                      "doc_key": "brewery_belle_vue"
+                    },
+                    {
+                      "doc_key": "brouwerij_liefmans"
+                    },
+                    {
+                      "doc_key": "brouwerij_de_regenboog"
+                    },
+                    {
+                      "doc_key": "brewery_corsendonk"
+                    },
+                    {
+                      "doc_key": "brasserie_d_orval"
+                    },
+                    {
+                      "doc_key": "brasserie_de_silenrieux"
+                    },
+                    {
+                      "doc_key": "brouwerij_bavik_de_brabandere"
+                    },
+                    {
+                      "doc_key": "brouwerij_strubbe"
+                    },
+                    {
+                      "doc_key": "microbrouwerij_achilles"
+                    },
+                    {
+                      "doc_key": "brasserie_de_blaugies"
+                    },
+                    {
+                      "doc_key": "abbaye_notre_dame_du_st_remy"
+                    },
+                    {
+                      "doc_key": "brasserie_de_silly"
+                    },
+                    {
+                      "doc_key": "brouwerij_slaghmuylder"
+                    },
+                    {
+                      "doc_key": "brasserie_des_gants"
+                    },
+                    {
+                      "doc_key": "brouwerij_abdij_saint_sixtus"
+                    },
+                    {
+                      "doc_key": "brouwerij_de_keersmaeker"
+                    },
+                    {
+                      "doc_key": "john_martin_sa"
+                    },
+                    {
+                      "doc_key": "brasserie_la_caracole"
+                    },
+                    {
+                      "doc_key": "folx_les_caves"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "bd4a555c-8c5f-46bf-a38c-3ea24119fb44",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "src_keys": [
+                        "brouwerij_duvel_moortgat",
+                        "brasserie_brouwerij_cantillon",
+                        "brouwerij_lindemans",
+                        "duvel_moortgat",
+                        "brasserie_de_brunehaut",
+                        "brouwerij_the_musketiers",
+                        "kleinbrouwerij_de_glazen_toren",
+                        "brouwerij_van_steenberge",
+                        "brouwerij_kerkom",
+                        "brouwerij_oud_beersel",
+                        "brouwerij_huyghe",
+                        "brouwerij_de_ranke",
+                        "brasserie_du_bocq",
+                        "brouwerij_abdij_der_trappisten_van_westmalle",
+                        "timmermans",
+                        "brouwerij_het_anker",
+                        "tongerlo",
+                        "abbaye_de_maredsous",
+                        "affligem_brouwerij",
+                        "brouwerij_alken_maes",
+                        "brasserie_dupont",
+                        "brewery_belle_vue",
+                        "brouwerij_liefmans",
+                        "brouwerij_de_regenboog",
+                        "brewery_corsendonk",
+                        "brasserie_d_orval",
+                        "brasserie_de_silenrieux",
+                        "brouwerij_bavik_de_brabandere",
+                        "brouwerij_strubbe",
+                        "microbrouwerij_achilles",
+                        "brasserie_de_blaugies",
+                        "abbaye_notre_dame_du_st_remy",
+                        "brasserie_de_silly",
+                        "brouwerij_slaghmuylder",
+                        "brasserie_des_gants",
+                        "brouwerij_abdij_saint_sixtus",
+                        "brouwerij_de_keersmaeker",
+                        "john_martin_sa",
+                        "brasserie_la_caracole",
+                        "folx_les_caves",
+                        "brasserie_fantme",
+                        "brouwerij_de_block",
+                        "de_leyerth_brouwerijen",
+                        "brouwerij_van_eecke",
+                        "brennerei_distillerie_radermacher",
+                        "brouwerij_van_honsebrouck",
+                        "brouwerij_boon",
+                        "van_honsebrouch",
+                        "daas",
+                        "brouwerij_de_dolle_brouwers",
+                        "brasserie_la_binchoise",
+                        "chimay_abbaye_notre_dame_de_scourmont",
+                        "liefmans_breweries",
+                        "ronald_mengerink",
+                        "de_struise_brouwers",
+                        "brasserie_val_de_sambre",
+                        "brouwerij_sint_jozef",
+                        "icobes_b_v_b_a",
+                        "brouwerij_van_den_bossche",
+                        "inbev",
+                        "brasserie_de_l_abbaye_des_rocs",
+                        "brouwerij_st_feuillien",
+                        "brasserie_dubuisson",
+                        "abbaye_de_leffe",
+                        "brouwerij_verhaeghe",
+                        "palm_breweries",
+                        "brouwerij_duysters",
+                        "brasserie_clarysse",
+                        "brouwerij_de_achelse_kluis",
+                        "brouwerij_de_landtsheer",
+                        "brouwerij_sterkens",
+                        "de_dochter_van_de_korenaar",
+                        "brasserie_d_achouffe",
+                        "brouwerij_bockor",
+                        "brouwerij_bosteels",
+                        "brewery_de_troch",
+                        "3_fonteinen_brouwerij_ambachtelijke_geuzestekerij",
+                        "brouwerij_der_sint_benedictusabdij_de_achelse_kluis",
+                        "hanssens_artisanal",
+                        "brouwerij_de_gouden_boom",
+                        "brouwerij_rodenbach",
+                        "brasserie_de_cazeau",
+                        "brasserie_de_la_senne",
+                        "brouwerij_st_bernardus",
+                        "brouwerij_roman",
+                        "de_proef_brouwerij",
+                        "alvinne_picobrouwerij",
+                        "brouwerij_girardin",
+                        "brouwerij_de_smedt",
+                        "brasserie_lefebvre",
+                        "brasserie_de_l_abbaye_val_dieu",
+                        "brasserie_de_l_abbaye_de_scourmont_trappistes",
+                        "brasserie_de_vervifontaine",
+                        "de_halve_maan",
+                        "brouwerij_van_hoegaarden",
+                        "brasserie_artisanale_de_rulles",
+                        "brasserie_d_ecaussinnes",
+                        "brasserie_ellezelloise",
+                        "brouwerij_artois"
+                      ]
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "return": [
+                      "name",
+                      "style",
+                      "category",
+                      "abv",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "name": "Oude Geuze"
+                    },
+                    {
+                      "name": "Drie Fonteinen Kriek"
+                    },
+                    {
+                      "name": "Leffe Blonde"
+                    }
+                  ],
+                  "doc_keys": [
+                    "3_fonteinen_brouwerij_ambachtelijke_geuzestekerij-oude_geuze",
+                    "3_fonteinen_brouwerij_ambachtelijke_geuzestekerij-drie_fonteinen_kriek",
+                    "abbaye_de_leffe-leffe_blonde",
+                    "abbaye_de_leffe-brune_brown",
+                    "abbaye_de_maredsous-6",
+                    "abbaye_de_maredsous-10",
+                    "abbaye_de_maredsous-8",
+                    "abbaye_notre_dame_du_st_remy-rochefort_10",
+                    "abbaye_notre_dame_du_st_remy-rochefort_6",
+                    "abbaye_notre_dame_du_st_remy-rochefort_8",
+                    "affligem_brouwerij-affligem_dubbel",
+                    "alvinne_picobrouwerij-podge_belgian_imperial_stout",
+                    "brasserie_artisanale_de_rulles-biere_de_gamme",
+                    "brasserie_artisanale_de_rulles-triple",
+                    "brasserie_brouwerij_cantillon-bruocsella_1900_grand_cru",
+                    "brasserie_brouwerij_cantillon-iris_1996",
+                    "brasserie_brouwerij_cantillon-classic_gueuze",
+                    "brasserie_brouwerij_cantillon-lambic_2002",
+                    "brasserie_brouwerij_cantillon-vigneronne",
+                    "brasserie_brouwerij_cantillon-iris",
+                    "brasserie_brouwerij_cantillon-gueuze_bio_organic_gueuze",
+                    "brasserie_brouwerij_cantillon-rose_de_gambrinus",
+                    "brasserie_brouwerij_cantillon-cuvee_des_champions_2003_2004",
+                    "brasserie_brouwerij_cantillon-kriek_lambic",
+                    "brasserie_clarysse-st_hermes_abbey_ale",
+                    "brasserie_d_achouffe-mcchouffe",
+                    "brasserie_d_achouffe-houblon",
+                    "brasserie_d_achouffe-chouffe_bok",
+                    "brasserie_d_achouffe-la_chouffe_golden_ale",
+                    "brasserie_d_achouffe-biere_de_mars",
+                    "brasserie_d_ecaussinnes-ultrabrune",
+                    "brasserie_d_ecaussinnes-ultra_ambree",
+                    "brasserie_d_ecaussinnes-ultrablonde",
+                    "brasserie_d_orval-orval_trappist_ale",
+                    "brasserie_d_orval-petite_orval",
+                    "brasserie_de_blaugies-moneuse_speciale_noel",
+                    "brasserie_de_blaugies-biere_darbyste",
+                    "brasserie_de_blaugies-la_moneuse",
+                    "brasserie_de_brunehaut-abbaye_de_st_amand",
+                    "brasserie_de_brunehaut-brasserie_de_brunehaut_bio_biere_blanche_organic",
+                    "brasserie_de_brunehaut-abbaye_de_saint_martin_brune",
+                    "brasserie_de_brunehaut-abbaye_de_saint_martin_blonde",
+                    "brasserie_de_brunehaut-abbaye_de_saint_martin_triple",
+                    "brasserie_de_brunehaut-mont_st_aubert",
+                    "brasserie_de_brunehaut-brasserie_de_brunehaut_bio_biere_ambree_organic",
+                    "brasserie_de_brunehaut-abbaye_de_saint_martin_cuvee_de_noel",
+                    "brasserie_de_brunehaut-brasserie_de_brunehaut_bio_biere_blonde_organic",
+                    "brasserie_de_cazeau-tournay_black",
+                    "brasserie_de_l_abbaye_de_scourmont_trappistes-cinq_cents_white",
+                    "brasserie_de_l_abbaye_de_scourmont_trappistes-premiere_red",
+                    "brasserie_de_l_abbaye_des_rocs-ambree",
+                    "brasserie_de_l_abbaye_des_rocs-speciale_noel",
+                    "brasserie_de_l_abbaye_des_rocs-brune",
+                    "brasserie_de_l_abbaye_des_rocs-blonde",
+                    "brasserie_de_l_abbaye_des_rocs-grand_cru",
+                    "brasserie_de_l_abbaye_des_rocs-triple_imperiale",
+                    "brasserie_de_l_abbaye_des_rocs-montagnarde",
+                    "brasserie_de_l_abbaye_des_rocs-blanche_double",
+                    "brasserie_de_l_abbaye_des_rocs-blanche_des_honnelles",
+                    "brasserie_de_l_abbaye_des_rocs-belgian_burgundy_ale",
+                    "brasserie_de_l_abbaye_val_dieu-winter",
+                    "brasserie_de_l_abbaye_val_dieu-grand_cru",
+                    "brasserie_de_l_abbaye_val_dieu-brune_brown",
+                    "brasserie_de_l_abbaye_val_dieu-triple",
+                    "brasserie_de_l_abbaye_val_dieu-blonde",
+                    "brasserie_de_la_senne-zinnebir",
+                    "brasserie_de_la_senne-stouterik_the_brussels_stout",
+                    "brasserie_de_la_senne-zinnebir_xmas",
+                    "brasserie_de_la_senne-equinox_dark_belgian_winter",
+                    "brasserie_de_silenrieux-joseph_spelt_ale",
+                    "brasserie_de_silenrieux-sara_buckwheat_ale",
+                    "brasserie_de_silly-double_enghien_bruin",
+                    "brasserie_de_silly-double_enghien_blonde_ale",
+                    "brasserie_de_silly-la_divine_tripel_amber",
+                    "brasserie_de_silly-saison",
+                    "brasserie_de_silly-scotch",
+                    "brasserie_de_silly-la_divine_double_blond",
+                    "brasserie_de_vervifontaine-biere_du_lion",
+                    "brasserie_des_gants-saison_voisin",
+                    "brasserie_des_gants-gouyasse_goliath",
+                    "brasserie_du_bocq-triple_moine",
+                    "brasserie_du_bocq-blanche_de_namur",
+                    "brasserie_du_bocq-blanche_des_moines",
+                    "brasserie_dubuisson-clovis",
+                    "brasserie_dubuisson-scaldis_prestige",
+                    "brasserie_dubuisson-scaldis_noel_bush_noel",
+                    "brasserie_dubuisson-scaldis_bush_amber_12",
+                    "brasserie_dupont-saison_vielle_provision",
+                    "brasserie_dupont-foret_saison",
+                    "brasserie_dupont-moinette_brune",
+                    "brasserie_dupont-avec_les_bons_voeux",
+                    "brasserie_dupont-biere_de_miel",
+                    "brasserie_dupont-moinette_blonde",
+                    "brasserie_ellezelloise-la_biere_des_collines_van_de_saisis",
+                    "brasserie_ellezelloise-la_quintine_blonde",
+                    "brasserie_ellezelloise-la_quintine_ambree_amber",
+                    "brasserie_ellezelloise-hercule_stout",
+                    "brasserie_fantme-speciale_noel",
+                    "brasserie_fantme-dark_white",
+                    "brasserie_fantme-strange_ghost",
+                    "brasserie_fantme-chocolat",
+                    "brasserie_la_binchoise-reserve_speciale_speciale_noel",
+                    "brasserie_la_binchoise-blonde_tradition",
+                    "brasserie_la_binchoise-bruin_tradition_brune_tradition",
+                    "brasserie_la_caracole-troublette",
+                    "brasserie_la_caracole-saxo",
+                    "brasserie_la_caracole-nostradamus",
+                    "brasserie_la_caracole-amber",
+                    "brasserie_lefebvre-abbaye_de_floreffe_double",
+                    "brasserie_lefebvre-saison_1900",
+                    "brasserie_lefebvre-blanche_de_bruxelles_mannekin_pis",
+                    "brennerei_distillerie_radermacher-rader_ambree",
+                    "brennerei_distillerie_radermacher-rader_blonde",
+                    "brewery_belle_vue-gueuze",
+                    "brewery_corsendonk-monk_brown_ale",
+                    "brewery_corsendonk-christmas_ale",
+                    "brewery_corsendonk-abbey_brown_ale_pater",
+                    "brewery_corsendonk-monk_pale_ale_agnus_dei",
+                    "brewery_de_troch-chapeau_tropical_lambic",
+                    "brewery_de_troch-chapeau_fraises_lambic",
+                    "brewery_de_troch-chapeau_exotic_lambic",
+                    "brewery_de_troch-chapeau_mirabelle_lambic",
+                    "brewery_de_troch-chapeau_peche_lambic",
+                    "brewery_de_troch-chapeau_framboise_lambic",
+                    "brouwerij_abdij_der_trappisten_van_westmalle-westmalle_trappist_tripel",
+                    "brouwerij_abdij_der_trappisten_van_westmalle-westmalle_trappist_dubbel",
+                    "brouwerij_abdij_saint_sixtus-trappist_westvleteren_8",
+                    "brouwerij_abdij_saint_sixtus-trappist_westvleteren_blonde",
+                    "brouwerij_abdij_saint_sixtus-trappist_westvleteren_12",
+                    "brouwerij_alken_maes-grimbergen_blonde",
+                    "brouwerij_artois-stella_artois",
+                    "brouwerij_bavik_de_brabandere-petrus_dubbel_bruin_ale",
+                    "brouwerij_bavik_de_brabandere-petrus_aged_pale",
+                    "brouwerij_bavik_de_brabandere-petrus_oud_bruin",
+                    "brouwerij_bavik_de_brabandere-petrus_blond_ale",
+                    "brouwerij_bavik_de_brabandere-petrus_gouden_tripel_ale",
+                    "brouwerij_bavik_de_brabandere-witte_ezel",
+                    "brouwerij_bavik_de_brabandere-wittekerke",
+                    "brouwerij_bavik_de_brabandere-petrus_speciale",
+                    "brouwerij_bockor-bellegems_bruin",
+                    "brouwerij_boon-mariage_parfait_1995",
+                    "brouwerij_boon-geuze_boon",
+                    "brouwerij_boon-kriek",
+                    "brouwerij_boon-framboise_1997",
+                    "brouwerij_boon-pertotale_faro",
+                    "brouwerij_bosteels-pauwel_kwak",
+                    "brouwerij_bosteels-deus_brut_des_flandres",
+                    "brouwerij_bosteels-triple_karmeliet",
+                    "brouwerij_de_achelse_kluis-trappist_extra",
+                    "brouwerij_de_achelse_kluis-trappist_bruin_bier_biere_brune",
+                    "brouwerij_de_achelse_kluis-trappist_blond",
+                    "brouwerij_de_block-satan_red",
+                    "brouwerij_de_block-satan_gold",
+                    "brouwerij_de_dolle_brouwers-oerbier",
+                    "brouwerij_de_dolle_brouwers-arabier",
+                    "brouwerij_de_dolle_brouwers-bos_keun",
+                    "brouwerij_de_dolle_brouwers-dulle_teve_mad_bitch",
+                    "brouwerij_de_dolle_brouwers-stille_nacht",
+                    "brouwerij_de_dolle_brouwers-special_extra_export_stout",
+                    "brouwerij_de_gouden_boom-blanche_de_bruges",
+                    "brouwerij_de_keersmaeker-mort_subite_gueuze_lambic",
+                    "brouwerij_de_landtsheer-malheur_black_chocolate_2003",
+                    "brouwerij_de_landtsheer-malheur_12",
+                    "brouwerij_de_landtsheer-malheur_mm",
+                    "brouwerij_de_landtsheer-malheur_10",
+                    "brouwerij_de_landtsheer-malheur_brut_reserve",
+                    "brouwerij_de_ranke-guldenberg",
+                    "brouwerij_de_ranke-kriek",
+                    "brouwerij_de_ranke-xx_bitter",
+                    "brouwerij_de_ranke-pere_noel",
+                    "brouwerij_de_regenboog-vuuve",
+                    "brouwerij_de_smedt-affligem_tripel",
+                    "brouwerij_de_smedt-affligem_dobbel",
+                    "brouwerij_de_smedt-affligem_noel",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis-achel_trappist_extra",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis-achel_bruin_5",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis-achel_bruin_8",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis-achel_blond_8",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis-achel_blond_5",
+                    "brouwerij_duvel_moortgat-maredsous_10_tripple",
+                    "brouwerij_duysters-loterbol",
+                    "brouwerij_girardin-gueuze_1882",
+                    "brouwerij_het_anker-gouden_carolus_noel",
+                    "brouwerij_het_anker-gouden_carolus_tripel",
+                    "brouwerij_het_anker-grand_cru_of_the_emperor",
+                    "brouwerij_het_anker-gouden_carolus_hopsinjoor",
+                    "brouwerij_het_anker-gouden_carolus_ambrio_1471",
+                    "brouwerij_huyghe-delirium_nocturnum",
+                    "brouwerij_huyghe-delirium_tremens",
+                    "brouwerij_huyghe-duinen_dubbel",
+                    "brouwerij_huyghe-duinen_tripel",
+                    "brouwerij_huyghe-delirium_noel",
+                    "brouwerij_kerkom-bloesem_bink",
+                    "brouwerij_kerkom-winterkoninkse",
+                    "brouwerij_liefmans-liefmans_kriekbier",
+                    "brouwerij_liefmans-goudenband_2002",
+                    "brouwerij_liefmans-goudenband_1999",
+                    "brouwerij_liefmans-gluhkriek",
+                    "brouwerij_liefmans-goudenband_1996",
+                    "brouwerij_liefmans-lucifer"
+                  ],
+                  "fields": [
+                    {
+                      "name": "Oude Geuze",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 6
+                    },
+                    {
+                      "name": "Drie Fonteinen Kriek",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 5
+                    },
+                    {
+                      "name": "Leffe Blonde",
+                      "style": "Golden or Blonde Ale",
+                      "abv": 6.6
+                    },
+                    {
+                      "name": "Brune (Brown)",
+                      "abv": 6.8
+                    },
+                    {
+                      "name": "6",
+                      "style": "Golden or Blonde Ale",
+                      "abv": 6
+                    },
+                    {
+                      "name": "10",
+                      "style": "Belgian-Style Tripel",
+                      "abv": 10
+                    },
+                    {
+                      "name": "8",
+                      "style": "Belgian-Style Dubbel",
+                      "abv": 8
+                    },
+                    {
+                      "name": "Rochefort 10",
+                      "style": "Belgian-Style Quadrupel",
+                      "abv": 11.3
+                    },
+                    {
+                      "name": "Rochefort 6",
+                      "style": "Dark American-Belgo-Style Ale",
+                      "abv": 7.5
+                    },
+                    {
+                      "name": "Rochefort 8",
+                      "abv": 9.2
+                    },
+                    {
+                      "name": "Affligem Dubbel",
+                      "style": "Belgian-Style Dubbel",
+                      "abv": 6.8
+                    },
+                    {
+                      "name": "Podge Belgian Imperial Stout",
+                      "style": "American-Style Stout",
+                      "abv": 10.5
+                    },
+                    {
+                      "name": "Bière de Gamme",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Triple",
+                      "style": "Belgian-Style Tripel",
+                      "abv": 8.4
+                    },
+                    {
+                      "name": "Bruocsella 1900 Grand Cru",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Iris 1996",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Classic Gueuze",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Lambic 2002",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Vigneronne",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 5
+                    },
+                    {
+                      "name": "Iris",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Gueuze Bio / Organic Gueuze",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Rosé de Gambrinus",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Cuvée des Champions 2003-2004",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Kriek-Lambic",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "St.Hermes Abbey Ale",
+                      "abv": 0
+                    },
+                    {
+                      "name": "McChouffe",
+                      "style": "Dark American-Belgo-Style Ale",
+                      "abv": 8.5
+                    },
+                    {
+                      "name": "Houblon",
+                      "abv": 9
+                    },
+                    {
+                      "name": "Chouffe-Bok",
+                      "abv": 6.6
+                    },
+                    {
+                      "name": "La Chouffe Golden Ale",
+                      "style": "Belgian-Style Pale Strong Ale",
+                      "abv": 8
+                    },
+                    {
+                      "name": "Bière de Mars",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Ultrabrune",
+                      "abv": 10
+                    },
+                    {
+                      "name": "Ultra Ambrée",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Ultrablonde",
+                      "abv": 8
+                    },
+                    {
+                      "name": "Orval Trappist Ale",
+                      "style": "Other Belgian-Style Ales",
+                      "abv": 6.9
+                    },
+                    {
+                      "name": "Petite Orval",
+                      "style": "Other Belgian-Style Ales",
+                      "abv": 3.5
+                    },
+                    {
+                      "name": "Moneuse Speciale Noël",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Bière Darbyste",
+                      "style": "Light American Wheat Ale or Lager",
+                      "abv": 0
+                    },
+                    {
+                      "name": "La Moneuse",
+                      "abv": 8
+                    },
+                    {
+                      "name": "Abbaye de St Amand",
+                      "style": "Other Belgian-Style Ales",
+                      "abv": 7
+                    },
+                    {
+                      "name": "Brasserie de Brunehaut Bio Bière Blanche (Organic)",
+                      "style": "Belgian-Style White",
+                      "abv": 5
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "ae991779-a270-460f-84d6-057368859449",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 99,
+                  "preview": [
+                    {
+                      "doc_key": "n_2675cc3951e16b",
+                      "id": "n_2675cc3951e16b"
+                    },
+                    {
+                      "doc_key": "n_00265d811adfd9",
+                      "id": "n_00265d811adfd9"
+                    },
+                    {
+                      "doc_key": "n_c264883b222e10",
+                      "id": "n_c264883b222e10"
+                    }
+                  ],
+                  "doc_keys": [
+                    "n_2675cc3951e16b",
+                    "n_00265d811adfd9",
+                    "n_c264883b222e10",
+                    "n_715d04238abc25",
+                    "n_cf6e640f58dfdd",
+                    "n_d25a0626a1643f",
+                    "n_34b75a6c6a3680",
+                    "n_684c48e69f3cd0",
+                    "n_f4841bb91c994e",
+                    "n_148515d6614c14",
+                    "n_1d92d6b754bff8",
+                    "n_4a5f4965344aaf",
+                    "n_a0cb353699915b",
+                    "n_a7e1adedae3e91",
+                    "n_d58e7ca56a185b",
+                    "n_44cbb6f723822b",
+                    "n_3083f8fa94cc2d",
+                    "n_1770e816b17250",
+                    "n_d6b4e5b007b066",
+                    "n_5a943390d02b94",
+                    "n_01e6ff8c321401",
+                    "n_ad7d3214510172",
+                    "n_32c5f279e1e394",
+                    "n_b602a48b149774",
+                    "n_fadf6c828f3fe8",
+                    "n_a70e12a67cbe2b",
+                    "n_b070fe87c00dbc",
+                    "n_f31aeb50963c67",
+                    "n_dc145b12fa7b03",
+                    "n_f2afa30d08f54a",
+                    "n_021a199416fd6c",
+                    "n_6649001d9543be",
+                    "n_ab54cbdcc2d2fb",
+                    "n_d8ba301a402e65",
+                    "n_e0674065b55132",
+                    "n_be72c8045369f3",
+                    "n_2ef4c99708b2f1",
+                    "n_ed7f8eb1212a36",
+                    "n_8bc220176d3252",
+                    "n_68ffe020ed91d8",
+                    "n_56dd43f73cbfb9",
+                    "n_f029877cf128af",
+                    "n_6bd5c2d044116e",
+                    "n_0582634b1a5b24",
+                    "n_e6dd4af1797129",
+                    "n_cb139cead81c43",
+                    "n_58b15eb267813e",
+                    "n_5f8354ea832a84",
+                    "n_4cc9f40a166ee0",
+                    "n_9b7a13b8a9b479",
+                    "n_94ef25a13ddc70",
+                    "n_4cc6b5841ac1ed",
+                    "n_d5a1511d7fb5be",
+                    "n_a3560d5ab37c33",
+                    "n_5b686687393813",
+                    "n_82e6fde727b885",
+                    "n_1a33935d607d1c",
+                    "n_f6c435f9be944d",
+                    "n_60a26e8c373121",
+                    "n_4400c8a89be2dd",
+                    "n_0418bb64531717",
+                    "n_33cfa6471a5d51",
+                    "n_782c550fdf107e",
+                    "n_758f055abb08dc",
+                    "n_a668f881071e2d",
+                    "n_9c38c304c0515f",
+                    "n_d3919e75d66d3f",
+                    "n_deec45884b7385",
+                    "n_770fca1eeafbcf",
+                    "n_0a1ab34a0c0a67",
+                    "n_d68a3caf4e44df",
+                    "n_fbe9e1e4501663",
+                    "n_063420b3ee23fc",
+                    "n_18f63d04b3dc7a",
+                    "n_60761fb7d85387",
+                    "n_27bc97e0f777a3",
+                    "n_234ce781ac41d7",
+                    "n_b8f61e1fc07d29",
+                    "n_096e693cc46647",
+                    "n_f3efcdd34584a6",
+                    "n_fdc10bbe756f0a",
+                    "n_df7615f9c655c8",
+                    "n_60cecb9acf7ad9",
+                    "n_312b0606f613a2",
+                    "n_03eb4ac2d86d21",
+                    "n_a80743636fd658",
+                    "n_67565b48913d7f",
+                    "n_5cd2d48f34132f",
+                    "n_ba5c8ec3606b11",
+                    "n_b802db1379d7d9",
+                    "n_819e029d36fbd9",
+                    "n_a54f4c17097634",
+                    "n_fd85ceb50f3934",
+                    "n_506ae46a27de46",
+                    "n_6259d0c9fa27bb",
+                    "n_9baccf06c032f4",
+                    "n_19d7fe9c6d6804",
+                    "n_b2b718c28e67cf",
+                    "n_6ede7fbf50a2b5"
+                  ],
+                  "fields": [
+                    {
+                      "doc_key": "n_2675cc3951e16b"
+                    },
+                    {
+                      "doc_key": "n_00265d811adfd9"
+                    },
+                    {
+                      "doc_key": "n_c264883b222e10"
+                    },
+                    {
+                      "doc_key": "n_715d04238abc25"
+                    },
+                    {
+                      "doc_key": "n_cf6e640f58dfdd"
+                    },
+                    {
+                      "doc_key": "n_d25a0626a1643f"
+                    },
+                    {
+                      "doc_key": "n_34b75a6c6a3680"
+                    },
+                    {
+                      "doc_key": "n_684c48e69f3cd0"
+                    },
+                    {
+                      "doc_key": "n_f4841bb91c994e"
+                    },
+                    {
+                      "doc_key": "n_148515d6614c14"
+                    },
+                    {
+                      "doc_key": "n_1d92d6b754bff8"
+                    },
+                    {
+                      "doc_key": "n_4a5f4965344aaf"
+                    },
+                    {
+                      "doc_key": "n_a0cb353699915b"
+                    },
+                    {
+                      "doc_key": "n_a7e1adedae3e91"
+                    },
+                    {
+                      "doc_key": "n_d58e7ca56a185b"
+                    },
+                    {
+                      "doc_key": "n_44cbb6f723822b"
+                    },
+                    {
+                      "doc_key": "n_3083f8fa94cc2d"
+                    },
+                    {
+                      "doc_key": "n_1770e816b17250"
+                    },
+                    {
+                      "doc_key": "n_d6b4e5b007b066"
+                    },
+                    {
+                      "doc_key": "n_5a943390d02b94"
+                    },
+                    {
+                      "doc_key": "n_01e6ff8c321401"
+                    },
+                    {
+                      "doc_key": "n_ad7d3214510172"
+                    },
+                    {
+                      "doc_key": "n_32c5f279e1e394"
+                    },
+                    {
+                      "doc_key": "n_b602a48b149774"
+                    },
+                    {
+                      "doc_key": "n_fadf6c828f3fe8"
+                    },
+                    {
+                      "doc_key": "n_a70e12a67cbe2b"
+                    },
+                    {
+                      "doc_key": "n_b070fe87c00dbc"
+                    },
+                    {
+                      "doc_key": "n_f31aeb50963c67"
+                    },
+                    {
+                      "doc_key": "n_dc145b12fa7b03"
+                    },
+                    {
+                      "doc_key": "n_f2afa30d08f54a"
+                    },
+                    {
+                      "doc_key": "n_021a199416fd6c"
+                    },
+                    {
+                      "doc_key": "n_6649001d9543be"
+                    },
+                    {
+                      "doc_key": "n_ab54cbdcc2d2fb"
+                    },
+                    {
+                      "doc_key": "n_d8ba301a402e65"
+                    },
+                    {
+                      "doc_key": "n_e0674065b55132"
+                    },
+                    {
+                      "doc_key": "n_be72c8045369f3"
+                    },
+                    {
+                      "doc_key": "n_2ef4c99708b2f1"
+                    },
+                    {
+                      "doc_key": "n_ed7f8eb1212a36"
+                    },
+                    {
+                      "doc_key": "n_8bc220176d3252"
+                    },
+                    {
+                      "doc_key": "n_68ffe020ed91d8"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "8e14f90c-1777-4f19-8ff7-e82dd8b87a81",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "src_keys": [
+                        "brouwerij_duvel_moortgat",
+                        "brasserie_brouwerij_cantillon",
+                        "brouwerij_lindemans",
+                        "duvel_moortgat",
+                        "brasserie_de_brunehaut",
+                        "brouwerij_the_musketiers",
+                        "kleinbrouwerij_de_glazen_toren",
+                        "brouwerij_van_steenberge",
+                        "brouwerij_kerkom",
+                        "brouwerij_oud_beersel",
+                        "brouwerij_huyghe",
+                        "brouwerij_de_ranke",
+                        "brasserie_du_bocq",
+                        "brouwerij_abdij_der_trappisten_van_westmalle",
+                        "timmermans",
+                        "brouwerij_het_anker",
+                        "tongerlo",
+                        "abbaye_de_maredsous",
+                        "affligem_brouwerij",
+                        "brouwerij_alken_maes",
+                        "brasserie_dupont",
+                        "brewery_belle_vue",
+                        "brouwerij_liefmans",
+                        "brouwerij_de_regenboog",
+                        "brewery_corsendonk",
+                        "brasserie_d_orval",
+                        "brasserie_de_silenrieux",
+                        "brouwerij_bavik_de_brabandere",
+                        "brouwerij_strubbe",
+                        "microbrouwerij_achilles",
+                        "brasserie_de_blaugies",
+                        "abbaye_notre_dame_du_st_remy",
+                        "brasserie_de_silly",
+                        "brouwerij_slaghmuylder",
+                        "brasserie_des_gants",
+                        "brouwerij_abdij_saint_sixtus",
+                        "brouwerij_de_keersmaeker",
+                        "john_martin_sa",
+                        "brasserie_la_caracole",
+                        "folx_les_caves",
+                        "brasserie_fantme",
+                        "brouwerij_de_block",
+                        "de_leyerth_brouwerijen",
+                        "brouwerij_van_eecke",
+                        "brennerei_distillerie_radermacher",
+                        "brouwerij_van_honsebrouck",
+                        "brouwerij_boon",
+                        "van_honsebrouch",
+                        "daas",
+                        "brouwerij_de_dolle_brouwers",
+                        "brasserie_la_binchoise",
+                        "chimay_abbaye_notre_dame_de_scourmont",
+                        "liefmans_breweries",
+                        "ronald_mengerink",
+                        "de_struise_brouwers",
+                        "brasserie_val_de_sambre",
+                        "brouwerij_sint_jozef",
+                        "icobes_b_v_b_a",
+                        "brouwerij_van_den_bossche",
+                        "inbev",
+                        "brasserie_de_l_abbaye_des_rocs",
+                        "brouwerij_st_feuillien",
+                        "brasserie_dubuisson",
+                        "abbaye_de_leffe",
+                        "brouwerij_verhaeghe",
+                        "palm_breweries",
+                        "brouwerij_duysters",
+                        "brasserie_clarysse",
+                        "brouwerij_de_achelse_kluis",
+                        "brouwerij_de_landtsheer",
+                        "brouwerij_sterkens",
+                        "de_dochter_van_de_korenaar",
+                        "brasserie_d_achouffe",
+                        "brouwerij_bockor",
+                        "brouwerij_bosteels",
+                        "brewery_de_troch",
+                        "3_fonteinen_brouwerij_ambachtelijke_geuzestekerij",
+                        "brouwerij_der_sint_benedictusabdij_de_achelse_kluis",
+                        "hanssens_artisanal",
+                        "brouwerij_de_gouden_boom",
+                        "brouwerij_rodenbach",
+                        "brasserie_de_cazeau",
+                        "brasserie_de_la_senne",
+                        "brouwerij_st_bernardus",
+                        "brouwerij_roman",
+                        "de_proef_brouwerij",
+                        "alvinne_picobrouwerij",
+                        "brouwerij_girardin",
+                        "brouwerij_de_smedt",
+                        "brasserie_lefebvre",
+                        "brasserie_de_l_abbaye_val_dieu",
+                        "brasserie_de_l_abbaye_de_scourmont_trappistes",
+                        "brasserie_de_vervifontaine",
+                        "de_halve_maan",
+                        "brouwerij_van_hoegaarden",
+                        "brasserie_artisanale_de_rulles",
+                        "brasserie_d_ecaussinnes",
+                        "brasserie_ellezelloise",
+                        "brouwerij_artois"
+                      ]
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "limit": 500,
+                    "return": [
+                      "name",
+                      "style",
+                      "category",
+                      "abv",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 129,
+                  "preview": [
+                    {
+                      "name": "Cuvée René Grand Cru Gueuze Lambic"
+                    },
+                    {
+                      "name": "Pêche / Pecheresse"
+                    },
+                    {
+                      "name": "Gueuze Cuvée René"
+                    }
+                  ],
+                  "doc_keys": [
+                    "brouwerij_lindemans-cuvee_rene_grand_cru_gueuze_lambic",
+                    "brouwerij_lindemans-peche_pecheresse",
+                    "brouwerij_lindemans-gueuze_cuvee_rene",
+                    "brouwerij_lindemans-framboise",
+                    "brouwerij_lindemans-kriek",
+                    "brouwerij_oud_beersel-oude_gueuze_vielle",
+                    "brouwerij_rodenbach-alexander",
+                    "brouwerij_rodenbach-grand_cru",
+                    "brouwerij_rodenbach-rodenbach",
+                    "brouwerij_roman-ename_tripel",
+                    "brouwerij_sint_jozef-limburgse_witte",
+                    "brouwerij_slaghmuylder-witkap_pater_tripel",
+                    "brouwerij_slaghmuylder-witkap_pater_singel_abbey_ale",
+                    "brouwerij_st_bernardus-pater_6",
+                    "brouwerij_st_bernardus-st_bernardus_witbier",
+                    "brouwerij_st_bernardus-grotten_brown",
+                    "brouwerij_st_bernardus-grotten_flemish_ale",
+                    "brouwerij_st_bernardus-biere_blanche",
+                    "brouwerij_st_bernardus-watou_tripel",
+                    "brouwerij_st_bernardus-abt_12",
+                    "brouwerij_st_bernardus-st_bernardus_tripel",
+                    "brouwerij_st_bernardus-prior_8",
+                    "brouwerij_st_feuillien-brune_bruin",
+                    "brouwerij_st_feuillien-triple",
+                    "brouwerij_sterkens-st_paul_special",
+                    "brouwerij_sterkens-st_paul_blond",
+                    "brouwerij_sterkens-st_paul_double",
+                    "brouwerij_sterkens-bokrijks_kruikenbier",
+                    "brouwerij_sterkens-white_ale",
+                    "brouwerij_sterkens-st_paul_triple",
+                    "brouwerij_sterkens-st_sebastiaan_golden",
+                    "brouwerij_sterkens-poorter",
+                    "brouwerij_sterkens-st_sebastiaan_dark",
+                    "brouwerij_strubbe-vlas_kop",
+                    "brouwerij_the_musketiers-troubadour",
+                    "brouwerij_van_den_bossche-buffalo_belgian_stout",
+                    "brouwerij_van_den_bossche-kerst_pater_special_christmas_beer",
+                    "brouwerij_van_eecke-het_kapittel_abt",
+                    "brouwerij_van_eecke-het_kapittel_pater",
+                    "brouwerij_van_eecke-poperings_hommel_ale",
+                    "brouwerij_van_hoegaarden-hoegaarden",
+                    "brouwerij_van_hoegaarden-original_white_ale",
+                    "brouwerij_van_honsebrouck-st_louis_gueuze",
+                    "brouwerij_van_honsebrouck-kasteel_bier_brune",
+                    "brouwerij_van_honsebrouck-brigand",
+                    "brouwerij_van_honsebrouck-kasteel_bier_donker_foncee",
+                    "brouwerij_van_steenberge-bruegel_amber_ale",
+                    "brouwerij_van_steenberge-gulden_draak",
+                    "brouwerij_van_steenberge-augustijn_ale",
+                    "brouwerij_van_steenberge-bornem_double",
+                    "brouwerij_van_steenberge-steenbrugge_tripel_blond",
+                    "brouwerij_van_steenberge-bornem_triple",
+                    "brouwerij_van_steenberge-piraat_10_5",
+                    "brouwerij_van_steenberge-head_trip",
+                    "brouwerij_van_steenberge-leute_bok_bier",
+                    "brouwerij_van_steenberge-ertvelds_wit",
+                    "brouwerij_van_steenberge-monk_s_cafe",
+                    "brouwerij_van_steenberge-tikka_gold",
+                    "brouwerij_verhaeghe-duchesse_de_bourgogne",
+                    "brouwerij_verhaeghe-vichtenaar",
+                    "brouwerij_verhaeghe-echte_kriek",
+                    "chimay_abbaye_notre_dame_de_scourmont-chimay_grand_reserve_chimay_blue",
+                    "chimay_abbaye_notre_dame_de_scourmont-chimay_premiere_chimay_red",
+                    "chimay_abbaye_notre_dame_de_scourmont-chimay_triple_chimay_white",
+                    "chimay_abbaye_notre_dame_de_scourmont-chimay_doree",
+                    "daas-daas_organic_blond",
+                    "daas-daas_organic_witte",
+                    "de_dochter_van_de_korenaar-embrasse",
+                    "de_dochter_van_de_korenaar-bravoure",
+                    "de_dochter_van_de_korenaar-noblesse",
+                    "de_halve_maan-brugse_zot_double",
+                    "de_halve_maan-brugse_zot",
+                    "de_halve_maan-straffe_hendrik_brugse",
+                    "de_halve_maan-straffe_hendrik_bruin",
+                    "de_leyerth_brouwerijen-urthel_hop_it",
+                    "de_leyerth_brouwerijen-urthel_vlaemse_bock",
+                    "de_leyerth_brouwerijen-urthel_tonicum_finiboldhus",
+                    "de_leyerth_brouwerijen-urthel_samaranth_quadrium_ale",
+                    "de_leyerth_brouwerijen-urthel_novicius_vertus",
+                    "de_leyerth_brouwerijen-urthel_hibernius_quentum_ale",
+                    "de_proef_brouwerij-lozen_boer_abt",
+                    "de_proef_brouwerij-andelot_angelique",
+                    "de_proef_brouwerij-andelot_mystique",
+                    "de_proef_brouwerij-flemish_primitive_wild_ale_pig_nun",
+                    "de_proef_brouwerij-van_den_vern_grand_cru",
+                    "de_proef_brouwerij-zoetzuur_flemish_ale",
+                    "de_proef_brouwerij-saison_imperiale",
+                    "de_proef_brouwerij-andelot_cuvee_diabolique",
+                    "de_proef_brouwerij-k_o_blond_beer",
+                    "de_proef_brouwerij-flemish_primitive_wild_ale_surly_bird",
+                    "de_proef_brouwerij-andelot_euphorique",
+                    "de_proef_brouwerij-slaapmutske_triple_nightcap",
+                    "de_proef_brouwerij-flemish_primitive_wild_ale_pin_head",
+                    "de_proef_brouwerij-reinaert_flemish_wild_ale",
+                    "de_proef_brouwerij-tripel_krullekop",
+                    "de_proef_brouwerij-flemish_primitive_wild_ale_demon_fish",
+                    "de_proef_brouwerij-flemish_primitive_wild_ale_spoon_whacker",
+                    "de_struise_brouwers-pannepot",
+                    "de_struise_brouwers-black_albert",
+                    "de_struise_brouwers-witte",
+                    "duvel_moortgat-duvel",
+                    "folx_les_caves-grottenbier",
+                    "hanssens_artisanal-oude_kriek",
+                    "hanssens_artisanal-oudbeitje",
+                    "hanssens_artisanal-oude_gueuze",
+                    "icobes_b_v_b_a-biere_du_boucanier",
+                    "inbev-jupiler",
+                    "john_martin_sa-martin_s_pale_ale",
+                    "kleinbrouwerij_de_glazen_toren-canaster_winter_scotch",
+                    "kleinbrouwerij_de_glazen_toren-ondineke_oilsjtersen_tripel",
+                    "kleinbrouwerij_de_glazen_toren-jan_de_lichte",
+                    "liefmans_breweries-lucifer",
+                    "liefmans_breweries-vondel",
+                    "liefmans_breweries-all_saints_belgian_golden_ale",
+                    "liefmans_breweries-all_saints_belgian_white_ale",
+                    "microbrouwerij_achilles-serafijn_christmas_angel",
+                    "palm_breweries-palm_speciale",
+                    "timmermans-timmermans_framboise",
+                    "timmermans-timmermans_kriek",
+                    "timmermans-timmermans_lambicus_blanche",
+                    "timmermans-timmermans_forest_fruit",
+                    "timmermans-timmermans_faro",
+                    "timmermans-timmermans_gueuze",
+                    "timmermans-timmermans_peche",
+                    "tongerlo-tongerlo_dubbel_bruin",
+                    "tongerlo-tongerlo_christmas",
+                    "tongerlo-tongerlo_dubbel_blond",
+                    "tongerlo-tongerlo_tripple",
+                    "van_honsebrouch-kasteel_blonde"
+                  ],
+                  "fields": [
+                    {
+                      "name": "Cuvée René Grand Cru Gueuze Lambic",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Pêche / Pecheresse",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Gueuze Cuvée René",
+                      "abv": 5
+                    },
+                    {
+                      "name": "Framboise",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Kriek",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Oude Gueuze Vielle",
+                      "style": "Belgian-Style Fruit Lambic",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Alexander",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Grand Cru",
+                      "abv": 6
+                    },
+                    {
+                      "name": "Rodenbach",
+                      "abv": 5.1
+                    },
+                    {
+                      "name": "Ename Tripel",
+                      "abv": 8.5
+                    },
+                    {
+                      "name": "Limburgse Witte",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Witkap-Pater Tripel",
+                      "abv": 7.5
+                    },
+                    {
+                      "name": "Witkap-Pater Singel Abbey Ale",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Pater 6",
+                      "style": "Belgian-Style Dubbel",
+                      "abv": 6.7
+                    },
+                    {
+                      "name": "St. Bernardus Witbier",
+                      "style": "Belgian-Style White",
+                      "abv": 5.5
+                    },
+                    {
+                      "name": "Grotten Brown",
+                      "style": "Dark American-Belgo-Style Ale",
+                      "abv": 6.7
+                    },
+                    {
+                      "name": "Grotten Flemish Ale",
+                      "style": "Other Belgian-Style Ales",
+                      "abv": 7.7
+                    },
+                    {
+                      "name": "Bière Blanche",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Watou Tripel",
+                      "style": "Belgian-Style Tripel",
+                      "abv": 7.5
+                    },
+                    {
+                      "name": "Abt 12",
+                      "style": "Belgian-Style Quadrupel",
+                      "abv": 10
+                    },
+                    {
+                      "name": "St. Bernardus Tripel",
+                      "style": "Belgian-Style Tripel",
+                      "abv": 8
+                    },
+                    {
+                      "name": "Prior 8",
+                      "style": "Belgian-Style Dubbel",
+                      "abv": 8
+                    },
+                    {
+                      "name": "Brune / Bruin",
+                      "abv": 7.5
+                    },
+                    {
+                      "name": "Triple",
+                      "abv": 8.5
+                    },
+                    {
+                      "name": "St. Paul Special",
+                      "abv": 0
+                    },
+                    {
+                      "name": "St. Paul Blond",
+                      "abv": 0
+                    },
+                    {
+                      "name": "St. Paul Double",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Bokrijks Kruikenbier",
+                      "abv": 0
+                    },
+                    {
+                      "name": "White Ale",
+                      "abv": 0
+                    },
+                    {
+                      "name": "St. Paul Triple",
+                      "abv": 0
+                    },
+                    {
+                      "name": "St. Sebastiaan Golden",
+                      "abv": 7.7
+                    },
+                    {
+                      "name": "Poorter",
+                      "abv": 0
+                    },
+                    {
+                      "name": "St. Sebastiaan Dark",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Vlas Kop",
+                      "abv": 5.5
+                    },
+                    {
+                      "name": "Troubadour",
+                      "style": "American-Style Pale Ale",
+                      "abv": 6.5
+                    },
+                    {
+                      "name": "Buffalo Belgian Stout",
+                      "abv": 9
+                    },
+                    {
+                      "name": "Kerst Pater Special Christmas Beer",
+                      "abv": 9
+                    },
+                    {
+                      "name": "Het Kapittel Abt",
+                      "abv": 10
+                    },
+                    {
+                      "name": "Het Kapittel Pater",
+                      "abv": 0
+                    },
+                    {
+                      "name": "Poperings Hommel Ale",
+                      "style": "American-Style Pale Ale",
+                      "abv": 7.5
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "484eb1d3-b741-42e8-8d8a-537554325a4c",
+              "bd4a555c-8c5f-46bf-a38c-3ea24119fb44",
+              "ae991779-a270-460f-84d6-057368859449",
+              "8e14f90c-1777-4f19-8ff7-e82dd8b87a81"
+            ],
+            "chat_id": "ab-2026-11-22-base-8-0-beer-walk-belgian",
+            "turn_id": "8912d786-d92c-462f-ba86-64ba9bd493c1",
+            "session_id": "sess_20261122T060709773642aeb45d1b",
+            "suggestion": "not recorded",
+            "met": true,
+            "answer": "not_checked",
+            "plan_rounds": null
+          },
+          "b": {
+            "called": "find Country, find Brewery, traverse walk_path",
+            "hit": true,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Country",
+                "shape": null,
+                "http": 200,
+                "req_id": "9425eefd-caf8-4765-81fd-8ba3081f5f88",
+                "rows": false,
+                "args": {
+                  "entity_type": "Country",
+                  "limit": 100
+                },
+                "sample": {}
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Brewery",
+                "shape": null,
+                "http": 200,
+                "req_id": "1ed03629-4721-44de-8f7d-65b938e38304",
+                "rows": true,
+                "args": {
+                  "entity_type": "Brewery",
+                  "limit": 50,
+                  "where": {
+                    "country": "Belgium"
+                  }
+                },
+                "sample": {
+                  "row_count": 50,
+                  "preview": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat",
+                      "id": "n_2675cc3951e16b",
+                      "name": "Brouwerij Duvel Moortgat"
+                    },
+                    {
+                      "doc_key": "brasserie_brouwerij_cantillon",
+                      "id": "n_00265d811adfd9",
+                      "name": "Brasserie-Brouwerij Cantillon"
+                    },
+                    {
+                      "doc_key": "brouwerij_lindemans",
+                      "id": "n_c264883b222e10",
+                      "name": "Brouwerij Lindemans"
+                    }
+                  ],
+                  "doc_keys": [
+                    "brouwerij_duvel_moortgat",
+                    "brasserie_brouwerij_cantillon",
+                    "brouwerij_lindemans",
+                    "duvel_moortgat",
+                    "brasserie_de_brunehaut",
+                    "brouwerij_the_musketiers",
+                    "kleinbrouwerij_de_glazen_toren",
+                    "brouwerij_van_steenberge",
+                    "brouwerij_kerkom",
+                    "brouwerij_oud_beersel",
+                    "brouwerij_huyghe",
+                    "brouwerij_de_ranke",
+                    "brasserie_du_bocq",
+                    "brouwerij_abdij_der_trappisten_van_westmalle",
+                    "timmermans",
+                    "brouwerij_het_anker",
+                    "tongerlo",
+                    "abbaye_de_maredsous",
+                    "affligem_brouwerij",
+                    "brouwerij_alken_maes",
+                    "brasserie_dupont",
+                    "brewery_belle_vue",
+                    "brouwerij_liefmans",
+                    "brouwerij_de_regenboog",
+                    "brewery_corsendonk",
+                    "brasserie_d_orval",
+                    "brasserie_de_silenrieux",
+                    "brouwerij_bavik_de_brabandere",
+                    "brouwerij_strubbe",
+                    "microbrouwerij_achilles",
+                    "brasserie_de_blaugies",
+                    "abbaye_notre_dame_du_st_remy",
+                    "brasserie_de_silly",
+                    "brouwerij_slaghmuylder",
+                    "brasserie_des_gants",
+                    "brouwerij_abdij_saint_sixtus",
+                    "brouwerij_de_keersmaeker",
+                    "john_martin_sa",
+                    "brasserie_la_caracole",
+                    "folx_les_caves",
+                    "brasserie_fantme",
+                    "brouwerij_de_block",
+                    "de_leyerth_brouwerijen",
+                    "brouwerij_van_eecke",
+                    "brennerei_distillerie_radermacher",
+                    "brouwerij_van_honsebrouck",
+                    "brouwerij_boon",
+                    "van_honsebrouch",
+                    "daas",
+                    "brouwerij_de_dolle_brouwers"
+                  ],
+                  "fields": [
+                    {
+                      "doc_key": "brouwerij_duvel_moortgat",
+                      "name": "Brouwerij Duvel Moortgat"
+                    },
+                    {
+                      "doc_key": "brasserie_brouwerij_cantillon",
+                      "name": "Brasserie-Brouwerij Cantillon"
+                    },
+                    {
+                      "doc_key": "brouwerij_lindemans",
+                      "name": "Brouwerij Lindemans"
+                    },
+                    {
+                      "doc_key": "duvel_moortgat",
+                      "name": "Duvel Moortgat"
+                    },
+                    {
+                      "doc_key": "brasserie_de_brunehaut",
+                      "name": "Brasserie de Brunehaut"
+                    },
+                    {
+                      "doc_key": "brouwerij_the_musketiers",
+                      "name": "Brouwerij The Musketiers"
+                    },
+                    {
+                      "doc_key": "kleinbrouwerij_de_glazen_toren",
+                      "name": "Kleinbrouwerij de Glazen Toren"
+                    },
+                    {
+                      "doc_key": "brouwerij_van_steenberge",
+                      "name": "Brouwerij Van Steenberge"
+                    },
+                    {
+                      "doc_key": "brouwerij_kerkom",
+                      "name": "Brouwerij Kerkom"
+                    },
+                    {
+                      "doc_key": "brouwerij_oud_beersel",
+                      "name": "Brouwerij Oud Beersel"
+                    },
+                    {
+                      "doc_key": "brouwerij_huyghe",
+                      "name": "Brouwerij Huyghe"
+                    },
+                    {
+                      "doc_key": "brouwerij_de_ranke",
+                      "name": "Brouwerij De Ranke"
+                    },
+                    {
+                      "doc_key": "brasserie_du_bocq",
+                      "name": "Brasserie du Bocq"
+                    },
+                    {
+                      "doc_key": "brouwerij_abdij_der_trappisten_van_westmalle",
+                      "name": "Brouwerij Abdij der Trappisten van Westmalle"
+                    },
+                    {
+                      "doc_key": "timmermans",
+                      "name": "Timmermans"
+                    },
+                    {
+                      "doc_key": "brouwerij_het_anker",
+                      "name": "Brouwerij Het Anker"
+                    },
+                    {
+                      "doc_key": "tongerlo",
+                      "name": "Tongerlo"
+                    },
+                    {
+                      "doc_key": "abbaye_de_maredsous",
+                      "name": "Abbaye de Maredsous"
+                    },
+                    {
+                      "doc_key": "affligem_brouwerij",
+                      "name": "Affligem Brouwerij"
+                    },
+                    {
+                      "doc_key": "brouwerij_alken_maes",
+                      "name": "Brouwerij Alken-Maes"
+                    },
+                    {
+                      "doc_key": "brasserie_dupont",
+                      "name": "Brasserie Dupont"
+                    },
+                    {
+                      "doc_key": "brewery_belle_vue",
+                      "name": "Brewery Belle-Vue"
+                    },
+                    {
+                      "doc_key": "brouwerij_liefmans",
+                      "name": "Brouwerij Liefmans"
+                    },
+                    {
+                      "doc_key": "brouwerij_de_regenboog",
+                      "name": "Brouwerij De Regenboog"
+                    },
+                    {
+                      "doc_key": "brewery_corsendonk",
+                      "name": "Brewery Corsendonk"
+                    },
+                    {
+                      "doc_key": "brasserie_d_orval",
+                      "name": "Brasserie d'Orval"
+                    },
+                    {
+                      "doc_key": "brasserie_de_silenrieux",
+                      "name": "Brasserie De Silenrieux"
+                    },
+                    {
+                      "doc_key": "brouwerij_bavik_de_brabandere",
+                      "name": "Brouwerij Bavik - De Brabandere"
+                    },
+                    {
+                      "doc_key": "brouwerij_strubbe",
+                      "name": "Brouwerij Strubbe"
+                    },
+                    {
+                      "doc_key": "microbrouwerij_achilles",
+                      "name": "Microbrouwerij Achilles"
+                    },
+                    {
+                      "doc_key": "brasserie_de_blaugies",
+                      "name": "Brasserie de Blaugies"
+                    },
+                    {
+                      "doc_key": "abbaye_notre_dame_du_st_remy",
+                      "name": "Abbaye Notre Dame du St Remy"
+                    },
+                    {
+                      "doc_key": "brasserie_de_silly",
+                      "name": "Brasserie de Silly"
+                    },
+                    {
+                      "doc_key": "brouwerij_slaghmuylder",
+                      "name": "Brouwerij Slaghmuylder"
+                    },
+                    {
+                      "doc_key": "brasserie_des_gants",
+                      "name": "Brasserie des Gants"
+                    },
+                    {
+                      "doc_key": "brouwerij_abdij_saint_sixtus",
+                      "name": "Brouwerij Abdij Saint Sixtus"
+                    },
+                    {
+                      "doc_key": "brouwerij_de_keersmaeker",
+                      "name": "Brouwerij De Keersmaeker"
+                    },
+                    {
+                      "doc_key": "john_martin_sa",
+                      "name": "John Martin sa"
+                    },
+                    {
+                      "doc_key": "brasserie_la_caracole",
+                      "name": "Brasserie La Caracole"
+                    },
+                    {
+                      "doc_key": "folx_les_caves",
+                      "name": "Folx-les-Caves"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 3,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "d3c65ab6-38a5-455f-bc44-26f4bc803b2c",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "where": {
+                        "country": "Belgium"
+                      }
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "return": [
+                      "name",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "name": "Oude Geuze"
+                    },
+                    {
+                      "name": "Drie Fonteinen Kriek"
+                    },
+                    {
+                      "name": "Leffe Blonde"
+                    }
+                  ],
+                  "doc_keys": [
+                    "3_fonteinen_brouwerij_ambachtelijke_geuzestekerij-oude_geuze",
+                    "3_fonteinen_brouwerij_ambachtelijke_geuzestekerij-drie_fonteinen_kriek",
+                    "abbaye_de_leffe-leffe_blonde",
+                    "abbaye_de_leffe-brune_brown",
+                    "abbaye_de_maredsous-6",
+                    "abbaye_de_maredsous-10",
+                    "abbaye_de_maredsous-8",
+                    "abbaye_notre_dame_du_st_remy-rochefort_10",
+                    "abbaye_notre_dame_du_st_remy-rochefort_6",
+                    "abbaye_notre_dame_du_st_remy-rochefort_8",
+                    "affligem_brouwerij-affligem_dubbel",
+                    "alvinne_picobrouwerij-podge_belgian_imperial_stout",
+                    "brasserie_artisanale_de_rulles-biere_de_gamme",
+                    "brasserie_artisanale_de_rulles-triple",
+                    "brasserie_brouwerij_cantillon-bruocsella_1900_grand_cru",
+                    "brasserie_brouwerij_cantillon-iris_1996",
+                    "brasserie_brouwerij_cantillon-classic_gueuze",
+                    "brasserie_brouwerij_cantillon-lambic_2002",
+                    "brasserie_brouwerij_cantillon-vigneronne",
+                    "brasserie_brouwerij_cantillon-iris",
+                    "brasserie_brouwerij_cantillon-gueuze_bio_organic_gueuze",
+                    "brasserie_brouwerij_cantillon-rose_de_gambrinus",
+                    "brasserie_brouwerij_cantillon-cuvee_des_champions_2003_2004",
+                    "brasserie_brouwerij_cantillon-kriek_lambic",
+                    "brasserie_clarysse-st_hermes_abbey_ale",
+                    "brasserie_d_achouffe-mcchouffe",
+                    "brasserie_d_achouffe-houblon",
+                    "brasserie_d_achouffe-chouffe_bok",
+                    "brasserie_d_achouffe-la_chouffe_golden_ale",
+                    "brasserie_d_achouffe-biere_de_mars",
+                    "brasserie_d_ecaussinnes-ultrabrune",
+                    "brasserie_d_ecaussinnes-ultra_ambree",
+                    "brasserie_d_ecaussinnes-ultrablonde",
+                    "brasserie_d_orval-orval_trappist_ale",
+                    "brasserie_d_orval-petite_orval",
+                    "brasserie_de_blaugies-moneuse_speciale_noel",
+                    "brasserie_de_blaugies-biere_darbyste",
+                    "brasserie_de_blaugies-la_moneuse",
+                    "brasserie_de_brunehaut-abbaye_de_st_amand",
+                    "brasserie_de_brunehaut-brasserie_de_brunehaut_bio_biere_blanche_organic",
+                    "brasserie_de_brunehaut-abbaye_de_saint_martin_brune",
+                    "brasserie_de_brunehaut-abbaye_de_saint_martin_blonde",
+                    "brasserie_de_brunehaut-abbaye_de_saint_martin_triple",
+                    "brasserie_de_brunehaut-mont_st_aubert",
+                    "brasserie_de_brunehaut-brasserie_de_brunehaut_bio_biere_ambree_organic",
+                    "brasserie_de_brunehaut-abbaye_de_saint_martin_cuvee_de_noel",
+                    "brasserie_de_brunehaut-brasserie_de_brunehaut_bio_biere_blonde_organic",
+                    "brasserie_de_cazeau-tournay_black",
+                    "brasserie_de_l_abbaye_de_scourmont_trappistes-cinq_cents_white",
+                    "brasserie_de_l_abbaye_de_scourmont_trappistes-premiere_red",
+                    "brasserie_de_l_abbaye_des_rocs-ambree",
+                    "brasserie_de_l_abbaye_des_rocs-speciale_noel",
+                    "brasserie_de_l_abbaye_des_rocs-brune",
+                    "brasserie_de_l_abbaye_des_rocs-blonde",
+                    "brasserie_de_l_abbaye_des_rocs-grand_cru",
+                    "brasserie_de_l_abbaye_des_rocs-triple_imperiale",
+                    "brasserie_de_l_abbaye_des_rocs-montagnarde",
+                    "brasserie_de_l_abbaye_des_rocs-blanche_double",
+                    "brasserie_de_l_abbaye_des_rocs-blanche_des_honnelles",
+                    "brasserie_de_l_abbaye_des_rocs-belgian_burgundy_ale",
+                    "brasserie_de_l_abbaye_val_dieu-winter",
+                    "brasserie_de_l_abbaye_val_dieu-grand_cru",
+                    "brasserie_de_l_abbaye_val_dieu-brune_brown",
+                    "brasserie_de_l_abbaye_val_dieu-triple",
+                    "brasserie_de_l_abbaye_val_dieu-blonde",
+                    "brasserie_de_la_senne-zinnebir",
+                    "brasserie_de_la_senne-stouterik_the_brussels_stout",
+                    "brasserie_de_la_senne-zinnebir_xmas",
+                    "brasserie_de_la_senne-equinox_dark_belgian_winter",
+                    "brasserie_de_silenrieux-joseph_spelt_ale",
+                    "brasserie_de_silenrieux-sara_buckwheat_ale",
+                    "brasserie_de_silly-double_enghien_bruin",
+                    "brasserie_de_silly-double_enghien_blonde_ale",
+                    "brasserie_de_silly-la_divine_tripel_amber",
+                    "brasserie_de_silly-saison",
+                    "brasserie_de_silly-scotch",
+                    "brasserie_de_silly-la_divine_double_blond",
+                    "brasserie_de_vervifontaine-biere_du_lion",
+                    "brasserie_des_gants-saison_voisin",
+                    "brasserie_des_gants-gouyasse_goliath",
+                    "brasserie_du_bocq-triple_moine",
+                    "brasserie_du_bocq-blanche_de_namur",
+                    "brasserie_du_bocq-blanche_des_moines",
+                    "brasserie_dubuisson-clovis",
+                    "brasserie_dubuisson-scaldis_prestige",
+                    "brasserie_dubuisson-scaldis_noel_bush_noel",
+                    "brasserie_dubuisson-scaldis_bush_amber_12",
+                    "brasserie_dupont-saison_vielle_provision",
+                    "brasserie_dupont-foret_saison",
+                    "brasserie_dupont-moinette_brune",
+                    "brasserie_dupont-avec_les_bons_voeux",
+                    "brasserie_dupont-biere_de_miel",
+                    "brasserie_dupont-moinette_blonde",
+                    "brasserie_ellezelloise-la_biere_des_collines_van_de_saisis",
+                    "brasserie_ellezelloise-la_quintine_blonde",
+                    "brasserie_ellezelloise-la_quintine_ambree_amber",
+                    "brasserie_ellezelloise-hercule_stout",
+                    "brasserie_fantme-speciale_noel",
+                    "brasserie_fantme-dark_white",
+                    "brasserie_fantme-strange_ghost",
+                    "brasserie_fantme-chocolat",
+                    "brasserie_la_binchoise-reserve_speciale_speciale_noel",
+                    "brasserie_la_binchoise-blonde_tradition",
+                    "brasserie_la_binchoise-bruin_tradition_brune_tradition",
+                    "brasserie_la_caracole-troublette",
+                    "brasserie_la_caracole-saxo",
+                    "brasserie_la_caracole-nostradamus",
+                    "brasserie_la_caracole-amber",
+                    "brasserie_lefebvre-abbaye_de_floreffe_double",
+                    "brasserie_lefebvre-saison_1900",
+                    "brasserie_lefebvre-blanche_de_bruxelles_mannekin_pis",
+                    "brennerei_distillerie_radermacher-rader_ambree",
+                    "brennerei_distillerie_radermacher-rader_blonde",
+                    "brewery_belle_vue-gueuze",
+                    "brewery_corsendonk-monk_brown_ale",
+                    "brewery_corsendonk-christmas_ale",
+                    "brewery_corsendonk-abbey_brown_ale_pater",
+                    "brewery_corsendonk-monk_pale_ale_agnus_dei",
+                    "brewery_de_troch-chapeau_tropical_lambic",
+                    "brewery_de_troch-chapeau_fraises_lambic",
+                    "brewery_de_troch-chapeau_exotic_lambic",
+                    "brewery_de_troch-chapeau_mirabelle_lambic",
+                    "brewery_de_troch-chapeau_peche_lambic",
+                    "brewery_de_troch-chapeau_framboise_lambic",
+                    "brouwerij_abdij_der_trappisten_van_westmalle-westmalle_trappist_tripel",
+                    "brouwerij_abdij_der_trappisten_van_westmalle-westmalle_trappist_dubbel",
+                    "brouwerij_abdij_saint_sixtus-trappist_westvleteren_8",
+                    "brouwerij_abdij_saint_sixtus-trappist_westvleteren_blonde",
+                    "brouwerij_abdij_saint_sixtus-trappist_westvleteren_12",
+                    "brouwerij_alken_maes-grimbergen_blonde",
+                    "brouwerij_artois-stella_artois",
+                    "brouwerij_bavik_de_brabandere-petrus_dubbel_bruin_ale",
+                    "brouwerij_bavik_de_brabandere-petrus_aged_pale",
+                    "brouwerij_bavik_de_brabandere-petrus_oud_bruin",
+                    "brouwerij_bavik_de_brabandere-petrus_blond_ale",
+                    "brouwerij_bavik_de_brabandere-petrus_gouden_tripel_ale",
+                    "brouwerij_bavik_de_brabandere-witte_ezel",
+                    "brouwerij_bavik_de_brabandere-wittekerke",
+                    "brouwerij_bavik_de_brabandere-petrus_speciale",
+                    "brouwerij_bockor-bellegems_bruin",
+                    "brouwerij_boon-mariage_parfait_1995",
+                    "brouwerij_boon-geuze_boon",
+                    "brouwerij_boon-kriek",
+                    "brouwerij_boon-framboise_1997",
+                    "brouwerij_boon-pertotale_faro",
+                    "brouwerij_bosteels-pauwel_kwak",
+                    "brouwerij_bosteels-deus_brut_des_flandres",
+                    "brouwerij_bosteels-triple_karmeliet",
+                    "brouwerij_de_achelse_kluis-trappist_extra",
+                    "brouwerij_de_achelse_kluis-trappist_bruin_bier_biere_brune",
+                    "brouwerij_de_achelse_kluis-trappist_blond",
+                    "brouwerij_de_block-satan_red",
+                    "brouwerij_de_block-satan_gold",
+                    "brouwerij_de_dolle_brouwers-oerbier",
+                    "brouwerij_de_dolle_brouwers-arabier",
+                    "brouwerij_de_dolle_brouwers-bos_keun",
+                    "brouwerij_de_dolle_brouwers-dulle_teve_mad_bitch",
+                    "brouwerij_de_dolle_brouwers-stille_nacht",
+                    "brouwerij_de_dolle_brouwers-special_extra_export_stout",
+                    "brouwerij_de_gouden_boom-blanche_de_bruges",
+                    "brouwerij_de_keersmaeker-mort_subite_gueuze_lambic",
+                    "brouwerij_de_landtsheer-malheur_black_chocolate_2003",
+                    "brouwerij_de_landtsheer-malheur_12",
+                    "brouwerij_de_landtsheer-malheur_mm",
+                    "brouwerij_de_landtsheer-malheur_10",
+                    "brouwerij_de_landtsheer-malheur_brut_reserve",
+                    "brouwerij_de_ranke-guldenberg",
+                    "brouwerij_de_ranke-kriek",
+                    "brouwerij_de_ranke-xx_bitter",
+                    "brouwerij_de_ranke-pere_noel",
+                    "brouwerij_de_regenboog-vuuve",
+                    "brouwerij_de_smedt-affligem_tripel",
+                    "brouwerij_de_smedt-affligem_dobbel",
+                    "brouwerij_de_smedt-affligem_noel",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis-achel_trappist_extra",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis-achel_bruin_5",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis-achel_bruin_8",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis-achel_blond_8",
+                    "brouwerij_der_sint_benedictusabdij_de_achelse_kluis-achel_blond_5",
+                    "brouwerij_duvel_moortgat-maredsous_10_tripple",
+                    "brouwerij_duysters-loterbol",
+                    "brouwerij_girardin-gueuze_1882",
+                    "brouwerij_het_anker-gouden_carolus_noel",
+                    "brouwerij_het_anker-gouden_carolus_tripel",
+                    "brouwerij_het_anker-grand_cru_of_the_emperor",
+                    "brouwerij_het_anker-gouden_carolus_hopsinjoor",
+                    "brouwerij_het_anker-gouden_carolus_ambrio_1471",
+                    "brouwerij_huyghe-delirium_nocturnum",
+                    "brouwerij_huyghe-delirium_tremens",
+                    "brouwerij_huyghe-duinen_dubbel",
+                    "brouwerij_huyghe-duinen_tripel",
+                    "brouwerij_huyghe-delirium_noel",
+                    "brouwerij_kerkom-bloesem_bink",
+                    "brouwerij_kerkom-winterkoninkse",
+                    "brouwerij_liefmans-liefmans_kriekbier",
+                    "brouwerij_liefmans-goudenband_2002",
+                    "brouwerij_liefmans-goudenband_1999",
+                    "brouwerij_liefmans-gluhkriek",
+                    "brouwerij_liefmans-goudenband_1996",
+                    "brouwerij_liefmans-lucifer"
+                  ],
+                  "fields": [
+                    {
+                      "name": "Oude Geuze"
+                    },
+                    {
+                      "name": "Drie Fonteinen Kriek"
+                    },
+                    {
+                      "name": "Leffe Blonde"
+                    },
+                    {
+                      "name": "Brune (Brown)"
+                    },
+                    {
+                      "name": "6"
+                    },
+                    {
+                      "name": "10"
+                    },
+                    {
+                      "name": "8"
+                    },
+                    {
+                      "name": "Rochefort 10"
+                    },
+                    {
+                      "name": "Rochefort 6"
+                    },
+                    {
+                      "name": "Rochefort 8"
+                    },
+                    {
+                      "name": "Affligem Dubbel"
+                    },
+                    {
+                      "name": "Podge Belgian Imperial Stout"
+                    },
+                    {
+                      "name": "Bière de Gamme"
+                    },
+                    {
+                      "name": "Triple"
+                    },
+                    {
+                      "name": "Bruocsella 1900 Grand Cru"
+                    },
+                    {
+                      "name": "Iris 1996"
+                    },
+                    {
+                      "name": "Classic Gueuze"
+                    },
+                    {
+                      "name": "Lambic 2002"
+                    },
+                    {
+                      "name": "Vigneronne"
+                    },
+                    {
+                      "name": "Iris"
+                    },
+                    {
+                      "name": "Gueuze Bio / Organic Gueuze"
+                    },
+                    {
+                      "name": "Rosé de Gambrinus"
+                    },
+                    {
+                      "name": "Cuvée des Champions 2003-2004"
+                    },
+                    {
+                      "name": "Kriek-Lambic"
+                    },
+                    {
+                      "name": "St.Hermes Abbey Ale"
+                    },
+                    {
+                      "name": "McChouffe"
+                    },
+                    {
+                      "name": "Houblon"
+                    },
+                    {
+                      "name": "Chouffe-Bok"
+                    },
+                    {
+                      "name": "La Chouffe Golden Ale"
+                    },
+                    {
+                      "name": "Bière de Mars"
+                    },
+                    {
+                      "name": "Ultrabrune"
+                    },
+                    {
+                      "name": "Ultra Ambrée"
+                    },
+                    {
+                      "name": "Ultrablonde"
+                    },
+                    {
+                      "name": "Orval Trappist Ale"
+                    },
+                    {
+                      "name": "Petite Orval"
+                    },
+                    {
+                      "name": "Moneuse Speciale Noël"
+                    },
+                    {
+                      "name": "Bière Darbyste"
+                    },
+                    {
+                      "name": "La Moneuse"
+                    },
+                    {
+                      "name": "Abbaye de St Amand"
+                    },
+                    {
+                      "name": "Brasserie de Brunehaut Bio Bière Blanche (Organic)"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 4,
+                "verb": "traverse",
+                "strategy": null,
+                "entity_type": null,
+                "shape": "walk_path",
+                "http": 200,
+                "req_id": "829360f2-af6d-449b-806c-0c01cc96fa4f",
+                "rows": true,
+                "args": {
+                  "shape": "walk_path",
+                  "walk_path": {
+                    "from": {
+                      "entity_type": "Brewery",
+                      "where": {
+                        "country": "Belgium"
+                      }
+                    },
+                    "path": [
+                      {
+                        "inverse": "Beer.brewery_id"
+                      }
+                    ],
+                    "limit": 200,
+                    "return": [
+                      "name",
+                      "brewery_id"
+                    ]
+                  }
+                },
+                "sample": {
+                  "row_count": 129,
+                  "preview": [
+                    {
+                      "name": "Cuvée René Grand Cru Gueuze Lambic"
+                    },
+                    {
+                      "name": "Pêche / Pecheresse"
+                    },
+                    {
+                      "name": "Gueuze Cuvée René"
+                    }
+                  ],
+                  "doc_keys": [
+                    "brouwerij_lindemans-cuvee_rene_grand_cru_gueuze_lambic",
+                    "brouwerij_lindemans-peche_pecheresse",
+                    "brouwerij_lindemans-gueuze_cuvee_rene",
+                    "brouwerij_lindemans-framboise",
+                    "brouwerij_lindemans-kriek",
+                    "brouwerij_oud_beersel-oude_gueuze_vielle",
+                    "brouwerij_rodenbach-alexander",
+                    "brouwerij_rodenbach-grand_cru",
+                    "brouwerij_rodenbach-rodenbach",
+                    "brouwerij_roman-ename_tripel",
+                    "brouwerij_sint_jozef-limburgse_witte",
+                    "brouwerij_slaghmuylder-witkap_pater_tripel",
+                    "brouwerij_slaghmuylder-witkap_pater_singel_abbey_ale",
+                    "brouwerij_st_bernardus-pater_6",
+                    "brouwerij_st_bernardus-st_bernardus_witbier",
+                    "brouwerij_st_bernardus-grotten_brown",
+                    "brouwerij_st_bernardus-grotten_flemish_ale",
+                    "brouwerij_st_bernardus-biere_blanche",
+                    "brouwerij_st_bernardus-watou_tripel",
+                    "brouwerij_st_bernardus-abt_12",
+                    "brouwerij_st_bernardus-st_bernardus_tripel",
+                    "brouwerij_st_bernardus-prior_8",
+                    "brouwerij_st_feuillien-brune_bruin",
+                    "brouwerij_st_feuillien-triple",
+                    "brouwerij_sterkens-st_paul_special",
+                    "brouwerij_sterkens-st_paul_blond",
+                    "brouwerij_sterkens-st_paul_double",
+                    "brouwerij_sterkens-bokrijks_kruikenbier",
+                    "brouwerij_sterkens-white_ale",
+                    "brouwerij_sterkens-st_paul_triple",
+                    "brouwerij_sterkens-st_sebastiaan_golden",
+                    "brouwerij_sterkens-poorter",
+                    "brouwerij_sterkens-st_sebastiaan_dark",
+                    "brouwerij_strubbe-vlas_kop",
+                    "brouwerij_the_musketiers-troubadour",
+                    "brouwerij_van_den_bossche-buffalo_belgian_stout",
+                    "brouwerij_van_den_bossche-kerst_pater_special_christmas_beer",
+                    "brouwerij_van_eecke-het_kapittel_abt",
+                    "brouwerij_van_eecke-het_kapittel_pater",
+                    "brouwerij_van_eecke-poperings_hommel_ale",
+                    "brouwerij_van_hoegaarden-hoegaarden",
+                    "brouwerij_van_hoegaarden-original_white_ale",
+                    "brouwerij_van_honsebrouck-st_louis_gueuze",
+                    "brouwerij_van_honsebrouck-kasteel_bier_brune",
+                    "brouwerij_van_honsebrouck-brigand",
+                    "brouwerij_van_honsebrouck-kasteel_bier_donker_foncee",
+                    "brouwerij_van_steenberge-bruegel_amber_ale",
+                    "brouwerij_van_steenberge-gulden_draak",
+                    "brouwerij_van_steenberge-augustijn_ale",
+                    "brouwerij_van_steenberge-bornem_double",
+                    "brouwerij_van_steenberge-steenbrugge_tripel_blond",
+                    "brouwerij_van_steenberge-bornem_triple",
+                    "brouwerij_van_steenberge-piraat_10_5",
+                    "brouwerij_van_steenberge-head_trip",
+                    "brouwerij_van_steenberge-leute_bok_bier",
+                    "brouwerij_van_steenberge-ertvelds_wit",
+                    "brouwerij_van_steenberge-monk_s_cafe",
+                    "brouwerij_van_steenberge-tikka_gold",
+                    "brouwerij_verhaeghe-duchesse_de_bourgogne",
+                    "brouwerij_verhaeghe-vichtenaar",
+                    "brouwerij_verhaeghe-echte_kriek",
+                    "chimay_abbaye_notre_dame_de_scourmont-chimay_grand_reserve_chimay_blue",
+                    "chimay_abbaye_notre_dame_de_scourmont-chimay_premiere_chimay_red",
+                    "chimay_abbaye_notre_dame_de_scourmont-chimay_triple_chimay_white",
+                    "chimay_abbaye_notre_dame_de_scourmont-chimay_doree",
+                    "daas-daas_organic_blond",
+                    "daas-daas_organic_witte",
+                    "de_dochter_van_de_korenaar-embrasse",
+                    "de_dochter_van_de_korenaar-bravoure",
+                    "de_dochter_van_de_korenaar-noblesse",
+                    "de_halve_maan-brugse_zot_double",
+                    "de_halve_maan-brugse_zot",
+                    "de_halve_maan-straffe_hendrik_brugse",
+                    "de_halve_maan-straffe_hendrik_bruin",
+                    "de_leyerth_brouwerijen-urthel_hop_it",
+                    "de_leyerth_brouwerijen-urthel_vlaemse_bock",
+                    "de_leyerth_brouwerijen-urthel_tonicum_finiboldhus",
+                    "de_leyerth_brouwerijen-urthel_samaranth_quadrium_ale",
+                    "de_leyerth_brouwerijen-urthel_novicius_vertus",
+                    "de_leyerth_brouwerijen-urthel_hibernius_quentum_ale",
+                    "de_proef_brouwerij-lozen_boer_abt",
+                    "de_proef_brouwerij-andelot_angelique",
+                    "de_proef_brouwerij-andelot_mystique",
+                    "de_proef_brouwerij-flemish_primitive_wild_ale_pig_nun",
+                    "de_proef_brouwerij-van_den_vern_grand_cru",
+                    "de_proef_brouwerij-zoetzuur_flemish_ale",
+                    "de_proef_brouwerij-saison_imperiale",
+                    "de_proef_brouwerij-andelot_cuvee_diabolique",
+                    "de_proef_brouwerij-k_o_blond_beer",
+                    "de_proef_brouwerij-flemish_primitive_wild_ale_surly_bird",
+                    "de_proef_brouwerij-andelot_euphorique",
+                    "de_proef_brouwerij-slaapmutske_triple_nightcap",
+                    "de_proef_brouwerij-flemish_primitive_wild_ale_pin_head",
+                    "de_proef_brouwerij-reinaert_flemish_wild_ale",
+                    "de_proef_brouwerij-tripel_krullekop",
+                    "de_proef_brouwerij-flemish_primitive_wild_ale_demon_fish",
+                    "de_proef_brouwerij-flemish_primitive_wild_ale_spoon_whacker",
+                    "de_struise_brouwers-pannepot",
+                    "de_struise_brouwers-black_albert",
+                    "de_struise_brouwers-witte",
+                    "duvel_moortgat-duvel",
+                    "folx_les_caves-grottenbier",
+                    "hanssens_artisanal-oude_kriek",
+                    "hanssens_artisanal-oudbeitje",
+                    "hanssens_artisanal-oude_gueuze",
+                    "icobes_b_v_b_a-biere_du_boucanier",
+                    "inbev-jupiler",
+                    "john_martin_sa-martin_s_pale_ale",
+                    "kleinbrouwerij_de_glazen_toren-canaster_winter_scotch",
+                    "kleinbrouwerij_de_glazen_toren-ondineke_oilsjtersen_tripel",
+                    "kleinbrouwerij_de_glazen_toren-jan_de_lichte",
+                    "liefmans_breweries-lucifer",
+                    "liefmans_breweries-vondel",
+                    "liefmans_breweries-all_saints_belgian_golden_ale",
+                    "liefmans_breweries-all_saints_belgian_white_ale",
+                    "microbrouwerij_achilles-serafijn_christmas_angel",
+                    "palm_breweries-palm_speciale",
+                    "timmermans-timmermans_framboise",
+                    "timmermans-timmermans_kriek",
+                    "timmermans-timmermans_lambicus_blanche",
+                    "timmermans-timmermans_forest_fruit",
+                    "timmermans-timmermans_faro",
+                    "timmermans-timmermans_gueuze",
+                    "timmermans-timmermans_peche",
+                    "tongerlo-tongerlo_dubbel_bruin",
+                    "tongerlo-tongerlo_christmas",
+                    "tongerlo-tongerlo_dubbel_blond",
+                    "tongerlo-tongerlo_tripple",
+                    "van_honsebrouch-kasteel_blonde"
+                  ],
+                  "fields": [
+                    {
+                      "name": "Cuvée René Grand Cru Gueuze Lambic"
+                    },
+                    {
+                      "name": "Pêche / Pecheresse"
+                    },
+                    {
+                      "name": "Gueuze Cuvée René"
+                    },
+                    {
+                      "name": "Framboise"
+                    },
+                    {
+                      "name": "Kriek"
+                    },
+                    {
+                      "name": "Oude Gueuze Vielle"
+                    },
+                    {
+                      "name": "Alexander"
+                    },
+                    {
+                      "name": "Grand Cru"
+                    },
+                    {
+                      "name": "Rodenbach"
+                    },
+                    {
+                      "name": "Ename Tripel"
+                    },
+                    {
+                      "name": "Limburgse Witte"
+                    },
+                    {
+                      "name": "Witkap-Pater Tripel"
+                    },
+                    {
+                      "name": "Witkap-Pater Singel Abbey Ale"
+                    },
+                    {
+                      "name": "Pater 6"
+                    },
+                    {
+                      "name": "St. Bernardus Witbier"
+                    },
+                    {
+                      "name": "Grotten Brown"
+                    },
+                    {
+                      "name": "Grotten Flemish Ale"
+                    },
+                    {
+                      "name": "Bière Blanche"
+                    },
+                    {
+                      "name": "Watou Tripel"
+                    },
+                    {
+                      "name": "Abt 12"
+                    },
+                    {
+                      "name": "St. Bernardus Tripel"
+                    },
+                    {
+                      "name": "Prior 8"
+                    },
+                    {
+                      "name": "Brune / Bruin"
+                    },
+                    {
+                      "name": "Triple"
+                    },
+                    {
+                      "name": "St. Paul Special"
+                    },
+                    {
+                      "name": "St. Paul Blond"
+                    },
+                    {
+                      "name": "St. Paul Double"
+                    },
+                    {
+                      "name": "Bokrijks Kruikenbier"
+                    },
+                    {
+                      "name": "White Ale"
+                    },
+                    {
+                      "name": "St. Paul Triple"
+                    },
+                    {
+                      "name": "St. Sebastiaan Golden"
+                    },
+                    {
+                      "name": "Poorter"
+                    },
+                    {
+                      "name": "St. Sebastiaan Dark"
+                    },
+                    {
+                      "name": "Vlas Kop"
+                    },
+                    {
+                      "name": "Troubadour"
+                    },
+                    {
+                      "name": "Buffalo Belgian Stout"
+                    },
+                    {
+                      "name": "Kerst Pater Special Christmas Beer"
+                    },
+                    {
+                      "name": "Het Kapittel Abt"
+                    },
+                    {
+                      "name": "Het Kapittel Pater"
+                    },
+                    {
+                      "name": "Poperings Hommel Ale"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "9425eefd-caf8-4765-81fd-8ba3081f5f88",
+              "1ed03629-4721-44de-8f7d-65b938e38304",
+              "d3c65ab6-38a5-455f-bc44-26f4bc803b2c",
+              "829360f2-af6d-449b-806c-0c01cc96fa4f"
+            ],
+            "chat_id": "ab-2026-11-22-base-9-prototype-6-beer-walk-belgian",
+            "turn_id": "3de65bf4-e542-46a1-b3f4-2a3ef2d04bfb",
+            "session_id": "sess_20261122T061320507740a020429b",
+            "suggestion": "not recorded",
+            "met": true,
+            "answer": "not_checked",
+            "plan_rounds": null
+          },
+          "verdict": "same",
+          "why": "Both packs hit the target API."
+        }
+      ],
+      "tallies": {
+        "better": 0,
+        "worse": 0,
+        "same": 1,
+        "retest": 0,
+        "not run": 0,
+        "total": 1
+      },
+      "score": {
+        "total": 1,
+        "met_a": 1,
+        "met_b": 1,
+        "ratio_a": "1/1",
+        "ratio_b": "1/1",
+        "better": 0,
+        "worse": 0,
+        "same": 1,
+        "retest": 0,
+        "net": 0,
+        "better_to_worse": "0:0",
+        "label_a": "base-8.0",
+        "label_b": "base-9-prototype-6"
+      }
+    },
+    {
+      "name": "travel-sample",
+      "scopes": [
+        "travel-sample/inventory"
+      ],
+      "rows": [
+        {
+          "id": "travel-walk-state-counts",
+          "text": "List the hotels in each state.",
+          "scope": "travel-sample/inventory",
+          "target_api": "traverse walk_path",
+          "notes": "The words ask for the hotels, which is the walk from State. A count per state is not what group_by can return. Brief path is State to Hotel via the inverse of Hotel.state. group_by must be a terminal-local string. Evidence is not required.",
+          "answer": {},
+          "a": {
+            "called": "find Hotel, project, find State, pipeline",
+            "hit": false,
+            "rows": true,
+            "row_count": 200,
+            "http": 200,
+            "rounds": 4,
+            "calls": [
+              {
+                "round": 1,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "144ecf82-4afb-4a9c-b31c-977672aab56f",
+                "rows": true,
+                "args": {
+                  "entity_type": "Hotel",
+                  "limit": 200
+                },
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "id": "n_4f629f17a9d2ae",
+                      "name": "Panamint Springs Resort"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte Youth Hostel"
+                    }
+                  ],
+                  "doc_keys": [
+                    "hotel_21052",
+                    "hotel_7386",
+                    "hotel_12337",
+                    "hotel_10289",
+                    "hotel_37650",
+                    "hotel_25159",
+                    "hotel_5843",
+                    "hotel_26220",
+                    "hotel_21986",
+                    "hotel_35857",
+                    "hotel_28259",
+                    "hotel_8962",
+                    "hotel_25670",
+                    "hotel_3378",
+                    "hotel_1627",
+                    "hotel_3430",
+                    "hotel_26490",
+                    "hotel_30259",
+                    "hotel_5848",
+                    "hotel_16171",
+                    "hotel_1506",
+                    "hotel_9086",
+                    "hotel_21031",
+                    "hotel_32174",
+                    "hotel_27821",
+                    "hotel_21679",
+                    "hotel_26284",
+                    "hotel_10291",
+                    "hotel_21677",
+                    "hotel_17312",
+                    "hotel_5119",
+                    "hotel_6169",
+                    "hotel_3634",
+                    "hotel_8661",
+                    "hotel_16113",
+                    "hotel_16709",
+                    "hotel_10160",
+                    "hotel_32175",
+                    "hotel_15951",
+                    "hotel_25506",
+                    "hotel_4397",
+                    "hotel_15148",
+                    "hotel_1072",
+                    "hotel_25262",
+                    "hotel_1573",
+                    "hotel_16457",
+                    "hotel_26262",
+                    "hotel_25197",
+                    "hotel_21846",
+                    "hotel_20124",
+                    "hotel_33884",
+                    "hotel_27825",
+                    "hotel_16638",
+                    "hotel_35075",
+                    "hotel_15912",
+                    "hotel_25669",
+                    "hotel_3608",
+                    "hotel_4396",
+                    "hotel_33861",
+                    "hotel_24608",
+                    "hotel_12242",
+                    "hotel_26264",
+                    "hotel_8495",
+                    "hotel_15466",
+                    "hotel_21876",
+                    "hotel_9084",
+                    "hotel_16455",
+                    "hotel_16347",
+                    "hotel_7624",
+                    "hotel_10025",
+                    "hotel_26211",
+                    "hotel_24606",
+                    "hotel_32177",
+                    "hotel_12237",
+                    "hotel_21662",
+                    "hotel_5114",
+                    "hotel_35668",
+                    "hotel_10850",
+                    "hotel_37317",
+                    "hotel_17599",
+                    "hotel_20357",
+                    "hotel_41239",
+                    "hotel_3628",
+                    "hotel_21650",
+                    "hotel_25391",
+                    "hotel_3646",
+                    "hotel_37594",
+                    "hotel_33894",
+                    "hotel_33546",
+                    "hotel_5333",
+                    "hotel_17309",
+                    "hotel_5111",
+                    "hotel_16454",
+                    "hotel_16348",
+                    "hotel_23386",
+                    "hotel_16238",
+                    "hotel_3368",
+                    "hotel_16708",
+                    "hotel_21837",
+                    "hotel_26502",
+                    "hotel_32861",
+                    "hotel_33425",
+                    "hotel_26229",
+                    "hotel_25156",
+                    "hotel_21676",
+                    "hotel_1363",
+                    "hotel_25796",
+                    "hotel_40383",
+                    "hotel_25667",
+                    "hotel_37593",
+                    "hotel_26142",
+                    "hotel_33890",
+                    "hotel_3426",
+                    "hotel_1358",
+                    "hotel_7000",
+                    "hotel_7389",
+                    "hotel_8709",
+                    "hotel_28957",
+                    "hotel_26731",
+                    "hotel_10063",
+                    "hotel_3371",
+                    "hotel_25326",
+                    "hotel_7388",
+                    "hotel_3645",
+                    "hotel_3424",
+                    "hotel_16648",
+                    "hotel_16631",
+                    "hotel_6931",
+                    "hotel_21723",
+                    "hotel_25304",
+                    "hotel_28179",
+                    "hotel_21845",
+                    "hotel_29560",
+                    "hotel_16458",
+                    "hotel_26219",
+                    "hotel_17311",
+                    "hotel_37596",
+                    "hotel_1507",
+                    "hotel_33536",
+                    "hotel_34985",
+                    "hotel_10161",
+                    "hotel_21042",
+                    "hotel_26021",
+                    "hotel_21853",
+                    "hotel_3643",
+                    "hotel_25390",
+                    "hotel_8349",
+                    "hotel_21844",
+                    "hotel_5120",
+                    "hotel_5841",
+                    "hotel_25301",
+                    "hotel_33902",
+                    "hotel_30930",
+                    "hotel_5098",
+                    "hotel_16169",
+                    "hotel_35081",
+                    "hotel_16453",
+                    "hotel_1361",
+                    "hotel_38019",
+                    "hotel_15965",
+                    "hotel_2480",
+                    "hotel_32172",
+                    "hotel_25194",
+                    "hotel_26496",
+                    "hotel_25151",
+                    "hotel_33887",
+                    "hotel_3636",
+                    "hotel_5336",
+                    "hotel_3641",
+                    "hotel_23634",
+                    "hotel_38036",
+                    "hotel_26025",
+                    "hotel_7391",
+                    "hotel_23198",
+                    "hotel_8551",
+                    "hotel_26497",
+                    "hotel_25152",
+                    "hotel_3614",
+                    "hotel_28956",
+                    "hotel_20959",
+                    "hotel_4042",
+                    "hotel_11332",
+                    "hotel_12229",
+                    "hotel_21839",
+                    "hotel_20123",
+                    "hotel_25807",
+                    "hotel_16437",
+                    "hotel_26139",
+                    "hotel_16639",
+                    "hotel_16438",
+                    "hotel_21985",
+                    "hotel_7001",
+                    "hotel_35669",
+                    "hotel_26221",
+                    "hotel_3367",
+                    "hotel_13701",
+                    "hotel_30016",
+                    "hotel_25800",
+                    "hotel_27626",
+                    "hotel_15955"
+                  ],
+                  "fields": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "name": "Panamint Springs Resort"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "name": "Port Charlotte Youth Hostel"
+                    },
+                    {
+                      "doc_key": "hotel_10289",
+                      "name": "Rhossili Bunkhouse"
+                    },
+                    {
+                      "doc_key": "hotel_37650",
+                      "name": "Tuscali Mountain Inn"
+                    },
+                    {
+                      "doc_key": "hotel_25159",
+                      "name": "Comfort Inn Gaslamp Convention Center"
+                    },
+                    {
+                      "doc_key": "hotel_5843",
+                      "name": "New Road Guest House (B&B)"
+                    },
+                    {
+                      "doc_key": "hotel_26220",
+                      "name": "Hilton San Francisco Financial District"
+                    },
+                    {
+                      "doc_key": "hotel_21986",
+                      "name": "Bolehill Farm Cottages"
+                    },
+                    {
+                      "doc_key": "hotel_35857",
+                      "name": "Hostellerie du Beffroi"
+                    },
+                    {
+                      "doc_key": "hotel_28259",
+                      "name": "Treginnis Cottages"
+                    },
+                    {
+                      "doc_key": "hotel_8962",
+                      "name": "Chateau Les Aulnois"
+                    },
+                    {
+                      "doc_key": "hotel_25670",
+                      "name": "Pier 2620 Hotel Fisherman's Wharf"
+                    },
+                    {
+                      "doc_key": "hotel_3378",
+                      "name": "Ty Uchaf"
+                    },
+                    {
+                      "doc_key": "hotel_1627",
+                      "name": "The Marine Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_3430",
+                      "name": "Balcon en Foret"
+                    },
+                    {
+                      "doc_key": "hotel_26490",
+                      "name": "Seaview Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_30259",
+                      "name": "Western Isles Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_5848",
+                      "name": "Beechfield House Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_16171",
+                      "name": "Jim's Guest House"
+                    },
+                    {
+                      "doc_key": "hotel_1506",
+                      "name": "The Rutland Arms Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_9086",
+                      "name": "St Michael's Abbey"
+                    },
+                    {
+                      "doc_key": "hotel_21031",
+                      "name": "Station House Caravan Park"
+                    },
+                    {
+                      "doc_key": "hotel_32174",
+                      "name": "Venice Beach Hotel & Hostel"
+                    },
+                    {
+                      "doc_key": "hotel_27821",
+                      "name": "El Pueblo Inn"
+                    },
+                    {
+                      "doc_key": "hotel_21679",
+                      "name": "Kube Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_26284",
+                      "name": "Sunbeam Motel"
+                    },
+                    {
+                      "doc_key": "hotel_10291",
+                      "name": "Number 38 The Gower"
+                    },
+                    {
+                      "doc_key": "hotel_21677",
+                      "name": "Renaissance Paris Arc de Triomphe"
+                    },
+                    {
+                      "doc_key": "hotel_17312",
+                      "name": "Topanga Ranch Motel"
+                    },
+                    {
+                      "doc_key": "hotel_5119",
+                      "name": "KCL Campground"
+                    },
+                    {
+                      "doc_key": "hotel_6169",
+                      "name": "Vintage Towers Bed & Breakfast Inn"
+                    },
+                    {
+                      "doc_key": "hotel_3634",
+                      "name": "Novotel Birmingham Centre"
+                    },
+                    {
+                      "doc_key": "hotel_8661",
+                      "name": "Euro Hostel Edinburgh"
+                    },
+                    {
+                      "doc_key": "hotel_16113",
+                      "name": "Newham Hotel"
+                    },
+                    {
+                      "doc_key": "hotel_16709",
+                      "name": "StayON Beverly Hostel"
+                    },
+                    {
+                      "doc_key": "hotel_10160",
+                      "name": "Avondale Guest House"
+                    },
+                    {
+                      "doc_key": "hotel_32175",
+                      "name": "Venice Beach Cotel"
+                    },
+                    {
+                      "doc_key": "hotel_15951",
+                      "name": "Adcote House"
+                    },
+                    {
+                      "doc_key": "hotel_25506",
+                      "name": "SW Hotel"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "project",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "fecd14fd-972e-485c-8158-915eb3910957",
+                "rows": true,
+                "args": {},
+                "sample": {
+                  "row_count": 200,
+                  "preview": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "id": "n_ca56ea2db65d73",
+                      "name": "The Bell Inn"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "id": "n_4f629f17a9d2ae",
+                      "name": "Panamint Springs Resort"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "id": "n_7207bf04c76a91",
+                      "name": "Port Charlotte Youth Hostel"
+                    }
+                  ],
+                  "doc_keys": [
+                    "hotel_21052",
+                    "hotel_7386",
+                    "hotel_12337",
+                    "hotel_10289",
+                    "hotel_37650",
+                    "hotel_25159",
+                    "hotel_5843",
+                    "hotel_26220",
+                    "hotel_21986",
+                    "hotel_35857",
+                    "hotel_28259",
+                    "hotel_8962",
+                    "hotel_25670",
+                    "hotel_3378",
+                    "hotel_1627",
+                    "hotel_3430",
+                    "hotel_26490",
+                    "hotel_30259",
+                    "hotel_5848",
+                    "hotel_16171",
+                    "hotel_1506",
+                    "hotel_9086",
+                    "hotel_21031",
+                    "hotel_32174",
+                    "hotel_27821",
+                    "hotel_21679",
+                    "hotel_26284",
+                    "hotel_10291",
+                    "hotel_21677",
+                    "hotel_17312",
+                    "hotel_5119",
+                    "hotel_6169",
+                    "hotel_3634",
+                    "hotel_8661",
+                    "hotel_16113",
+                    "hotel_16709",
+                    "hotel_10160",
+                    "hotel_32175",
+                    "hotel_15951",
+                    "hotel_25506",
+                    "hotel_4397",
+                    "hotel_15148",
+                    "hotel_1072",
+                    "hotel_25262",
+                    "hotel_1573",
+                    "hotel_16457",
+                    "hotel_26262",
+                    "hotel_25197",
+                    "hotel_21846",
+                    "hotel_20124",
+                    "n_141dd6466e5b6b",
+                    "n_9fea452d5d9628",
+                    "n_2e0b33f288123d",
+                    "n_9f428ebc4e26bb",
+                    "n_f7be8cfde1dfce",
+                    "n_35d968aefa2aca",
+                    "n_34c9378ec77b65",
+                    "n_fc5832470f2f46",
+                    "n_6b3dc8fbd9c1f5",
+                    "n_74f4e970cda5fd",
+                    "n_d24d5d25bcb1f6",
+                    "n_fd11d970cfa8f6",
+                    "n_6f14bb83d7690c",
+                    "n_eeccbbeb4a8c32",
+                    "n_3f009db2595c61",
+                    "n_4e3ecbeb6c56be",
+                    "n_98e34c36cd36e5",
+                    "n_f4edab52420dcb",
+                    "n_2130adba1556d6",
+                    "n_c24fc75e2937c0",
+                    "n_0d5193fbb7c022",
+                    "n_aea88b2b408663",
+                    "n_279bd60a063a35",
+                    "n_f7994732b03ed1",
+                    "n_a3ce67dd13334e",
+                    "n_4159f9bbd955b1",
+                    "n_dc378d08f002bf",
+                    "n_5824344329e755",
+                    "n_f0c0e888e49993",
+                    "n_5fa6274f23b467",
+                    "n_9f05a15bd31536",
+                    "n_c7ae7b73e40426",
+                    "n_3e4f332306265e",
+                    "n_e6ce1b58f97cd9",
+                    "n_b4da7c8364a837",
+                    "n_b8a54133115d60",
+                    "n_d0a39f22a91608",
+                    "n_bf6506f8cca359",
+                    "n_40778f106cd77b",
+                    "n_66220b7fc86f21",
+                    "n_18bec1dbdc84a2",
+                    "n_100be2b65c2715",
+                    "n_7f198fc13c52e2",
+                    "n_d325724717e9a5",
+                    "n_7f5fa553a85d30",
+                    "n_7c067c2d11761a",
+                    "n_bd826fee5169e5",
+                    "n_e717f1c9776d48",
+                    "n_6cc3174b5bb00a",
+                    "n_032d3bfe7c266a",
+                    "n_a964bcda9cbb69",
+                    "n_5d0735ada5e1df",
+                    "n_aee3c5aed928ce",
+                    "n_1adc5950e73feb",
+                    "n_35a1f354c421d7",
+                    "n_911bdae62e9541",
+                    "n_9541ce248ebe07",
+                    "n_974e48c26ee0f1",
+                    "n_640390fcb6e4d1",
+                    "n_fafe0a0ed2e4f1",
+                    "n_893b93ea252bf2",
+                    "n_d3d532ff49cf5c",
+                    "n_5c9813164335f0",
+                    "n_2ad99bc8bfcdf4",
+                    "n_c7fdafb849dd44",
+                    "n_416124115e6a38",
+                    "n_fc4cdb2a76976f",
+                    "n_a8f2f4bc9207ab",
+                    "n_e0a87f3cad1ddb",
+                    "n_d17c7e333208aa",
+                    "n_b3499ee4512358",
+                    "n_1d6074e0804efd",
+                    "n_80cbe97d5defc3",
+                    "n_90c0edd304498c",
+                    "n_a3aa5c639f5443",
+                    "n_4f594d51d6ea9d",
+                    "n_978f39ef5b408e",
+                    "n_0ed933dad2cda8",
+                    "n_1306677f66ca47",
+                    "n_46f11cfe1c0368",
+                    "n_042813f94cd184",
+                    "n_e1e3bff1ef4a95",
+                    "n_7e0f2002ee85dd",
+                    "n_bcb51b43054885",
+                    "n_d51baf067665df",
+                    "n_a6e48b14edaa06",
+                    "n_004ae11de85b80",
+                    "n_72a8683c7135fd",
+                    "n_fa904049e35370",
+                    "n_8bb5a53690b614",
+                    "n_45d0d9db00480e",
+                    "n_e035704f33c95c",
+                    "n_e030832e33cd70",
+                    "n_f568fc71e9dd38",
+                    "n_9ccac10b8923a4",
+                    "n_32365a23b88b1a",
+                    "n_9fd28a4b86f839",
+                    "n_b9bb1d98b635a5",
+                    "n_687baee77a9c42",
+                    "n_e2ba57b3eec519",
+                    "n_58373712187625",
+                    "n_473883724839f8",
+                    "n_b9b4fbb63a8403",
+                    "n_5c4a159aea97dc",
+                    "n_b747bdf3897018",
+                    "n_15dc9b16c1d3dd",
+                    "n_eef16a0c8732db",
+                    "n_d29a02d93ba7d9",
+                    "n_dc4d00a753d6fa",
+                    "n_096340ea60556f",
+                    "n_c9ea90972ae2b0",
+                    "n_cbbd684c5c771e",
+                    "n_976a5e0679afbc",
+                    "n_b9624fdff1b0e3",
+                    "n_02c0f19d98d2c7",
+                    "n_9a27f29c1398fb",
+                    "n_5e2a4873ffe03f",
+                    "n_51a5a4f6d27480",
+                    "n_6cfe4c07b22e31",
+                    "n_f1fca91ac79695",
+                    "n_71367ff56dbd7b",
+                    "n_df5174777382ac",
+                    "n_bd8f9a0267537c",
+                    "n_8a2d4a926e5448",
+                    "n_8f44d09ba1464c",
+                    "n_a1737549fc3627",
+                    "n_00657a60d80d92",
+                    "n_c75f62a0f4ec31",
+                    "n_b575a2d542b3b7",
+                    "n_e57f093209fc0d",
+                    "n_e55732bd5f49bc",
+                    "n_e6e7d9f3a8a4c0",
+                    "n_c93460426014d0",
+                    "n_8133abeeac55ac",
+                    "n_6844e2a3bd809d",
+                    "n_266f98fd87f13b",
+                    "n_b18924241d47a8",
+                    "n_516bcaf3c2bea0",
+                    "n_608ba221238bf7",
+                    "n_c7c582c8191789",
+                    "n_b548f7371a3ae2",
+                    "n_783d0810fb2371",
+                    "n_310f433512e69b",
+                    "n_6acae75d69bdf3",
+                    "n_7f635409c3de60",
+                    "n_1c99fe77e657b2",
+                    "n_053b3a75e8c6f7",
+                    "n_66c026dd3a6c04",
+                    "n_d5e3b3c435ce7c",
+                    "n_7e5288bc6c1fe5"
+                  ],
+                  "fields": [
+                    {
+                      "doc_key": "hotel_21052",
+                      "name": "The Bell Inn",
+                      "city": "Redbrook",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_7386",
+                      "name": "Panamint Springs Resort",
+                      "city": "Darwin",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_12337",
+                      "name": "Port Charlotte Youth Hostel",
+                      "city": "Port Charlotte",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_10289",
+                      "name": "Rhossili Bunkhouse",
+                      "city": "Swansea",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_37650",
+                      "name": "Tuscali Mountain Inn",
+                      "city": "Topanga",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_25159",
+                      "name": "Comfort Inn Gaslamp Convention Center",
+                      "city": "San Diego",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_5843",
+                      "name": "New Road Guest House (B&B)",
+                      "city": "Chippenham",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_26220",
+                      "name": "Hilton San Francisco Financial District",
+                      "city": "San Francisco",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_21986",
+                      "name": "Bolehill Farm Cottages",
+                      "city": "Derbyshire",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_35857",
+                      "name": "Hostellerie du Beffroi",
+                      "city": "Vaison-la-Romaine",
+                      "state": "Provence-Alpes-Côte d'Azur",
+                      "country": "France"
+                    },
+                    {
+                      "doc_key": "hotel_28259",
+                      "name": "Treginnis Cottages",
+                      "city": "Saint David's",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_8962",
+                      "name": "Chateau Les Aulnois",
+                      "city": "Pierry",
+                      "country": "France"
+                    },
+                    {
+                      "doc_key": "hotel_25670",
+                      "name": "Pier 2620 Hotel Fisherman's Wharf",
+                      "city": "San Francisco",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_3378",
+                      "name": "Ty Uchaf",
+                      "city": "Conwy",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_1627",
+                      "name": "The Marine Hotel",
+                      "city": "Ballycastle",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_3430",
+                      "name": "Balcon en Foret",
+                      "city": "Beynac-et-Cazenac",
+                      "state": "Aquitaine",
+                      "country": "France"
+                    },
+                    {
+                      "doc_key": "hotel_26490",
+                      "name": "Seaview Hotel",
+                      "city": "Santa Monica",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_30259",
+                      "name": "Western Isles Hotel",
+                      "city": "Tobermory",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_5848",
+                      "name": "Beechfield House Hotel",
+                      "city": "Melksham",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_16171",
+                      "name": "Jim's Guest House",
+                      "city": "London",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_1506",
+                      "name": "The Rutland Arms Hotel",
+                      "city": "Bakewell",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_9086",
+                      "name": "St Michael's Abbey",
+                      "city": "Farnborough",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_21031",
+                      "name": "Station House Caravan Park",
+                      "city": "Bodfari",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_32174",
+                      "name": "Venice Beach Hotel & Hostel",
+                      "city": "Los Angeles",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_27821",
+                      "name": "El Pueblo Inn",
+                      "city": "Sonoma",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_21679",
+                      "name": "Kube Hotel",
+                      "city": "Paris",
+                      "state": "Île-de-France",
+                      "country": "France"
+                    },
+                    {
+                      "doc_key": "hotel_26284",
+                      "name": "Sunbeam Motel",
+                      "city": "San Luis Obispo",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_10291",
+                      "name": "Number 38 The Gower",
+                      "city": "Swansea",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_21677",
+                      "name": "Renaissance Paris Arc de Triomphe",
+                      "city": "Paris",
+                      "state": "Île-de-France",
+                      "country": "France"
+                    },
+                    {
+                      "doc_key": "hotel_17312",
+                      "name": "Topanga Ranch Motel",
+                      "city": "Malibu",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_5119",
+                      "name": "KCL Campground",
+                      "city": "Santa Margarita",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_6169",
+                      "name": "Vintage Towers Bed & Breakfast Inn",
+                      "city": "Cloverdale",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_3634",
+                      "name": "Novotel Birmingham Centre",
+                      "city": "Birmingham",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_8661",
+                      "name": "Euro Hostel Edinburgh",
+                      "city": "Edinburgh",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_16113",
+                      "name": "Newham Hotel",
+                      "city": "London",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_16709",
+                      "name": "StayON Beverly Hostel",
+                      "city": "Los Angeles",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_10160",
+                      "name": "Avondale Guest House",
+                      "city": "Glossop",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_32175",
+                      "name": "Venice Beach Cotel",
+                      "city": "Los Angeles",
+                      "state": "California",
+                      "country": "United States"
+                    },
+                    {
+                      "doc_key": "hotel_15951",
+                      "name": "Adcote House",
+                      "city": "Llandudno",
+                      "country": "United Kingdom"
+                    },
+                    {
+                      "doc_key": "hotel_25506",
+                      "name": "SW Hotel",
+                      "city": "San Francisco",
+                      "state": "California",
+                      "country": "United States"
+                    }
+                  ]
+                }
+              },
+              {
+                "round": 2,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "Hotel",
+                "shape": null,
+                "http": 200,
+                "req_id": "6741c3a8-5a5f-4806-90a1-512c7f5ea2e9",
+                "rows": false,
+                "args": {
+                  "entity_type": "Hotel"
+                },
+                "sample": {}
+              },
+              {
+                "round": 3,
+                "verb": "find",
+                "strategy": null,
+                "entity_type": "State",
+                "shape": null,
+                "http": 200,
+                "req_id": "d3e6825a-756f-47c2-b6f7-c1d805643638",
+                "rows": false,
+                "args": {
+                  "entity_type": "State",
+                  "limit": 100
+                },
+                "sample": {}
+              },
+              {
+                "round": 4,
+                "verb": "pipeline",
+                "strategy": null,
+                "entity_type": null,
+                "shape": null,
+                "http": 200,
+                "req_id": "36e8d73c-0356-4b7a-ab1a-af99792562c0",
+                "rows": true,
+                "args": {
+                  "steps": [
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 200,
+                      "where": {
+                        "state": "California"
+                      },
+                      "verb": "find",
+                      "as": "ca"
+                    },
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 200,
+                      "where": {
+                        "state": "Île-de-France"
+                      },
+                      "verb": "find",
+                      "as": "idf"
+                    },
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 200,
+                      "where": {
+                        "state": "Provence-Alpes-Côte d'Azur"
+                      },
+                      "verb": "find",
+                      "as": "paca"
+                    },
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 200,
+                      "where": {
+                        "state": "Aquitaine"
+                      },
+                      "verb": "find",
+                      "as": "aq"
+                    },
+                    {
+                      "entity_type": "Hotel",
+                      "limit": 200,
+                      "where": {
+                        "state": "Rhône-Alpes"
+                      },
+                      "verb": "find",
+                      "as": "ra"
+                    },
+                    {
+                      "verb": "project",
+                      "as": "more"
+                    }
+                  ]
+                },
+                "sample": {
+                  "status": "ok",
+                  "row_count": 50,
+                  "preview": [
+                    {
+                      "doc_key": "n_141dd6466e5b6b",
+                      "id": "n_141dd6466e5b6b"
+                    },
+                    {
+                      "doc_key": "n_9fea452d5d9628",
+                      "id": "n_9fea452d5d9628"
+                    },
+                    {
+                      "doc_key": "n_2e0b33f288123d",
+                      "id": "n_2e0b33f288123d"
+                    }
+                  ],
+                  "doc_keys": [
+                    "n_141dd6466e5b6b",
+                    "n_9fea452d5d9628",
+                    "n_2e0b33f288123d",
+                    "n_9f428ebc4e26bb",
+                    "n_f7be8cfde1dfce",
+                    "n_35d968aefa2aca",
+                    "n_34c9378ec77b65",
+                    "n_fc5832470f2f46",
+                    "n_6b3dc8fbd9c1f5",
+                    "n_74f4e970cda5fd",
+                    "n_d24d5d25bcb1f6",
+                    "n_fd11d970cfa8f6",
+                    "n_6f14bb83d7690c",
+                    "n_eeccbbeb4a8c32",
+                    "n_3f009db2595c61",
+                    "n_4e3ecbeb6c56be",
+                    "n_98e34c36cd36e5",
+                    "n_f4edab52420dcb",
+                    "n_2130adba1556d6",
+                    "n_c24fc75e2937c0",
+                    "n_0d5193fbb7c022",
+                    "n_aea88b2b408663",
+                    "n_279bd60a063a35",
+                    "n_f7994732b03ed1",
+                    "n_a3ce67dd13334e",
+                    "n_4159f9bbd955b1",
+                    "n_dc378d08f002bf",
+                    "n_5824344329e755",
+                    "n_f0c0e888e49993",
+                    "n_5fa6274f23b467",
+                    "n_9f05a15bd31536",
+                    "n_c7ae7b73e40426",
+                    "n_3e4f332306265e",
+                    "n_e6ce1b58f97cd9",
+                    "n_b4da7c8364a837",
+                    "n_b8a54133115d60",
+                    "n_d0a39f22a91608",
+                    "n_bf6506f8cca359",
+                    "n_40778f106cd77b",
+                    "n_66220b7fc86f21",
+                    "n_18bec1dbdc84a2",
+                    "n_100be2b65c2715",
+                    "n_7f198fc13c52e2",
+                    "n_d325724717e9a5",
+                    "n_7f5fa553a85d30",
+                    "n_7c067c2d11761a",
+                    "n_bd826fee5169e5",
+                    "n_e717f1c9776d48",
+                    "n_6cc3174b5bb00a",
+                    "n_032d3bfe7c266a"
+                  ],
+                  "fields": [
+                    {
+                      "doc_key": "n_141dd6466e5b6b"
+                    },
+                    {
+                      "doc_key": "n_9fea452d5d9628"
+                    },
+                    {
+                      "doc_key": "n_2e0b33f288123d"
+                    },
+                    {
+                      "doc_key": "n_9f428ebc4e26bb"
+                    },
+                    {
+                      "doc_key": "n_f7be8cfde1dfce"
+                    },
+                    {
+                      "doc_key": "n_35d968aefa2aca"
+                    },
+                    {
+                      "doc_key": "n_34c9378ec77b65"
+                    },
+                    {
+                      "doc_key": "n_fc5832470f2f46"
+                    },
+                    {
+                      "doc_key": "n_6b3dc8fbd9c1f5"
+                    },
+                    {
+                      "doc_key": "n_74f4e970cda5fd"
+                    },
+                    {
+                      "doc_key": "n_d24d5d25bcb1f6"
+                    },
+                    {
+                      "doc_key": "n_fd11d970cfa8f6"
+                    },
+                    {
+                      "doc_key": "n_6f14bb83d7690c"
+                    },
+                    {
+                      "doc_key": "n_eeccbbeb4a8c32"
+                    },
+                    {
+                      "doc_key": "n_3f009db2595c61"
+                    },
+                    {
+                      "doc_key": "n_4e3ecbeb6c56be"
+                    },
+                    {
+                      "doc_key": "n_98e34c36cd36e5"
+                    },
+                    {
+                      "doc_key": "n_f4edab52420dcb"
+                    },
+                    {
+                      "doc_key": "n_2130adba1556d6"
+                    },
+                    {
+                      "doc_key": "n_c24fc75e2937c0"
+                    },
+                    {
+                      "doc_key": "n_0d5193fbb7c022"
+                    },
+                    {
+                      "doc_key": "n_aea88b2b408663"
+                    },
+                    {
+                      "doc_key": "n_279bd60a063a35"
+                    },
+                    {
+                      "doc_key": "n_f7994732b03ed1"
+                    },
+                    {
+                      "doc_key": "n_a3ce67dd13334e"
+                    },
+                    {
+                      "doc_key": "n_4159f9bbd955b1"
+                    },
+                    {
+                      "doc_key": "n_dc378d08f002bf"
+                    },
+                    {
+                      "doc_key": "n_5824344329e755"
+                    },
+                    {
+                      "doc_key": "n_f0c0e888e49993"
+                    },
+                    {
+                      "doc_key": "n_5fa6274f23b467"
+                    },
+                    {
+                      "doc_key": "n_9f05a15bd31536"
+                    },
+                    {
+                      "doc_key": "n_c7ae7b73e40426"
+                    },
+                    {
+                      "doc_key": "n_3e4f332306265e"
+                    },
+                    {
+                      "doc_key": "n_e6ce1b58f97cd9"
+                    },
+                    {
+                      "doc_key": "n_b4da7c8364a837"
+                    },
+                    {
+                      "doc_key": "n_b8a54133115d60"
+                    },
+                    {
+                      "doc_key": "n_d0a39f22a91608"
+                    },
+                    {
+                      "doc_key": "n_bf6506f8cca359"
+                    },
+                    {
+                      "doc_key": "n_40778f106cd77b"
+                    },
+                    {
+                      "doc_key": "n_66220b7fc86f21"
+                    }
+                  ]
+                }
+              }
+            ],
+            "req_ids": [
+              "144ecf82-4afb-4a9c-b31c-977672aab56f",
+              "fecd14fd-972e-485c-8158-915eb3910957",
+              "6741c3a8-5a5f-4806-90a1-512c7f5ea2e9",
+              "d3e6825a-756f-47c2-b6f7-c1d805643638",
+              "36e8d73c-0356-4b7a-ab1a-af99792562c0"
+            ],
+            "chat_id": "ab-2026-11-22-base-8-0-travel-walk-state-counts",
+            "turn_id": "eee87e74-4545-4c04-ae7b-f219b0c63b1e",
+            "session_id": "sess_20261122T060709777943ed0cf344",
+            "suggestion": "not recorded",
+            "met": null,
+            "answer": "not_checked",
+            "plan_rounds": null
+          },
+          "b": {
+            "called": "",
+            "hit": false,
+            "rows": false,
+            "row_count": 0,
+            "http": null,
+            "rounds": 1,
+            "calls": [],
+            "req_ids": [],
+            "chat_id": "ab-2026-11-22-base-9-prototype-6-travel-walk-state-counts",
+            "turn_id": "3fa6982a-612e-4e2c-a46b-a0fdf1cde0db",
+            "session_id": "sess_20261122T061320550025dd4ca5a0",
+            "suggestion": "not recorded",
+            "met": null,
+            "answer": "not_checked",
+            "plan_rounds": null
+          },
+          "verdict": "not run",
+          "why": "The new pack did not reach the model."
+        }
+      ],
+      "tallies": {
+        "better": 0,
+        "worse": 0,
+        "same": 0,
+        "retest": 0,
+        "not run": 1,
+        "total": 1
+      },
+      "score": {
+        "total": 1,
+        "met_a": 0,
+        "met_b": 0,
+        "ratio_a": "0/1",
+        "ratio_b": "0/1",
+        "better": 0,
+        "worse": 0,
+        "same": 0,
+        "retest": 0,
+        "net": 0,
+        "better_to_worse": "0:0",
+        "label_a": "base-8.0",
+        "label_b": "base-9-prototype-6"
+      }
+    }
+  ],
+  "justification": "Every scored question is the same (1). This suite does not show a reason to switch to base-9-prototype-6.",
+  "score": {
+    "total": 2,
+    "met_a": 1,
+    "met_b": 1,
+    "ratio_a": "1/2",
+    "ratio_b": "1/2",
+    "better": 0,
+    "worse": 0,
+    "same": 1,
+    "retest": 0,
+    "net": 0,
+    "better_to_worse": "0:0",
+    "label_a": "base-8.0",
+    "label_b": "base-9-prototype-6"
+  },
+  "stem": "2026-11-22_base-8_0_vs_base-9-prototype-6",
+  "scope_briefs": [
+    {
+      "scope": "beer-sample/_default",
+      "has_scope_brief": true,
+      "has_mini_schema": true,
+      "has_walk_paths": true,
+      "chars": 4069,
+      "client_version": "2.4.0",
+      "brief_sha12": "f01fd6b84083",
+      "route": "/v1/ai/chat_request.json",
+      "mode": "analytics",
+      "injection_source": "turn",
+      "scope_brief_chars": 870,
+      "scope_brief_bytes": 878,
+      "scope_brief_tk": 220,
+      "mini_schema_chars": 3171,
+      "mini_schema_bytes": 3191,
+      "mini_schema_tk": 798,
+      "mini_schema_sha12": "9663d356a286",
+      "walk_paths_chars": 2357,
+      "walk_paths_bytes": 2391,
+      "walk_paths_tk": 598,
+      "walk_paths_sha12": "32fb8fc701d3",
+      "full_chars": 7899,
+      "full_bytes": 7961,
+      "full_tk": 1991,
+      "full_sha12": "02ddd93c14ef"
+    },
+    {
+      "scope": "travel-sample/inventory",
+      "has_scope_brief": true,
+      "has_mini_schema": true,
+      "has_walk_paths": true,
+      "chars": 8272,
+      "client_version": "2.4.0",
+      "brief_sha12": "0b3319178b72",
+      "route": "/v1/ai/chat_request.json",
+      "mode": "analytics",
+      "injection_source": "turn",
+      "scope_brief_chars": 873,
+      "scope_brief_bytes": 881,
+      "scope_brief_tk": 221,
+      "mini_schema_chars": 7361,
+      "mini_schema_bytes": 7391,
+      "mini_schema_tk": 1848,
+      "mini_schema_sha12": "1cbe7f04d13e",
+      "walk_paths_chars": 3077,
+      "walk_paths_bytes": 3127,
+      "walk_paths_tk": 782,
+      "walk_paths_sha12": "d19ab1a799eb",
+      "full_chars": 12800,
+      "full_bytes": 12888,
+      "full_tk": 3222,
+      "full_sha12": "ab14c88875cc"
+    }
+  ]
+}
