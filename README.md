@@ -2,7 +2,7 @@
 
 **Published Zeus V2 chat_request catalogs** for Zeus Client, Developer Helper MCP, demos, and coding agents.
 
-> **Doc status** · last reviewed **2026-11-21** · `CURRENT.json` **base-1** · released catalog **base-8.0** (2026-11-21) (numbered name of **base-8-prototype-1**, parent **base-7.4**) · Zeus 5.5TH built-ins still **base-6.1** and **base-7.1** (served pin **base-7.1**, local tree) · suite not run · **[COMPAT.md](COMPAT.md)** = Zeus × BASE × zeus_client matrix
+> **Doc status** · last reviewed **2026-11-22** · `CURRENT.json` **base-1** · released catalog **base-9.0** (2026-11-22) (numbered name of **base-9-prototype-7**, parent **base-8.0**) · Zeus 5.5TH built-ins still **base-6.1** and **base-7.1** (served pin **base-7.1**, local tree) · the 2026-11-22 suite measured these bytes as base-9-prototype-7 · the current question lock has not been run · **[COMPAT.md](COMPAT.md)** = Zeus × BASE × zeus_client matrix
 
 ![Assembled prompt flow](images/assembled_prompt.svg)
 

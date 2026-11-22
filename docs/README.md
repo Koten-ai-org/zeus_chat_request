@@ -1,6 +1,6 @@
 # Documentation
 
-> **Doc status** · last reviewed **2026-11-21** · `CURRENT.json` **base-1** · released catalog **base-8.0** (2026-11-21) (numbered name of **base-8-prototype-1**, parent **base-7.4**) · earlier folders **base-8-prototype** and **base-8-prototype-1** stay · Zeus 5.5TH built-ins still **base-6.1** and **base-7.1** (served pin **base-7.1**, local tree) · suite not run · version matrix: [COMPAT.md](../COMPAT.md)
+> **Doc status** · last reviewed **2026-11-22** · `CURRENT.json` **base-1** · released catalog **base-9.0** (2026-11-22) (numbered name of **base-9-prototype-7**, parent **base-8.0**) · earlier base-9-prototype folders stay · previous catalog **base-8.0** · Zeus 5.5TH built-ins still **base-6.1** and **base-7.1** (served pin **base-7.1**, local tree) · the 2026-11-22 suite measured these bytes as base-9-prototype-7 · the current question lock has not been run · version matrix: [COMPAT.md](../COMPAT.md)
 
 
 Educational and design docs for **zeus_chat_request**.  
@@ -12,8 +12,8 @@ Catalog **JSON packs** live under `v2/base/base-N/` (not here). Production pin i
 
 | Doc | Job |
 | --- | --- |
-| [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) | The test for base-8.0. Goal, suggestion, seven laws. |
-| [CONSTITUION_DESIGN_v2.md](CONSTITUION_DESIGN_v2.md) | Closed spec. Common rail, exact call, vague chain. Not the base-8.0 gate. Empty-seed cut is base-9-prototype-6, parent base-9-prototype-5. Not the pin. |
+| [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) | The test for base-8.0. Goal, suggestion, seven laws. v1 still gates that pack. |
+| [CONSTITUION_DESIGN_v2.md](CONSTITUION_DESIGN_v2.md) | Closed spec. Common rail, exact call, vague chain. The numbered pack is base-9.0. The bytes are base-9-prototype-7, parent base-9-prototype-6. Previous released catalog is base-8.0. Not the pin. |
 | [QUERY_DECOMPOSITION.md](QUERY_DECOMPOSITION.md) | The first reading of the submitted string. Intent, entity, shape, suggestion, and why, written once beside the queries. |
 | [CHAT_REQUEST.md](CHAT_REQUEST.md) | File anatomy and the hash. |
 | [BIBLE.md](BIBLE.md) | Ownership matrix for the base-4 and base-5 wire. |
@@ -71,7 +71,7 @@ COMPAT.md                      ← Zeus × BASE × zeus_client
 | [PROMPT_RULE_PLACEMENT.md](PROMPT_RULE_PLACEMENT.md) | Which surface, after the sentence passes |
 | [PROMPT_SETTINGS.md](PROMPT_SETTINGS.md) | Settings bag · rule merge · Client policy · security |
 | [RULES_OBJECT_AND_OUTPUT_REQUEST.md](RULES_OBJECT_AND_OUTPUT_REQUEST.md) | Named rules + `output_request` (type + description) |
-| [ROADMAP.md](ROADMAP.md) | Living plan. Released catalog is base-8.0 (2026-11-21). |
+| [ROADMAP.md](ROADMAP.md) | Living plan. Released catalog is base-9.0 (2026-11-22). |
 | [CREATE_BASE.md](CREATE_BASE.md) | Scaffold a new `base-N` pack. Exam before a suite. |
 | [migration/README.md](migration/README.md) | All BASE upgrade hops |
 | [migration/RELEASE_CHECKLIST_TEMPLATE.md](migration/RELEASE_CHECKLIST_TEMPLATE.md) | **BASE bump release checklist** (copy per hop) |
@@ -107,7 +107,9 @@ The index is [migration/README.md](migration/README.md). Each folder is an archi
 
 | Path | Topic |
 | --- | --- |
-| [../v2/base/base-8.0/](../v2/base/base-8.0/) | Released catalog, 2026-11-21. Numbered name of base-8-prototype-1. Parent base-7.4. Not the pin. |
+| [../v2/base/base-9.0/](../v2/base/base-9.0/) | Released catalog, 2026-11-22. Numbered name of base-9-prototype-7. Parent base-8.0. Not the pin. |
+| [../v2/base/base-9-prototype-7/](../v2/base/base-9-prototype-7/) | Working folder this catalog was named from. Stays on disk. |
+| [../v2/base/base-8.0/](../v2/base/base-8.0/) | Previous catalog, 2026-11-21. Numbered name of base-8-prototype-1. Parent base-7.4. Not the pin. |
 | [../v2/base/base-7.4/](../v2/base/base-7.4/) | Call-align parent of base-8.0. |
 | [../v2/base/base-8-prototype-1/](../v2/base/base-8-prototype-1/) | Working folder this candidate was named from. Stays on disk. |
 | [../v2/base/base-8-prototype/](../v2/base/base-8-prototype/) | Earlier constitution morph. Not the candidate. Not the pin. |

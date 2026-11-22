@@ -1,6 +1,6 @@
 # Dual gap channels — `wish_i_knew` + `data_gaps` (base-5.2 design)
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) law 6 already names both gap channels. This file is the channel design. Out of this dataset is a gap, not a bigger search. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) law 6 already names both gap channels. This file is the channel design. Out of this dataset is a gap, not a bigger search. Released catalog is **base-9.0** (2026-11-22). `CURRENT.json` stays **base-1**.
 >
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · pack wire **base-5** · content **base-5.1** · design train **base-5.2** · version matrix: [COMPAT.md](../COMPAT.md)
 

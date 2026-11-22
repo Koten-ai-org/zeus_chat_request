@@ -8,7 +8,7 @@ Published **Zeus V2 chat_request** catalogs for Zeus Client, Developer Helper MC
 | **Format** | `zeus.chat_request.v2` |
 | **Production pin** | **base-1** — `CURRENT.json` · `v2/min/` |
 | **Candidate pack** | **base-5** wire line — `v2/base/base-5/` (last breaking freeze; not pin) |
-| **Released catalog** | **base-8.0** — 2026-11-21. Constitution morph, numbered name of base-8-prototype-1 ([v2/base/base-8.0/](v2/base/base-8.0/)). Parent **base-7.4**. The earlier folders base-8-prototype and base-8-prototype-1 stay. The local Zeus 5.5TH tree still serves **base-7.1** and also embeds base-6.1. `CURRENT.json` stays base-1. Suite not run. Not the pin. |
+| **Released catalog** | **base-9.0** — 2026-11-22. Constitution v2, numbered name of base-9-prototype-7 ([v2/base/base-9.0/](v2/base/base-9.0/)). Parent **base-8.0**. The earlier base-9-prototype folders stay. The local Zeus 5.5TH tree still serves **base-7.1** and also embeds base-6.1. `CURRENT.json` stays base-1. The 2026-11-22 suite measured these bytes as base-9-prototype-7. The current question lock has not been run. Not the pin. |
 | **Prior content** | base-6.1 report stamps · base-6 soft `hints.*` · base-5.3 skinny/world-model · base-5.2 dual gaps · base-5.1 modes |
 | **Prior candidate** | **base-4** — `v2/base/base-4/` |
 | **Roadmap** | [ROADMAP.md](docs/ROADMAP.md) |
@@ -16,6 +16,20 @@ Published **Zeus V2 chat_request** catalogs for Zeus Client, Developer Helper MC
 | **Helios emit wishlist** | [HELIOS_WISHLIST_FOR_CHAT_REQUEST.md](docs/HELIOS_WISHLIST_FOR_CHAT_REQUEST.md) |
 
 ---
+
+## base-9.0 — 2026-11-22
+
+Catalog release. Not a `CURRENT.json` pin flip. Not a Zeus embed change. The model text is the base-9-prototype-7 cut.
+
+### Highlights
+
+- **base-9.0 constitution v2:** [`v2/base/base-9.0/`](v2/base/base-9.0/) — numbered name of [`v2/base/base-9-prototype-7/`](v2/base/base-9-prototype-7/), parent **base-8.0**, **additive** (not a wire break). `CURRENT.json` stays **base-1**. The local Zeus embed is still **base-6.1** and **base-7.1**. The earlier base-9-prototype folders stay. The Beelink image last known is base-9-prototype-6.
+  - `from` needs `doc_key`, a non-empty `src_keys`, or a `where`. That rejection stays on the call. Zero rows of that child where stop and name the gap. An empty `entity_fk` parent is the gap. The parent walk waits until that parent find returns keys. A stored spelling is `find`. A soft phrase is one `search`. `query_decomposition` is written once beside the queries. The answer `return` copies it and still requires `summary`, `decomposition`, and `confidence`.
+  - Each mode keeps the contract hash copied from its parent file. The hash was not invented. Analytics stays `md5:5aacbf1d7a4d9d5de9436cdffbce050f`. `assemble_mode_prompts.py` was not run. `_base_meta.base_id` is still the inherited `base-6.1`. `contract.parent_base_id` is still the inherited `base-5.1` stamp.
+  - `verify_base_pack.py --base 9.0` and `diff_modes.py --fail-if-clone` passed. `scan_catalogs.py` count is **280**. Open exam issues on base-9.0 are 0. That count is the gate, not accuracy, and the exam is still the v1 chart.
+  - Analytics file is 48,998 characters (12,280 tk), delta +1,849 characters and +460 tk versus base-8.0. System text is 16,240 characters, delta +3,325 characters and +830 tk. The other nine modes share a file delta of +2,237 characters. `modes_share_file_delta` is no.
+  - The 2026-11-22 full suite measured these bytes as base-9-prototype-7 against base-8.0: 16/22 versus 18/22, better 2, worse 0, net +2, three not run. That run used the lock from before the Paris split. The current lock has not been run.
+  - Hop: [docs/migration/base-8.0_to_base-9.0/](docs/migration/base-8.0_to_base-9.0/)
 
 ## base-8.0 — 2026-11-21
 

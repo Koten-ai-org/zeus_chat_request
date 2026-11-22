@@ -1,6 +1,6 @@
 # Migration hops (`base-X` → `base-Y`)
 
-> **Archive** · each folder below is what that hop shipped. A line that says "13 verbs" is the catalog of that hop. It is not the current law. The current test is [CONSTITUION_DESIGN.md](../CONSTITUION_DESIGN.md). Do not rewrite a hop body to match a later law. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+> **Archive** · each folder below is what that hop shipped. A line that says "13 verbs" is the catalog of that hop. It is not the current law. The current test is [CONSTITUION_DESIGN.md](../CONSTITUION_DESIGN.md). Do not rewrite a hop body to match a later law. Released catalog is **base-9.0** (2026-11-22). `CURRENT.json` stays **base-1**.
 
 **Last reviewed:** 2026-11-21  
 **Purpose:** One folder per BASE upgrade. Living design stays in `docs/` root; ship packs stay in `v2/base/base-N/`.
@@ -40,7 +40,8 @@ See [BASE_AGENT_PLAYBOOK.md](../BASE_AGENT_PLAYBOOK.md) · root [AGENTS.md](../.
 | base-7.1 → base-7.2 | [base-7.1_to_base-7.2/](base-7.1_to_base-7.2/) | Slot rule · copy the list the next slot requires · Zeus embed still base-7.1 · `CURRENT.json` stays base-1 |
 | base-7.2 → base-7.3 | [base-7.2_to_base-7.3/](base-7.2_to_base-7.3/) | Walk close · a stored field on the seed does not replace `walk_path` · Zeus embed still base-7.1 · `CURRENT.json` stays base-1 |
 | base-7.3 → base-7.4 | [base-7.3_to_base-7.4/](base-7.3_to_base-7.4/) | Call align · plan, tool text, and mode examples describe the same call · Zeus embed still base-7.1 · `CURRENT.json` stays base-1 |
-| base-7.4 → base-8.0 | [base-7.4_to_base-8.0/](base-7.4_to_base-8.0/) | Constitution morph · numbered name of base-8-prototype-1 · released catalog 2026-11-21 · parent base-7.4 · Zeus embed still base-7.1 · suite not run · `CURRENT.json` stays base-1 |
+| base-7.4 → base-8.0 | [base-7.4_to_base-8.0/](base-7.4_to_base-8.0/) | Constitution morph · numbered name of base-8-prototype-1 · catalog release 2026-11-21 · parent base-7.4 · Zeus embed still base-7.1 · suite not run · `CURRENT.json` stays base-1 |
+| base-8.0 → base-9.0 | [base-8.0_to_base-9.0/](base-8.0_to_base-9.0/) | Constitution v2 · numbered name of base-9-prototype-7 · released catalog 2026-11-22 · parent base-8.0 · Zeus embed still base-7.1 · the 2026-11-22 suite measured these bytes as prototype-7 · current lock not run · `CURRENT.json` stays base-1 |
 
 ## When you finish a new hop
 

@@ -1,6 +1,6 @@
 # Modes — engine projection vs chat_request catalog
 
-> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file owns engine mode hooks and catalog tone. A catalog mode sets noise, hop flavor, and how the summary sounds. It does not pick the fast path or the probe. That suggestion is recorded inside `query_decomposition` after the question is read. Released catalog is **base-8.0** (2026-11-21). `CURRENT.json` stays **base-1**.
+> **Call law** · [CONSTITUION_DESIGN.md](CONSTITUION_DESIGN.md) is the test. This file owns engine mode hooks and catalog tone. A catalog mode sets noise, hop flavor, and how the summary sounds. It does not pick the fast path or the probe. That suggestion is recorded inside `query_decomposition` after the question is read. Released catalog is **base-9.0** (2026-11-22). `CURRENT.json` stays **base-1**.
 >
 > **Doc status** · last reviewed **2026-07-26** · production pin **base-1** · candidate pack **base-5** · next content train **base-5.1** (mode overlays) · version matrix: [COMPAT.md](../COMPAT.md)
 
