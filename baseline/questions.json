@@ -304,7 +304,7 @@
         ]
       },
       "evidence_required": true,
-      "notes": "Vague-chain qualification. The question does not say pipeline. A stored country is find. Beach is a second soft facet, so the hybrid search carries narrow_to. narrow_to true means that step's narrow_to is present and non-empty. The step alias is not scored. Rows are required. Lab turn f408617b-512a-4d32-b75f-7765d54a943e on base-9-prototype-2, travel-sample/inventory, analytics: one pipeline, find Hotel where country is United Kingdom, hybrid search query_text beach with narrow_to those node ids, then project. Rows came back, including Beach House Self Catering and Rhossili Bunkhouse. Distinct from travel-walk-hotels-by-country, which is the equality alone."
+      "notes": "Vague-chain qualification. The question does not say pipeline. A stored country is find. Beach is a second soft facet, so the hybrid search carries narrow_to. narrow_to true means that step's narrow_to is present and non-empty. The step alias is not scored. Rows are required. Lab turn f408617b-512a-4d32-b75f-7765d54a943e on base-9-prototype-2, travel-sample/inventory, analytics: one pipeline, find Hotel where country is United Kingdom, hybrid search query_text beach with narrow_to those node ids, then project. Rows came back, including Beach House Self Catering and Rhossili Bunkhouse. Hub req a121960d-5d5c-4180-b4a6-7cc5eba75fd2 on base-9.1 analytics (pin base-9.0), mercury-3, travel-sample/inventory, 2026-11-23: the same pipeline, status ok. find Hotel where country is United Kingdom, hybrid query_text beach narrow_to @uk_hotels.node_ids, then project. Distinct from travel-walk-hotels-by-country, which is the equality alone."
     },
     {
       "id": "travel-beach-itinerary",
